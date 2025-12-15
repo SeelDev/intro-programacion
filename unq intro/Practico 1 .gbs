@@ -1,0 +1,171 @@
+ 
+/* 1.
+program {
+    
+    Proposito: Reemplazar una bolita roja por una bolita verde en la celda actual.
+    Precondicion: Debe existir al menos una bolita roja en la celda actual.
+
+    Sacar(Rojo)
+    Poner(Verde)
+} */
+
+
+/* 2.
+program {
+
+    Proposito: Mover una bolita de color Negro
+    desde la celda actual a la celda vecina al Este. Dejando el cabezal en la celda lindante al Este
+    Precondicion: Debe haber al menos uns bolita de Color Negro y una celda lindante al Este
+
+    Sacar(Negro)
+    Mover(Este)
+    Poner(Negro)
+} */
+
+/* 3.
+program {
+
+    Proposito: Poner una bolita de color Azul en la celda lindante al Norte de la celda actual.
+    Dejando el cabezal en la celda lindante al Norte de la celda actual
+    Precondicion: Debe exitir al menos una celda al Norte de la celda actual
+
+    Mover(Norte)
+    Poner(Negro)
+}
+*/
+
+
+
+/*6. a)
+program {
+
+    Proposito: Dibujar un cuadrado de tamaño 3x3 con bolitas de color verde,
+    El cabezal inicia y finaliza en el centro del tablero
+
+    Poner(Verde)
+    Mover(Este)
+    Poner(Verde)
+    Mover(Norte)
+    Poner(Verde)
+    Mover(Oeste)
+    Poner(Verde)
+    Mover(Oeste)
+    Poner(Verde)
+    Mover(Sur)
+    Poner(Verde)
+    Mover(Sur)
+    Poner(Verde)
+    Mover(Este)
+    Poner(Verde)
+    Mover(Este)
+    Poner(Verde)
+    Mover(Norte)
+    Mover(Oeste)
+}*/
+
+/* b) 
+program {
+
+    Proposito: Dibujar un cuadrado de tamaño 3x3 con bolitas de color verde,
+    El cabezal inicia y finaliza en el centro del tablero 
+
+    Sacar(Verde)
+    Mover(Este)
+    Sacar(Verde)
+    Mover(Norte)
+    Sacar(Verde)
+    Mover(Oeste)
+    Sacar(Verde)
+    Mover(Oeste)
+    Sacar(Verde)
+    Mover(Sur)
+    Sacar(Verde)
+    Mover(Sur)
+    Sacar(Verde)
+    Mover(Este)
+    Sacar(Verde)
+    Mover(Este)
+    Sacar(Verde)
+    Mover(Norte)
+    Mover(Oeste)
+} */
+
+//10.
+/*
+program {
+    
+    Proposito: Poner una fila de una bolita color Azul, Negro, Rojo y Verde hacia el Este de la celda actual.
+    Precondicion: Deben existir al menos 4 celdas hacia el este desde la celda actual. El cabezal inicia y finaliza en la celda al borde al Oeste
+    
+    
+    Poner(Azul)
+    Mover(Este)
+    Poner(Negro)
+    Mover(Este)
+    Poner(Rojo)
+    Mover(Este)
+    Poner(Verde)
+    IrAlBorde(Oeste)
+}
+*/
+//11. 
+
+program {
+    /*
+    Proposito: Saca un cuadrado de 2x2 multicolor. El cabezal inicia y finaliza en el vértice inferior izquierdo 
+    Precondicion: Debe existir al menos una celda para el Norte, hacia el Este 
+    */
+    
+    Sacar(Azul)
+    Sacar(Negro)
+    Sacar(Verde)
+    Sacar(Rojo)
+    
+    Mover(Norte)
+    
+    Sacar(Azul)
+    Sacar(Negro)
+    Sacar(Verde)
+    Sacar(Rojo)
+    
+    Mover(Este)
+    
+    Sacar(Azul)
+    Sacar(Negro)
+    Sacar(Verde)
+    Sacar(Rojo)
+    
+    Mover(Sur)
+    
+    Sacar(Azul)
+    Sacar(Negro)
+    Sacar(Verde)
+    Sacar(Rojo)
+    
+    Mover(Oeste)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        

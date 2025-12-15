@@ -1,0 +1,212 @@
+procedure LlevarCamiónAlInicioDeUnRecorrido(){
+    /*
+        Proposito: Posiciona el camion en la ubicacion de la esquina Este-Sur
+        Precondicion: 
+    */
+    
+   LlevarAlCamionAlBorde_(Oeste)
+   LlevarAlCamionAlBorde_(Sur)
+    
+}
+
+
+function elCamiónEstáAlFinalDeUnRecorrido() {
+    /*
+        Proposito: Indica si el camion se encuentra en la ubicacion 
+        de la esquina Norte-Oeste
+        Precondicion: Ninguna
+        Tipo: Booleano
+    */
+    return ( not puedeMover( Norte ) || not puedeMover(Oeste))
+    
+}
+
+
+procedure MoverCamionAProximaUbicacion(){
+    /*
+        Proposito: Mover el camion a la siguiente ubicacion en 
+        un recorrido hacia el Oeste- Norte 
+    */
+    
+    if( puedeMover(Oeste)){
+        MoverCamionAl_(Oeste)
+    }
+    else{
+        LlevarAlCamionAlBorde_(Este)
+        MoverCamionAl_(Norte)
+    }
+}
+
+procedure LlevarAlCamionAlBorde_(direccion){
+    /*
+        Proposito: LLevar al camion al borde **direccion**
+        Precondicion: El cabezal debe estar sobre el camion.
+        Parametro: direccion : direccion : direccion del camion
+    */
+    
+    while(puedeMover(direccion)){
+        MoverCamionAl_(direccion)
+    }
+}
+
+
+/*
+siempre se encuentra en la misma fila o columna 
+que la ubicación en donde se recogió su paquete
+*/
+
+function direccionHaciaLaCualEstaElComprador(){
+    /*
+        Proposito: Describe la direccion en la que se encuentra el 
+        comprador.
+        Precondicion: El cabezal se encuentra sobre el camion
+        y el camion tiene un paquete
+        Tipo: direccion
+        Observacion: Es un recorrido de busqueda sabiendo que está
+        sobre las direcciones del camion, donde para cada direccion
+        se busca en el que se encuentra el comprador
+    */
+    
+    direccionDeCompradorAhora := minDir()
+    
+    while( estáElCompradorDePaquete_Al_(idDePaqueteEnCamión(), direccionDeCompradorAhora){
+                
+        direccionDeCompradorAhora := siguiente(direccionDeCompradorAhora)        
+    }
+    
+    return ( direccionDeCompradorAhora )
+}
+
+function estáElCompradorDePaquete_Al_(idPaqueteAEntregar, direccion){
+    /*
+        Proposito: Indica si el comprador del paquete **idPaquete**
+        está en la direccion al **direccion**.
+        Precondicion: el cabezal se identifica con el id de su paquete
+        que es un numero entre 0 y 4999
+        Tipo: booleano
+        Parametro: direccion : direccion : direccion a buscar al comprador
+        idpaquete: numero : id del paquete
+    */
+    
+    while( puedeMover(direccion) && not estáElCompradorDe_(idDePaqueteAEntregar) ){
+        
+        Mover(direccion)
+    }
+    
+    return( estáElCompradorDe_(idDePaqueteAEntregar) )
+}
+
+
+
+
+
+
+--encontrar paquete, recogerlo, llevarlo, entregarlo
+
+procedure LlevarTodosLosPaquetesDeASuComprador() {
+    /*
+        Proposito: Llevar el paquete **idPaquete** a su comprador.
+        Precondicion: 
+        Parametro: idPaquete : numero : identificador de paquete en el camion 
+        Observacion:Es un recorrido de trasnformacion sobre las ubicaciones del
+        mapa mientras se mueve al camion entregando donde para cada ubicacion 
+        se entrega el paquete que alli hubiera
+    */
+    
+    LlevarCamiónAlInicioDeUnRecorrido()
+    
+    while( not elCamiónEstáAlFinalDeUnRecorrido()){
+        
+        EntregarElPaqueteASuCompradorSiHay()
+        MoverCamionAProximaUbicacion()
+    }
+    EntregarElPaqueteASuCompradorSiHay()
+}
+
+procedure  EntregarElPaqueteASuCompradorSiHay(){
+    /*
+        Proposito: Entregar paquete al comprador si hay. 
+        Precondicion: el cabezal debe estar sobre el camion 
+        Si hay un paquete su comprador esta en linea recta
+        Parametro: idPaqueteEnCamion : numero : id del paquete que está en el camion 
+       
+    */
+    
+    if( hayPaquete()){
+        
+        EntregarPaqueteAcá()
+        
+    }
+   
+    
+}
+
+procedure EntregarPaqueteAcá(){
+    /*
+        Proposito: 
+        Precondicon: El cabezal esta sobre el camion
+        Si hay un paquete su comprador esta en linea recta
+        Hay un paquete en la ubicacion actual
+
+    */
+    RecogerPaquete_(idDePaquete())
+    
+    LlevarElPaqueteDeId_ASuCompradorAl_(idDePaqueteEnCamión(),  direccionHaciaLaCualEstaElComprador() )
+}
+
+procedure LlevarElPaqueteDeId_ASuCompradorAl_(idPaqueteEnCamion, direccion){
+    /*
+        Proposito: Llevar el paquete de **idPaqueteEnCamion** hacia su comprador
+        Precondicion:El cabezal debe estar sobre el camion
+        El comprador está en linea recta
+        Parametro : idPaqueteEnCamion: numero : id de paquete en el camion
+        Observacion: Es un recorrido de transformacion sobre la direccion **direccion**,
+        hacia el comprador y entregar el paquete
+    */
+    distanciaDelCamionAlComprador := 0 
+    
+    while ( puedeMover(direccion)  ){
+        
+        distanciaDelCamionAlComprador := distanciaDelCamionAlComprador + 1
+        MoverCamiónAl_(direccion)
+    }
+    
+    EntregarPaquete_AComprador(idPaqueteEnCamion)
+    
+    MoverElCamion_VecesAl_(opuesto(direccion), distanciaDelCamionAlComprador)
+}
+
+
+procedure MoverElCamion_VecesAl_(direccionDeCamion, distancia){
+    /*
+        Proposito: Mover el camion hacia **direccion** tantas veces como la distancia **distancia**
+        Precondicion: Debe haber al menos **distancia** al **direccionDeCamion**
+        Parametro: direccionDeCamion: direccion : direccion opuesta a la ubicacion del comprador
+        distancia: numero: distancia del camion desde la ubicacion del comprador 
+    */
+    
+    repeat(distancia){
+        MoverCamionAl_(direccionDeCamion)
+    }
+}
+
+/*
+ indique el total de productos que están esperando ser entregados a sus
+compradores
+*/
+
+
+function cantidadDeProductosARecoger(){
+    /*
+        
+    */   
+}
+
+
+
+
+
+
+
+
+

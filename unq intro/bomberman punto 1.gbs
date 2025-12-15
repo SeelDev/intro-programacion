@@ -1,0 +1,179 @@
+function puntosQueOtorgadosPorBombaDePotencia_(potenciaDeBomba){
+    /*
+        Proposito: Describe el puntaje otorgado por cada acción que la 
+        bomba de potencia **potenciaDeBomba** realiza.
+        Precondicion: Ninguna
+        Tipo: Numero
+
+    */
+    
+    return (
+        choose
+            puntosOtorgadosPorDestruccionPorPotencia_DeBomba(potenciaDeBomba) when ( not hayObstaculo() )
+                    0 otherwise
+        )
+}
+
+
+function puntosOtorgadosPorDestruccionPorPotencia_DeBomba(potenciaDeBomba){
+    /*
+        Proposito: Describe el puntaje otorgado por cada acción que la 
+        bomba de potencia **potenciaDeBomba** realiza.
+        Precondicion: Ninguna
+        Tipo: Numero
+        Observacion: 
+        ● 5 puntos por cada enemigo que la bomba mata. 
+        ● 2 puntos por cada pared de ladrillo destruida 
+        ● -10 puntos si muere Bomberman al ser alcanzado por la explosión. 
+    */
+    
+    return (
+            puntosPorDestruccionPorDeLadrilloPotencia_CeroSino(potenciaDeBomba)
+            +
+            puntosPorDestruccionDeEnemigoPorPotencia_CeroSino(potenciaDeBomba)
+            + 
+            puntosPorMuerteDeBombermanPorPotencia_(potenciaDeBomba)
+        )
+}
+
+
+function puntosOtorgadosPorDestruccionDeLadrilloPorPotencia_CeroSino(potenciaDeBomba){
+    /*
+        Proposito: Describe la cantidad de **puntosObtenidos** por destruccion
+        Precondicion: NInguna
+        Tipo: numero
+        Parametro: potenciaDeBomba : numero : cantidad de potencia de bomba
+    */
+    
+    puntosPorLadrillo := 0
+    direccionAMirar := minDir()
+    
+    puntosPorLadrillo := puntosPorLadrillo + puntosObtenidosPorDestruccionAl_PorPotencia_Al(direccionAMirar, potenciaDeBomba)
+    
+    while ( direccionAMirar /= maxDir() ) {
+        
+        direccionAMirar := siguiente(direccionAMirar)
+        
+        puntosPorLadrillo := puntosPorLadrillo + puntosObtenidosPorDestruccionAl_PorPotencia_(direccionAMirar, potenciaDeBomba)
+    }
+    return ( puntosPorLadrillo )
+}
+
+
+function puntosPorDestruccionDeEnemigoPorPotencia_CeroSino(potenciaDeBomba) {
+    /*
+        Proposito: Describe la cantidad de **puntosObtenidos** por destruccion
+        Precondicion: NInguna
+        Tipo: numero
+        Parametro: potenciaDeBomba : numero : cantidad de potencia de bomba
+    */
+    
+    puntosPorEnemigo := 0
+    direccionAMirar := minDir()
+    
+    puntosPorEnemigo := puntosPorEnemigo + puntosObtenidosPorDestruccionAl_PorPotencia_Al(direccionAMirar, potenciaDeBomba)
+    
+    while ( direccionAMirar /= maxDir() ) {
+        
+        direccionAMirar := siguiente(direccionAMirar)
+        
+        puntosPorEnemigo := puntosPorEnemigo + puntosObtenidosPorDestruccionAl_PorPotencia_(direccionAMirar, potenciaDeBomba)
+    }
+    return ( puntosPorEnemigo )
+}
+
+
+function puntosPorMuerteDeBombermanPorPotencia_(potenciaDeBomba){
+    
+    /*
+        Proposito: Describe la cantidad de **puntosObtenidos** por destruccion
+        Precondicion: NInguna
+        Tipo: numero
+        Parametro: potenciaDeBomba : numero : cantidad de potencia de bomba
+    */
+    
+    puntosPorMuerteDeBomberman := 0
+    direccionAMirar := minDir()
+    
+    puntosPorMuerteDeBomberman := puntosPorMuerteDeBomberman + puntosObtenidosPorDestruccionAl_PorPotencia_Al(direccionAMirar, potenciaDeBomba)
+    
+    while ( direccionAMirar /= maxDir() ) {
+        
+        direccionAMirar := siguiente(direccionAMirar)
+        
+        puntosPorMuerteDeBomberman := puntosPorMuerteDeBomberman + puntosObtenidosPorDestruccionAl_PorPotencia_(direccionAMirar, potenciaDeBomba)
+    }
+    return ( puntosPorMuerteDeBomberman )
+    
+}
+
+
+function puntosObtenidosPorDestruccionAl_PorPotencia_(direccion, potenciaDeBomba){
+    /*
+        Proposito: Describe los puntos obtenidos por la bomba explotada en **potenciaDeBomba** ubicaciones.
+        Precondicion: Ninguna
+        Tipo: Numero
+        Parametro: direccion: direccion: direccion de la bomba
+        potenciaDeBomba : numero : potencia de bomba en la direccion
+    */
+    
+    potenciaDeBombaAhora := 0
+    
+    while (potenciaDeBombaAhora /= potenciaDeBomba && not hayObstaculo() ){
+        Mover(direccion)
+    }
+    return ( puntosObtenidosPorObstaculo())
+}
+
+function puntosObtenidosPorObstaculo() {
+    /*
+        Proposito: Describe el total de puntos obtenidos por obstaculo en la ubicacion actual.
+        Precondicion: Ninguna
+        Tipo: numero
+        Observacion: 
+        ● 5 puntos por cada enemigo que la bomba mata. 
+        ● 2 puntos por cada pared de ladrillo destruida 
+        ● -10 puntos si muere Bomberman al ser alcanzado por la explosión. 
+    */
+    
+    return ( 
+            choose 5 * cantidadEnemigos() when ( hayEnemigo() ) 
+                   2                      when (tipoObstaculo() == ladrillo() )
+                   -10                    when ( estáBomberman() )
+                   0                      otherwise
+        )
+}
+    
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

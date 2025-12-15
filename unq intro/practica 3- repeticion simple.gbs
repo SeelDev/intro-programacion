@@ -1,0 +1,196 @@
+program {
+   PintarElTableroDeAzul()
+}
+
+procedure Mover3VecesAlNorte(){
+    
+    /*
+    Proposito: Mueve al cabezal 3 veces al norte desde la celda actual.
+    Precondicion: Debe haber 3 celdas al norte de la celda actual.
+    */
+    
+    repeat (3) {
+        Mover(Norte)
+    }
+    
+}
+
+
+procedure Mover3VecesAlEste(){
+    
+    /*
+    Proposito: Mueve al cabezal 3 veces al este desde la celda actual.
+    Precondicion: Debe haber 3 celdas al este de la celda actual.
+    */
+    
+    repeat (3) {
+        Mover(Este)
+    }
+    
+}
+
+
+procedure Poner6DeColorNegro(){
+    /*
+    Proposito: Poner 6 bolitas de color negro en la celda actual
+    Precondicion: Ninguna
+    */
+    
+    repeat(6){
+        Poner(Negro)
+    }
+    
+}
+
+
+procedure Poner6DeColorVerde(){
+    /*
+    Proposito: Poner 6 bolitas de color verde en la celda actual
+    Precondicion: Ninguna
+    */
+    
+    repeat(6){
+        Poner(Verde)
+    }
+    
+}
+
+
+
+
+procedure DibujarRectánguloRojoYNegroDe5x3() {
+    
+    /*
+    Proposito: Dibujar un rectangulo de color Negro y color Rojo
+    de 5 celdas hacia el este y 3 celdas hacia el norte.
+    El cabezal termina en la celda inicial
+    Precondicion: Debe haber 5 celdas hacia el este y 3 cedlas hacia el 
+    Norte de la celda actual
+    */
+    
+    repeat(2){
+         DibujarLineaRojoYNegroDe5()
+         Mover(Norte)
+    }
+    DibujarLineaRojoYNegroDe5()
+    Mover(Sur)
+    Mover(Sur)
+}
+
+
+procedure DibujarLineaRojoYNegroDe5(){
+    /*
+    Proposito: Dibuja una linea de 5 celdas hacia el este con color Negro y Color rojo
+    el cabezal finaliza en la celda inicial
+    Precondicion: Debe haber 5 celdas hacia el oeste desde la celda inicial
+    */
+    repeat(4){
+        Poner(Rojo)
+        Poner(Negro)
+        Mover(Este)
+    }
+    Poner(Rojo)
+    Poner(Negro)
+    
+    IrAlBorde(Oeste)
+    
+}
+
+procedure PintarElTableroDeAzul(){
+    
+    /*
+    Proposito: Pintar el tablero de 10 celdas al este y 7 celdas al Norte con una bolita de color Azul en cada celda desde la celda actual.
+    Precondicion: Debe haber 10 celdas al este y 7 celdas al Norte desde la celda actual.El tablero debe estar vacío.
+    */
+    
+    repeat(6){
+        PintarLineaAzul10()
+        Mover(Norte)
+    }
+    PintarLineaAzul10()
+}
+
+procedure PintarLineaAzul10(){
+    /*
+    Proposito: Pintar una linea de celdas de color Azul hacia el este desde la celda actual.
+    El cabezal finaliza en la celda actual.
+    Precondicion: Debe haber 10 celdas hacia el este de la celda actual.
+    */
+    
+    repeat(9){
+        Poner(Azul)
+        Mover(Este)
+    }
+    Poner(Azul)
+    IrAlBorde(Oeste)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,312 @@
+type DiaDeSemana is variant {
+    /*
+        Proposito: Modelar los dias de la semana
+        
+    */
+    
+    case Lunes {}
+    case Martes {}
+    case Miercoles {}
+    case Jueves {}
+    case Viernes {}
+    case Sabado {}
+    case Domingo {}
+
+}
+
+type Dia is record {
+    
+    /*
+        Proposito: Modelar los dias de la semana.
+    */
+    
+    field diaDeSemana
+    
+}
+
+
+function diaSiguiente_(diaActual) {
+    /*
+        Proposito: Describe el dia siguiente al dia **diaActual**
+        Precondicion: Ninguna
+        Tipo: dia
+        Parametro: diaActual: dia 
+    */
+    
+    return(
+            choose Martes when (diaActual == Lunes)
+                   Miercoles when (diaActual == Martes)
+                   Jueves when (diaActual == Miercoles)
+                   Viernes when ( diaActual == Jueves)
+                   Sabado when ( diaActual == Viernes)
+                   Domingo when (diaActual == Lunes)
+                   Lunes otherwise
+        )
+    
+}
+
+function diaPrevio_(diaActual) {
+    
+    /*
+        Proposito: Describe el dia previo al dia **diaActual**
+        Precondicion : Ninguna
+        Tipo: dia 
+        Parametro: diaActual: dia 
+    */
+    
+    return ( 
+        
+            choose Lunes when (diaActual == Martes)
+                   Martes when (diaActual == Miercoles)
+                   Miercoles when (diaActual == Jueves)
+                   Jueves when (diaActual == Viernes)
+                   Viernes when (diaActual == Sabado)
+                   Sabado when (diaActual == Domingo)
+                   Domingo otherwise
+        
+        )
+}
+
+function esDiaDeFinDeSemana_(diaActual) {
+    /*
+        Proposito: Describe si **diaActual** es dia de fin de semana
+        Precondicion: Ninguna
+        Tipo: booleano
+        Parametro: diaActual : dia
+    */
+    
+    return ( 
+        diaActual == Sabado || diaActual == Domingo 
+        )
+    
+}
+
+--------------------------------------------------------
+
+
+type Palo is variant {
+    /*
+        Proposito: Modelar el palo de las cartas
+    */    
+    
+    case Espadas {}
+    case Basto {}
+    case Oro {}
+    case Copa {}
+}
+
+type Carta is record {
+    /*
+        Proposito: Modelar cartas
+        ivn. rep: el numero de las cartas es del 1 al 12
+    */
+    
+    field palo //palo
+    field numero //numero
+}
+
+
+function anchoDeEspadas() {
+    /*
+        Proposito: Describe la carta 1 de bastos
+        Precondicion: ninguna
+        Tipo: carta
+    */
+   return( 
+        Carta( palo <- Espadas, numero <- 1 )
+    )           
+}
+
+function anchoDeBastos() {
+    /*
+        Proposito: Describe la carta 1 de bastos
+        Precondicion: ninguna
+        Tipo: carta
+    */
+   return( 
+        Carta( palo <- Basto, numero <- 1 )
+    )           
+}
+
+function laCarta_de_(paloDeCarta, numeroDeCarta){
+    /*
+        Proposito: Describe la carta **numeroDeCarta** de **paloDeCarta**  
+        Precondicion: el numero de las cartas es del 1 al 12
+        Parametro:
+        *paloDeCarta: palo 
+        *numeroDeCarta: numero
+    */
+    return(
+            Carta( palo <- paloDeCarta, numero <- numeroDeCarta)
+        )
+}
+
+
+function esUnAncho_(carta){
+    /*
+        Proposito: Indica si la carta **carta** es un 1
+        Precondicion: ninguna
+        Tipo: booleano
+    */
+    return(numero(carta) == 1 )
+}
+
+
+
+function esFigura_(carta) {
+    /*
+        Proposito: Indica si la **carta** es una figura
+        Precondicion: Ninguna
+        Tipo: booleano
+    */
+    return(
+            numero(carta) == 10
+            ||
+            numero(carta) == 11
+            ||
+            numero(carta) == 12
+        )
+}
+
+
+
+function esDeOro_(carta){
+    /*
+        Proposito: Indica si **carta** es de Oro.
+        Precondicion: Ninguna
+        Tipo: booleano    
+    */ 
+    
+    return (
+            palo(carta) == Oro
+        )
+    
+}
+
+function tieneUnNúmeroMásGrande_Que_(carta1, carta2){
+    /*
+        Proposito: Indca si la carta **carta1** es más grande **carta2**
+        Precondicion: Ninguna
+        carta1 : carta
+        carta2 : carta
+        Tipo : booleano 
+    */
+    
+    return(
+        numero(carta1) > numero(carta2)
+        )    
+        
+}
+
+
+function sonDelMismoPalo_Y_(carta1, carta2){
+    /*
+        Proposito: Indica si la carta **carta1** y la carta **carta2** son del mismo palo
+        Precondicion:
+        Tipo: booleano
+        carta1 : carta
+        carta2 : carta
+    */
+    
+    return(
+        palo(carta1) == palo(carta2)
+        )
+}
+
+
+
+
+function valorParaEnvidoDe_(carta){
+    /*
+        Proposito: Describa el numero que la carta **carta** aporta para el canto del envido.
+        Precondicion: Ninguna
+        Tipo: numero
+        Parametro: carta: cartar
+    */
+    
+    return (
+            choose numero(carta) when ( not esFigura_(carta) ) 
+                        0        otherwise 
+            
+    )
+}
+
+
+function  mayorValorEntre_Y_(carta1, carta2){
+    /*
+        Proposito: Describe el valor más grande entre la carta **carta1** y la carta
+        **carta2**
+        Precondicion: Ninguna
+        Tipo: carta
+        carta1 : carta
+        carta2 : carta
+    */
+    
+    return (
+        
+      choose numero(carta1) when (valorParaEnvidoDe_(carta1) > valorParaEnvidoDe_(carta2))
+             numero(carta2) otherwise
+    )
+    
+    
+}
+
+
+
+function sumaParaElEnvidoCon_Y_(carta1, carta2){
+    /*
+        Proposito: Describe el numero que tienen las mismas
+        Prepocondicion: Ninguna
+        Tipo: Numero
+    */
+    
+    return (
+            choose valorParaEnvidoDe_(carta1) + valorParaEnvidoDe_(carta2) + 20 when (sonDelMismoPalo_Y_(carta1, carta2))
+                    mayorValorEntre_Y_(carta1, carta2) otherwise
+        )
+}
+
+
+
+program {
+    
+    return (sonMejores_Y_Que_Y_(laCarta_de_(Oro, 7),laCarta_de_(Oro, 5), laCarta_de_(Espadas, 5), laCarta_de_(Espadas, 12)))
+}
+
+
+
+
+
+
+function sonMejores_Y_Que_Y_(primerCarta, segundaCarta, terceraCarta, cuartaCarta ) {
+    /*
+        Proposito: Indica si el envido del primer jugador (carta1, carta2)
+                    que el segundo jugador (carta3, carta4)
+        Precondicion: Ninguna
+        Tipo: booleano
+        Parametro:
+        primerCarta : carta
+        segundaCarta : carta
+        terceraCarta : carta
+        cuartaCarta: carta
+    */
+    return (
+        
+        sumaParaElEnvidoCon_Y_(laCarta_de_(primeraCarta, numero(primerCarta), laCarta_de_(segundaCarta, numero(segundaCarta)))
+        > 
+        sumaParaElEnvidoCon_Y_(laCarta_de_(terceraCarta, numero(terceraCarta) , laCarta_de_(cuartaCarta, numero(cuartaCarta)))
+                
+        )
+    
+}
+
+
+
+
+
+
+
+
+
+
+

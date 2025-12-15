@@ -1,0 +1,307 @@
+type Marca is variant { /* PROPÓSITO: Modela marcas de computadoras. */ case Panafonics {} case Gaxio {} case Sonby {} case Lebovo {} case HB {} }
+
+type Computadora is record {
+    /* PROPÓSITO: Modela una computadora.
+    INVARIANTES DE REPRESENTACIÓN: 
+    * La memoria, el cpu, el precio son números mayores a cero. 
+    * El código de venta es un número mayor a cero. */ 
+    field códigoDeVenta // Número
+    field marca // Marca
+    field memoria // Número-La cantidad de memoria RAM en MB. 
+    field cpu // Número-La velocidad del CPU en MHz.
+    field precio // Número-El precio en dólares.
+}
+
+type Local is record { 
+    /* PROPÓSITO: Modela uno de los locales de la cadena de venta
+    INVARIANTES DE REPRESENTACIÓN:
+    * código es mayor a cero y localidad no está vacío */
+    field código // Número-Un código único para el local
+    field localidad // String-La localidad donde se encuentra el local. 
+    field computadorasEnStock // [Número]-Las computadoras disponibles en el local, identificadas por su código. Puede contener duplicados (una vez por unidad).
+    }
+    
+type CadenaDeVenta is record { 
+    /* PROPÓSITO: Modela la cadena de Compumundo Hiper Mega Red 
+    INVARIANTES DE REPRESENTACIÓN: * Ninguna */
+    field locales // [Local]- Los locales de la cadena.
+    field computadoras // [Computadora]- Las computadoras que vende la cadena. 
+    }
+    
+    
+program {
+    return (
+        puedoComprarAlgoEn_DeMarca_Con_(
+            // 1er Parámetro: La Cadena de Ventas gigante construida ahí mismo
+            CadenaDeVenta(
+                locales <- [
+                    // Un local en Quilmes (Tiene las compus 10 y 20)
+                    Local(código <- 1, localidad <- "Quilmes", computadorasEnStock <- [10, 20]),
+                    // Un local en Bernal (Tiene la compu 30) -> Este NO debería contar
+                    Local(código <- 2, localidad <- "Bernal",  computadorasEnStock <- [30])
+                ],
+                computadoras <- [
+                    // Compu 10 (Panafonics) -> Debería aparecer
+                    Computadora(códigoDeVenta <- 10, marca <- Panafonics, memoria <- 8, cpu <- 2400, precio <- 100),
+                    // Compu 20 (Sonby) -> Debería aparecer
+                    Computadora(códigoDeVenta <- 20, marca <- Sonby,      memoria <- 16, cpu <- 3000, precio <- 200),
+                    // Compu 30 (HB) -> NO debería aparecer (está en Bernal)
+                    Computadora(códigoDeVenta <- 30, marca <- HB,         memoria <- 4, cpu <- 1000, precio <- 50)
+                ]
+            ),
+            Panafonics,
+            // 2do Parámetro: La localidad que buscamos
+            4000
+        )
+    )
+}
+    
+    
+    
+function marcasEn_QuePuedenEncontrarseEn_(cadenaDeVentas, localidad){
+    /*
+        Proposito: describe la lista de marcas que pueden encontrarse en la localidad **localidad**
+        Precondicion: Ninguna
+        Tipo: lista de Marca
+        Parametro: cadenaDeVentas : cadenaDeVentas
+        localidad: local
+    */
+    
+    return(sinDuplicado_(
+                // juntar todos las marcas de computadoras según su codigo
+                marcasDeComputadorasConCodigo_En_(computadoras(cadenaDeVentas),
+                    // juntar todos los codigos por localidad
+                    codigoDeStockEn_De_(locales(cadenaDeVentas), localidad) ) ) )  
+}
+
+function codigoDeStockEn_De_(listaDeLocales, localidadABuscar){
+    /*
+        Proposito: Acumula todos los codigos de stock de los locales de la localidad **localidadABuscar**
+        Precondicion: ninguna
+        Tipo: Lista de codigoDeVenta
+        Parametro: listaDeLocales : locales
+        localidadABuscar : local
+        Observacion: es un recorrido de filtro sobre la lista **listaDeLocales**, para acumular los codigos de las computadoras que existan en la cadena de ventas de la localidad **localidad
+    */
+    
+    listaConCodigos := [] 
+    
+    foreach local in listaDeLocales {
+                                                            // lista de numeros        // condicion
+        listaConCodigos := listaConCodigos ++ singular_Si_(computadorasEnStock(local), localidad(local) == localidadABuscar)
+    }
+    
+    return( listaConCodigos )
+}
+
+
+
+
+
+function marcasDeComputadorasConCodigo_En_(listaDeComputadoras, listaDeCodigos){
+    /*
+        Proposito: Describe las marcas de computadora de la lista **listaDeComputadoras** con codigos **listaDeCodigos**
+        Precondicion: debe existir una localidad que tenga esa computadora como stock
+        Tipo: lista de marcas
+        Parametro: listaDeComputadoras : [computadoras]
+        listaDeCodigos :  [codigo]
+        Observacion: es un recorrido de filtro sobre la lista **listaDeComputadoras**, para obtener las marcas de las computadoras que estén en la lista **listaDeCodigos**
+    */
+    
+    listaDeMarcas := []
+    
+    foreach compu in listaDeComputadoras {
+        listaDeMarcas := listaDeMarcas ++ singular_Si_(marca(compu), contiene_A_(primero(listaDeCodigos), códigoDeVenta(compu) ) )
+    }
+    
+    return( listaDeMarcas )
+}
+
+
+
+
+function stockTotalEn_DeComputadorasConAlMenos_( cadenaDeVentas, minimoDeRam){
+    /*
+        Proposito:: Describe las computadoras en stock en la cadena **cadenaDeVentas** que tienen como minimo **minimoDeRam** de ram
+        Precondicion: Ninguna
+        Tipo: numero
+        Parametro: cadenaDeVentas : cadenaDeVentas
+        minimoDeRam: numero
+    */
+    
+    return(cantidadDeCodigosEn_ConRam_SegunListaDeCompus_(codigoDeVentaEnStockDe_(locales(cadenaDeVentas) ) , minimoDeRam, computadoras(cadenaDeVentas) ) )
+    
+}
+
+
+function codigoDeVentaEnStockDe_(listaDeLocales){
+    /*
+        Proposito: describe una lista las computadoras en stock en los locales **listaDeLocales** de la cadena de ventas
+        Precondicion: Ninguna
+        Tipo: [codigoDeVenta]
+        Parametro: listaDeLocales: locales
+        Observacion: es un recorrido de filtro sobre la lista **listaDeLocales**, donde se obtienen los codigos de computadoras en stock
+    */
+    
+    stockTotal := []
+    
+    foreach local in listaDeLocales{
+        stockTotal := stockTotal ++ computadorasEnStock(local)
+    }
+    return(stockTotal)
+}
+
+function cantidadDeCodigosEn_ConRam_SegunListaDeCompus_(listaCodigos, minimoRamAVerificar, listaComputadoras){
+    /*
+        Proposito: Describe la cantidad de computadoras en la lista**listaCodigos** que tienen un minimo  **minimoRamAVerificar** de ram contenidas en la lista de **listaDeComputadoras** 
+        Precondicion: Ninguna
+        Tipo: numero
+        Parametro: listaDeComputadorasEnStock : computadoras
+        minimoRamAVerificar : numero
+        Observacion: es un recorrido de filtro sobre una lista **listaCodigos**, para obtener las computadoras que tienen un minimo de ram en **minimoRamAVerificar**
+    */
+    
+    listaConComputadoras := 0
+    
+    foreach codigo in listaCodigos {
+        listaConComputadoras := listaConComputadoras + unoSi_ceroSiNo( memoria(computadoraConCodigo_En_(codigo, listaComputadoras)) >= minimoRamAVerificar ) 
+    }
+    
+    return(listaConComputadoras)
+}
+
+
+function computadoraConCodigo_En_(codigoABuscar, listaDeComputadoras){
+    /*
+        Proposito: Describe la computadora con **codigoABuscar**
+        Precondicion: Debe existir un codigo en la lista de computadoras
+        computadoraAVerificarStock : computadora
+        minimoDeRam: numero
+        Tipo: computadoras
+    */
+    
+    listaDeCompus := listaDeComputadoras
+    
+    while(códigoDeVenta(primero(listaDeCompus)) /= codigoABuscar){
+        
+        listaDeCompus := resto(listaDeCompus)
+    }
+    
+   return(primero(listaDeCompus))
+}
+
+
+
+function puedoComprarAlgoEn_DeMarca_Con_(cadenaDeVentas, marca, dineroDisponible){
+    /*
+        Proposito: Indica si la persona con **dineroDisponible** dolares puede comprar una computadora **marca** en un local de **cadenaDeVentas**
+        Precondicion: Ninguna
+        Tipo: booleano
+        Parametro: caddenaDeVentas: cadenaDeVenta
+        marca: marca
+        dineroDisponible: numero
+    */
+    
+    computadorasPorMirar := computadoras(cadenaDeVentas)
+    
+    while( not esVacía(computadorasPorMirar) && 
+            es_DeMarca_YSePuedeComprarCon_(primero(computadorasPorMirar),  
+                                            marca,
+                                            dineroDisponible) ){
+    
+
+    computadorasPorMirar := resto(computadorasPorMirar)
+     }
+    return( not esVacía(computadorasPorMirar))
+}
+
+function es_DeMarca_YSePuedeComprarCon_(computadora, marca, dinero){
+    /*
+        Proposito: Indica si la computadora es de marca **marca** y es accesible 
+        para comprar por **dinero**
+        Precondicion: debe existir una computadora
+        Tipo: booleano
+        Parametro: computadora: computadoras
+        marca: marca
+        dinero: numero
+    */
+    return(
+            marca(computadora) == marca
+            &&
+            precio(computadora) <= dinero
+        )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function unoSi_ceroSiNo(condicion){
+    return(
+            choose 1 when (condicion)
+                    0 otherwise
+        )
+}
+
+
+
+
+
+
+
+
+
+function sinDuplicado_(listaElemento){
+    /*
+        Proposito: Describe la lista **listaElemento** sin elementos duplicados
+        Precondicion: Ninguna
+        Tipo: lista de "elementos"
+        Parametro: listaElemento : lista de "elementos"
+        Observacion: Es un recorrido de filtro sobre la lista **listaElemento**, donde se eliminan los elementos duplicados de dicha lista
+    */
+    listaSinDuplicado := []
+    foreach elemento in listaElemento {
+        listaSinDuplicado := listaSinDuplicado ++ singular_Si_(elemento, not contiene_A_(listaSinDuplicado, elemento)) 
+    }
+    return ( listaSinDuplicado )
+}
+
+
+
+
+function contiene_A_(listaDeElemento, elemento){
+    /*
+        Proposito: Indica si la lista **listaDeElemento** contiene a **elemento**
+        Precondicion: Ninguna
+        Tipo: booleano
+        Parametro: listaDeElemento : [elemento]
+        elemento: elemento
+        Observacion: es un recorrido de busqueda sin saber si está sobre la lista **listaDeElemento**, donde se busca al elemento **elemento** en dicha lista
+    */
+    elementosPorRecorrer := listaDeElemento
+    while( not esVacía(elementosPorRecorrer) && primero(elementosPorRecorrer) /= elemento) {
+        elementosPorRecorrer := sinElPrimero(elementosPorRecorrer)
+    }
+    return ( not esVacía(elementosPorRecorrer) )
+    --implica que encontre el elemento buscado
+}
+
+
+
+
+function singular_Si_(listaElementos, condicion){
+    return(
+            choose [listaElementos] when (condicion)
+                    [] otherwise
+        )
+}

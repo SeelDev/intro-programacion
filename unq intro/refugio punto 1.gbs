@@ -1,0 +1,161 @@
+function refugio_SinAnimalLlamado_(unRefugio, nombreDeAnimal) {
+    
+    /*.....*/
+    
+    
+    return( Refugio(unRefugio (
+        
+                    animales <-  listaDeAnimales_sinElAnimalLlamado_(animales(unRefugio), nombreDeAnimal)
+                    cuidadores <- listaDeCuidadores_SinElAnimalACargoLLamado_(cuidadores(unRefugio), nombreDeAnimal) --lista de cuidador sin el animal llamado **nombreDeAnimal**
+                  )  
+                  
+            )
+        )
+    
+}
+
+function listaDeCuidadores_SinElAnimalACargoLLamado_(listaDeCuidadores, nombrecitoDeAnimal) {
+    
+    /*
+        Proposito: Describe la lista de cuidadores **listaDeCuidadores** sin el animal a cargo **nombrecitoDeAnimal**
+        Precondicion: Ninguna
+        Tipo: lista de cuidador
+        Parametro:
+        * listaDeCuidadores: lista de cuidador
+        * nombrecitoDeAnimal: string
+        OBSERVACIONES: Es un recorrido de filtro sobre la lista de animales a cargo de los cuidadores que filtra al animal con el nombre dado  
+    */
+    
+    listaDeCuidadoresSinElAnimalASacar := []
+    
+    foreach cuidador in listaDeCuidadores {
+    
+        listaDeCuidadoresSinElAnimalASacar := listaDeCuidadoresSinElAnimalASacar ++ [cuidador_SinElAnimallLlamado_(cuidador, nombrecitoDeAnimal)]
+        
+    
+    }
+ 
+ return (listaDeCuidadoresSinElAnimalASacar)
+}
+    
+function cuidador_SinElAnimallLlamado_(unCuidador, unNombreDeAnimal) {
+    
+    /*
+        PROPOSITO: Describe el cuidador **unCuidador** sin el animal a cargo **unNombreDeAnimal**
+        PRECONDICION: Ninguna
+        PARAMETROS: unCuidador: cuidador
+        unNombreDeAnimal: string
+        TIPO: cuidador
+        OBSERVACIONES: -
+    */
+    
+    return(Cuidador( unCuidador | nombresACargo <- elementosDe_SinAparicionesDe_(nombresACargo(unCuidador),  unNombreDeAnimal) )
+}
+
+
+/*function esAnimal_ACargoDe_(nombreDeAnimalACargo, cuidadorDelAnimal){
+    
+    /*
+        Proposito: Indica si el animal **nombreDeAnimalACargo** está a cargo del cuidador **cuidadorDelAnimal**
+        Precondicion: Ninguna
+        Tipo: booleano
+        Parametro: nombreDeAnimalACargo : string
+        cuidadorDelAnimal: cuidador
+        Observacion: Es un recorrido de busqueda sabiendo que existe sobre una lista de nombres de animales a
+        cargo de un cuidador, donde se busca el nombre animal dado
+    
+    
+    listaDe
+    
+    foreach nombreACargo in nombresACargo(cuidadorDelAnimal){
+        
+        
+        
+    }
+    
+    
+    
+    
+    return(nombreACargo(primero(cuidador)) == nombreDeAnimalACargo )
+}
+    
+    
+}*/
+--nombreACargo(primero(cuidador) ==  nombrecitoDeAnimal) --   debeAgregarse_(elemento))
+
+// [marcelo(), alejo(), willyrex(), ricardoFort()]
+
+//marcelo tiene a los animales: [doris flipper nemo]
+//ricardoFort tiene a los animales: kerchack(), flipper()
+//alejo tiene a los animales: doris(), flipper()
+function listaDeAnimales_sinElAnimalLlamado_(listaDeAnimales, nombrecitoDeAnimal) {
+    
+    /*
+        Proposito: Describe la lista **listaDeAnimales** sin la aparicion del animal **nombrecitoDeAnimal**.
+        Precondicion: Ninguna
+        Tipo: lista de Animal
+        Parametro: 
+        * listaDeAnimales: lista de animal
+        * nombrecitoDeAnimal : string 
+    */
+    
+    return(
+            elementosEn_Hasta_(listaDeAnimales, indiceEn_De_(listaDeAnimales, nombrecitoDeAnimal))
+            ++
+            elementoEn_DespuesDe_(listaDeAnimales, indiceEn_De_(listaDeAnimales, nombrecitoDeAnimal))
+        )
+}
+
+
+
+
+--
+
+
+[ nemo(), flipper(), doris(), kerchack(), kusco() ]
+                         -
+[ nemo(), flipper()] ++  [kerchack(), kusco() ]
+[nemo(), flipper(), kerchack(), kusco() ]
+
+function nemo() {
+    
+    /*....*/
+    
+    return(Animal(  
+            nombre <- "Nemo"
+            especie <- Pez
+            peso <- 5
+            ))
+    
+    
+}
+
+function indiceEn_De_(listaDeElemento, elemento){
+    /*
+        Proposito: Describe la primera ubicacion de la lista donde se encuentra el elemento **elemento**
+        Precondicion: Ninguna
+        Tipo: lista de elemento
+        Parametro: Parametro : lista de "elemento"
+        elemento : "elemento"
+        Observacion: es un recorrido de busqueda sabiendo que esta sobre una lista de elementos,
+        donde por cada ubicacion se busca la ubicacion del elemento **elemento**
+    */
+    
+    contador := 0 
+    
+    elementoAhora := primero(elemento) 
+    
+    
+    while (elemento /= elementoAhora){
+        contador := contador + 1 
+        elementoAhora := siguiente(elemento)
+    }
+    return ( contador )
+}
+    listaDelCuidadorSinElAnimal:= []
+    
+    foreach nombreACargo in  nombresACargo(unCuidador) {
+                                                                                                    
+        listaDelCuidadorSinElAnimal:= listaDelCuidadorSinElAnimal ++ singular_Si_(nombreACargo,  nombreACargo /= unNombreDeAnimal)
+        
+    }

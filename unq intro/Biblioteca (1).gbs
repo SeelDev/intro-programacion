@@ -1,0 +1,375 @@
+--PRÁCTICA 2
+procedure PonerUnaDeCada() {
+    
+    /*
+    Proposito: Pone una bolita de cada color en la celda actual.
+    Precondicion: Ninguna
+    */
+    Poner(Rojo)
+    Poner(Negro)
+    Poner(Verde)
+    Poner(Azul)
+}
+--------------------------------
+--PRÁCTICA 4 
+
+procedure Poner_DeColor_(cantidadAPoner, colorAPoner){
+    
+    /*
+    Proposito: Poner **cantidadAPoner** bolitas de color **colorAPoner** en la celda actual.
+    Precondicion: Ninguna
+    Parametro: cantidadAPoner : numero : cantidad de bolitas de color rojo a poner
+    colorAPoner : color : color de la bolita a poner
+    */
+    
+    repeat (cantidadAPoner) {
+        Poner(colorAPoner)
+    }
+}
+
+
+procedure Mover_VecesAl_(cantidadAMover, direcciónAMover){
+
+    /*
+    Proposito: Mover el cabezal **cantidadAMover** veces
+    al **direcciónAMover** desde la celda actual
+    Precondicion: debe haber al menos **cantidadAMover** celdas hacia el **direcciónAMover**
+    de la celda inicial.
+    Parametro: cantidadAMover: numero : cantidad de celdas a mover
+    direcciónAMover : direccion: direccion a la cual mover
+    */
+    
+    repeat(cantidadAMover) {
+        Mover(direcciónAMover)
+    }
+   
+    
+}
+
+
+procedure Sacar_DeColor_(cantidadASacar, colorASacar){
+    
+    /*
+    Proposito: Sacar **cantidadASacar** bolitas de color **colorASacar** de la celda actual.
+    Precondicion: Debe haber al menos una bolita de color **colorASacar** en la celda actual.
+    Parametro: - cantidadASacar : numero: cantidad de bolitas delcolor dado a sacar
+    - colorASacar : color de las bolitas a sacar
+    */
+    
+    repeat(cantidadASacar){
+        Sacar(colorASacar)
+    }
+    
+}
+
+
+procedure IrAEsquinaAl_Y_(primeraDirección, segundaDirección) {
+    
+    /*
+    Proposito: Mueve el cabezal a la esquina **primeraDirección** y al **segundaDirección**
+    desde la celda actual
+    Precondicion: Las direcciones **primeraDirección** y al **segundaDirección** no deben 
+    ser opuestas.
+    Parametro: - primeraDirección : direccion : la primera direccion donde se mueve
+    - segundaDirección : direccion : la segunda direccion donde se mueve
+    */
+    
+    IrAlBorde(primeraDirección)
+    IrAlBorde(segundaDirección)
+}
+
+-------------------------------------------------
+--PRÁCTICA 5 
+procedure SacarTodasLasDeColor_(colorASacar){
+    
+    /*
+    Proposito: Sacar todas las bolitas de color **colorASacar**
+    de la celda actual.
+    Precondicion: debe haber al menos una bolita de color
+    **colorASacar** en la celda actual.
+    Parametro: colorASacar: color: color de la bolita a sacar
+    */
+
+    repeat(nroBolitas(colorASacar)){
+        Sacar(colorASacar)
+    }
+}
+
+
+procedure VaciarCelda() {
+
+    /*
+    Parametro: Sacar todas las bolitas de todos los colores existentes
+    de la celda actual.
+    Precondicion: Debe haber al menos una bolita de algún color en la celda actual
+    */
+    
+    SacarTodasLasDeColor_(Azul)
+    SacarTodasLasDeColor_(Verde)
+    SacarTodasLasDeColor_(Negro)
+    SacarTodasLasDeColor_(Rojo)
+}
+-------------------------------------------
+--PRÁCTICA 6 
+procedure Poner_Si_(color, condicion){
+    /*
+    Proposito: Poner en la celda actual una bolita de color **color** 
+    según si la condicion **condicion** se cumple
+    Precondicion: La condicion **condicion** debe cumplirse.
+    Parametro: color: color: color de la bolita a poner
+    condicion: booleano: condicion para poner una bolita de color **color** en la celda actual.
+    */
+    if(condicion){
+        Poner(color)
+    }    
+}
+
+
+
+procedure Sacar_Si_(color, condicion) {
+     /*
+    Proposito: Sacar de la celda actual una bolita de color **color** 
+    según si la condicion **condicion** se cumple
+    Precondicion: La condicion **condicion** debe cumplirse.
+    Parametro: color: color: color de la bolita a sacar
+    condicion: booleano: condicion para sacar una bolita de color **color** en la celda actual.
+    */
+    if(condicion){
+        Sacar(color)
+    }
+    
+}
+
+
+procedure Mover_Si_(direccion, condicion){
+    
+    /*
+    Proposito: Mover en la direccion **direccion** desde la celda actual según si la condicion **condicion** se cumple
+    Precondicion: La condicion **condicion** debe cumplirse y debe haber al menos una celda hacia
+    **direccion** desde la celda actual
+    direccion: direccion: direccion en la cual se mueve
+    condicion: booleano: condicion para sacar una bolita de color **color** en la celda actual.
+    */
+     if(condicion){
+        Mover(direccion)
+    }
+}
+---------------------------------
+--PRÁCTICA 7
+function esCeldaVacía(){
+    /*
+    Proposito: Indica si la celda está vacía.
+    Tipo: Booleano 
+    */
+    return(
+       not hayBolitas(Rojo) &&
+       not hayBolitas(Verde) &&
+       not hayBolitas(Rojo) &&
+       not hayBolitas(Negro) 
+        )
+}
+
+
+function hayAlMenosUnaDeCada(){
+    /*
+    Proposito: Indica si hay al menos una bolita de cada color 
+    (Azul,Verde,Rojo o Negro) en la celda actual
+    Tipo: Booleano
+    */
+    return(
+     hayBolitas(Rojo) && hayBolitas(Verde) && hayBolitas(Rojo) && hayBolitas(Negro) 
+    )
+}
+
+
+function esCeldaConBolitas(){
+    /*
+    Proposito: Indica si hay al menos una bolita de cualquier color (Azul,Verde,Rojo o Negro)  en la celda actual 
+    Tipo: Booleano
+    */
+    return(
+    hayBolitas(Rojo) || hayBolitas(Verde) || hayBolitas(Rojo) || hayBolitas(Negro) 
+    )
+}
+-------------------
+--PRÁCTICA 8 
+
+procedure IrAlBorde_(direccion){
+    /*
+    Proposito: Mover el cabezal hasta el borde **direccion** desde la celda actual.
+    Precondicion: Ninguna
+    Parametro:
+    *direccion : direccion : direccion del borde a donde se mueve el cabezal
+    */
+    
+    while(puedeMover(direccion)){
+        Mover(direccion)
+    }
+}
+
+
+
+
+
+procedure IrAPrimeraCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria){
+    /*
+    Proposito: Mover el cabezal al borde **dirPrincipal** **dirSecundaria** 
+    del tablero desde la celda actual.
+    Precondicion: las direcciones no pueden ser opuestas ni iguales
+    Parametro: 
+    *dirSecundaria : direccion : direccion secundaria a moverse
+    *dirPrincipal : direccion : direccion principal a moverse
+    */
+    
+    IrAlBorde_(opuesto(dirPrincipal))
+    IrAlBorde_(opuesto(dirSecundaria))
+    
+}
+
+
+
+
+function haySiguienteCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria) {
+    /*
+    Proposito : Indica si hay una celda hacia **dirPrincipal** o **dirSecundaria**
+    hacia la cual moverse
+    tipo: booleano
+    Parametro: 
+    *dirPrincipal : direccion : direccion principal a moverse
+    *dirSecundaria : direccion : direccion secundaria a moverse
+    */    
+    
+    return(puedeMover(dirPrincipal) || puedeMover(dirSecundaria))
+    
+}
+
+
+
+procedure IrASiguienteCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria) {
+  
+
+    /*
+    Proposito: Mover el cabezal hacia el **dirPrincipal** **dirSecundaria**
+    Precondicion: Las direcciones no deben ser opuestas ni iguales
+    Parametro: 
+    *dirPrincipal : direccion : direccion principal a moverse
+    *dirSecundaria : direccion : direccion secundaria a moverse  
+    */    
+    if (puedeMover(dirPrincipal)){
+        Mover(dirPrincipal)
+    }
+    else{
+        IrAlBorde_(opuesto(dirPrincipal))
+        Mover(dirSecundaria)
+    }
+    
+}
+program { return(hayBolitas_Al_(Rojo, Este))}
+---------------------------------------
+--PRÁCTICA 9 
+function hayBolitas_Al_(colorAMirar, direccion){
+    /*
+    Proposito: Indica si hay bolitas de color **colorAMirar** en la celda lindante al **direccion**
+    desde la celda actual.
+    Precondicion: Ninguna
+    Tipo: Booleano
+    Parametro: 
+    * colorAMirar: color : color de la bolita a mirar en la celda lindante al **direccion**
+    * direccion: direccion: direccion de la celda lindante desde la celda actual.
+    */
+    Mover_Si_(direccion, puedeMover(direccion))
+    return(hayBolitas(colorAMirar))
+}
+
+procedure CopiarCeldaAl_(dirección) {
+    
+    /*
+        PROPOSITO: Copiar la celda actual a la celda lindante hacia el
+        *dirección*.
+        PRECONDICION: Debe haber al menos una celda hacia el *dirección*
+        PARAMETROS:
+        *dirección: DIRECCIÓN - La dirección de la celda lindante donde
+        se copia la celda actual.
+        OBSERVACIONES: Es un recorrido de ennumerativos sobre los colores,
+        copiando las bolitas de la celda actual en la lindante al *dirección*,
+        sin importar cuantas bolitas tuviera esta previamente.
+    */
+    
+    colorACopiar:= minColor()
+    cantidadDeBolitasACopiar:= nroBolitas(colorACopiar)
+    
+    Mover(dirección)
+    VaciarCelda()
+    Mover(opuesto(dirección))
+    
+    
+    while(colorACopiar /= maxColor()) {
+        
+        Mover(dirección)
+        Poner_DeColor_(cantidadDeBolitasACopiar - nroBolitas(colorACopiar), colorACopiar)
+        Mover(opuesto(dirección))
+        cantidadDeBolitasACopiar:= nroBolitas(siguiente(colorACopiar))
+        colorACopiar:= siguiente(colorACopiar)
+        
+    }
+    Mover(dirección)
+    Poner_DeColor_(cantidadDeBolitasACopiar - nroBolitas(colorACopiar), colorACopiar)
+    Mover(opuesto(dirección)) 
+}   
+  
+
+function minimoEntre_Y_(minimo, maximo){
+    /*
+        Proposito: Describir el valor minimo entre **minimo** y **maximo**
+        Precondicion: Las expresiones deben ser del mismo tipo
+        Tipo: numero
+        Parametro:
+        minimo:: la expresion minima 
+        maximo:: la expresion maxima
+    */
+    return( 
+        choose minimo when (minimo < maximo)
+               maximo otherwise
+    )     
+    
+       
+}
+
+
+function maximoEntre_Y_(minimo, maximo){
+    /*
+        Proposito: Describir el valor maximo entre **minimo** y **maximo**
+        Precondicion: las expresiones deben ser del mismo tipo
+        Tipo: numero
+        Parametro:
+        minimo: : la expresion minima 
+        maximo: : la expresion maxima
+    */
+    return( 
+        choose maximo when (minimo < maximo)
+               minimo otherwise
+    )     
+    
+       
+}
+
+
+function  unoSi_ceroSiNo(condicion){ 
+    /*
+    Proposito: Describe 1 si **condicion** es verdadera, 0 si la misma es falsa
+    Precondicion: Ninguna
+    Tipo: Booleano
+    Parametro
+    * condicion : booleano
+    */
+    return (
+        choose 1 when (condicion)
+               0 otherwise
+           )
+}
+
+
+    
+    
+    
+

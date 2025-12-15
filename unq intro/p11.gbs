@@ -1,0 +1,327 @@
+
+
+function transformadasTodasEnOro_(carta){
+    /*
+        Proposito: Describe **carta** donde cada palo de la carta cambia a Oro
+        Precondicion: Ninguna
+        Tipo: lista de carta
+        Parametro: carta: carta
+    */
+    
+    listaDeCartaAhora := []
+    
+    foreach palo in carta {
+        listaDeCartaAhora := listaDeCartaAhora ++ [paloDeCarta_AOro(palo)]
+    }
+    return ( listaDeCartaAhora )
+    
+}
+function paloDeCarta_AOro(cartaActual){
+    /*
+        Proposito: Describe la carta **cartaActual** con el valor del Palo a "Oro"
+        Precondicion: Ninguna
+        Tipo: carta
+        Parametro: carta: carta 
+    */
+    return(
+      Carta (cartaActual | palo <- Oro)
+        )
+}
+
+
+function opuestoDe_(listaDedireccion){
+    /*
+        Proposito: Describe la lista donde la **direccion** cambia a su opuesta
+        Precondicion: Ninguna
+        Tipo: lista de direccion
+        Parametro: listaDedireccion : lista de direccion
+        Observación: Es un recorrido de transformacion sobre lista de direccion,
+        donde por cada elemento se le cambia a su opuesto
+    */
+    
+    listaDireccionOpuesta := []
+    
+    foreach direccion in listaDedireccion {
+        listaDireccionOpuesta := listaDireccionOpuesta ++ [opuesto(direccion)]
+    }
+    
+    return (listaDireccionOpuesta)
+}
+
+
+
+function siguienteDe_(listaElementos){
+    /*
+        Proposito: Describe una lista de **listaDeElementos** donde cada elemento es el
+        siguiente del actual
+        Precondicion: Ninguna
+        Tipo: lista de "elementos"
+        Parametro: listaElementos : lista de "elementos"
+    */
+    
+    listaDeElementosActual := []
+    
+    foreach elemento in listaElementos {
+        
+        listaDeElementosActual := listaDeElementosActual ++ [siguiente(elemento)]
+        
+    }
+    
+    return( listaDeElementosActual )
+    
+}
+
+
+
+function reversoDe_(lista){
+    /*
+        Proposito: Describe el reverso de la lista **lista**
+        Precondicion: Debe haber al menos un elemento
+        Tipo: lista de "elemento"
+        Parametro : lista de "elemento"
+        Observacion: es un recorrido de transformacion sobre una lista de elementos, 
+        donde para cada elemento se cambia al reverso
+    */
+    
+    listaReversaActual := []
+    
+    foreach elemento in lista {
+        
+        listaReversaActual := [elemento] ++ listaReversaActual
+        
+    }
+        
+    return( listaReversaActual )
+}
+
+
+
+
+
+function imparesDe_(listaDeNumeros){
+    /*
+        Proposito: Describe una lista con numeros pares contenidos en la lista **listaDeNumeros**
+        Precondicion: Ninguna
+        Tipo: Lista de numeros
+        Parametro: listaDeNumeros : lista con elementos "numero"
+    */
+    
+    listaDeNumerosImparesAhora := []
+    
+    foreach numero in listaDeNumeros{
+        
+        listaDeNumerosImparesAhora := listaDeNumerosImparesAhora ++ singular_Si_(numero, (numero mod 2) /= 0)
+    }
+    return ( listaDeNumerosImparesAhora )
+}
+
+
+--biblioteca
+function singular_Si_(elemento, condicion){
+    /*
+        Proposito: Describe la lista singular con el elemento dado si la condicion dada es verdadera, o la lista vacia
+        en caso contrario.
+        Precondicion: ninguna
+        Parametro: elemento : "elemento"
+        condicion: booleano
+        Tipo: lista de "elemento"
+    */
+    
+     return (  choose [elemento] when (condicion)
+           [] otherwise
+     )
+
+} 
+
+
+function elementosDe_SinAparicionesDe_(listaDeElemento, elemento){
+    /*
+        Proposito: Describe **listaDeElemento** sin el elemento **elemento**
+        Precondicion: Ninguna
+        Tipo: lista de "elemento"
+        Parametro: Parametro : lista de "elemento"
+        elemento : "elemento"
+        Observacion: es un recorrido de filtro sobre lista de elemento,
+        donde para la **listaDeElemento** se elimina todas las aparicioes de **elemento**
+    */
+    
+    elementosSinAparicionesAhora := []
+    
+    foreach elementoDeLista in listaDeElemento {
+        
+        elementosSinAparicionesAhora := elementosSinAparicionesAhora ++ singular_Si_(elementoDeLista, elementoDeLista /= elemento)
+    }
+    
+    return ( elementosSinAparicionesAhora )
+}
+
+
+
+function soloLasFigurasDe_(listaDeCarta){
+    /*
+        Proposito: Describe **listaDeCarta** con las cartas que sean solamente figuras 
+        Precondicion: Ninguna
+        Tipo: lista de carta
+        Parametro: listaDeCarta: lista 
+        Observacion: es un recorrido de filtrado sobre una lista de cartas, donde
+        para cada carta, solo se obtiene las que son figuras
+    */
+    
+    listaConFigurasAhora := []
+    
+    foreach carta in listaDeCarta {
+        
+        listaConFigurasAhora := listaConFigurasAhora ++ singular_Si_(carta, esFigura_(carta) )
+        
+    }
+    return (listaConFigurasAhora)
+}
+
+--recorrido de busqueda
+
+
+
+function indiceEn_De_(listaDeElemento, elemento){
+    /*
+        Proposito: Describe la primera ubicacion de la lista donde se encuentra el elemento **elemento**
+        Precondicion: Ninguna
+        Tipo: lista de elemento
+        Parametro: Parametro : lista de "elemento"
+        elemento : "elemento"
+        Observacion: es un recorrido de busqueda sabiendo que esta sobre una lista de elementos,
+        donde por cada ubicacion se busca la ubicacion del elemento **elemento**
+    */
+    
+    contador := 0 
+    
+    elementoAhora := primero(elemento) 
+    
+    
+    while (elemento /= elementoAhora){
+        contador := contador + 1 
+        elementoAhora := siguiente(elemento)
+    }
+    return ( contador )
+}
+
+
+
+
+
+program {
+    
+    return (indiceEn_De_([1, 4, 2, 3, 7, 3, 9], 3) )
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+type Palo is variant {
+    /*
+        Proposito: Modelar el palo de las cartas
+    */    
+    
+    case Espadas {}
+    case Basto {}
+    case Oro {}
+    case Copa {}
+}
+
+type Carta is record {
+    /*
+        Proposito: Modelar cartas
+        ivn. rep: el numero de las cartas es del 1 al 12
+    */
+    
+    field palo //palo
+    field numero //numero
+}
+
+function laCarta_de_(paloDeCarta, numeroDeCarta){
+    /*
+        Proposito: Describe la carta **numeroDeCarta** de **paloDeCarta**  
+        Precondicion: el numero de las cartas es del 1 al 12
+        Parametro:
+        *paloDeCarta: palo 
+        *numeroDeCarta: numero
+    */
+    return(
+            Carta( palo <- paloDeCarta, numero <- numeroDeCarta)
+        )
+}
+function anchoDeEspadas() {
+    /*
+        Proposito: Describe la carta 1 de bastos
+        Precondicion: ninguna
+        Tipo: carta
+    */
+   return( 
+        Carta( palo <- Espadas, numero <- 1 )
+    )           
+}
+
+
+function anchoDeBastos() {
+    /*
+        Proposito: Describe la carta 1 de bastos
+        Precondicion: ninguna
+        Tipo: carta
+    */
+   return( 
+        Carta( palo <- Basto, numero <- 1 )
+    )           
+}
+

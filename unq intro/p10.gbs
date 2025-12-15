@@ -1,0 +1,92 @@
+type DiaDeSemana is variant {
+    /*
+        Proposito: Modelar los dias de la semana
+        
+    */
+    
+    case Lunes {}
+    case Martes {}
+    case Miercoles {}
+    case Jueves {}
+    case Viernes {}
+    case Sabado {}
+    case Domingo {}
+
+}
+
+type Dia is record {
+    
+    /*
+        Proposito: Modelar los dias de la semana.
+    */
+    
+    field diaDeSemana
+    
+}
+
+program {
+    
+    return (esDiaDeFinDeSemana_(Martes))
+}
+
+function diaSiguiente_(diaActual) {
+    /*
+        Proposito: Describe el dia siguiente al dia **diaActual**
+        Precondicion: Ninguna
+        Tipo: dia
+        Parametro: diaActual: dia 
+    */
+    
+    return(
+            choose Martes when (diaActual == Lunes)
+                   Miercoles when (diaActual == Martes)
+                   Jueves when (diaActual == Miercoles)
+                   Viernes when ( diaActual == Jueves)
+                   Sabado when ( diaActual == Viernes)
+                   Domingo when (diaActual == Lunes)
+                   Lunes otherwise
+        )
+    
+}
+
+function diaPrevio_(diaActual) {
+    
+    /*
+        Proposito: Describe el dia previo al dia **diaActual**
+        Precondicion : Ninguna
+        Tipo: dia 
+        Parametro: diaActual: dia 
+    */
+    
+    return ( 
+        
+            choose Lunes when (diaActual == Martes)
+                   Martes when (diaActual == Miercoles)
+                   Miercoles when (diaActual == Jueves)
+                   Jueves when (diaActual == Viernes)
+                   Viernes when (diaActual == Sabado)
+                   Sabado when (diaActual == Domingo)
+                   Domingo otherwise
+        
+        )
+}
+
+function esDiaDeFinDeSemana_(diaActual) {f
+    /*
+        Proposito: Describe si **diaActual** es dia de fin de semana
+        Precondicion: Ninguna
+        Tipo: booleano
+        Parametro: diaActual : dia
+    */
+    
+    return ( 
+        diaActual == Sabado || diaActual == Domingo 
+        )
+    
+}
+
+function minPartido_(partidoActual){
+    
+ 
+    
+}

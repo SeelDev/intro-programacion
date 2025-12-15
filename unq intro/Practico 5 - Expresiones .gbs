@@ -1,0 +1,393 @@
+
+
+procedure Mover_SegúnColor_(dirección,color){
+    /*
+    Proposito: Mover el cabezal hacia **direccion** dada tantas bolitas de color **color** 
+    hayan en la celda actual.
+    Precondicion: Debe haber al menos una celda hacia **direccion** desde la celda actual.
+    Parametro: direccion: direccion: a donde se mueve el cabezal
+    color: color : color de la bolita en la celda actual
+    */
+    repeat(nroBolitas(color)){
+        Mover(direccion)
+    }
+}
+
+procedure Poner_SemillasAl_(cantidadDeSemillas, direcciónAPoner) {
+    /*
+    Proposito: Poner **cantidadDeSemillas** semillas en la celda lindante al 
+    **direcciónAPoner** de la celda actual. El cabezal finaliza en la celda inicial
+    Precondicion: debe haber al menos una celda hacia **direcciónAPoner** desde la celda actual.
+    Parametro: cantidadDeSemillas : numero : cantidad de semillas a poner 
+    direcciónAPoner : direccion: en donde se ponen las semillas.
+    */
+    
+    Mover(direcciónAPoner)
+    repeat(cantidadDeSemillas){
+        Poner(Rojo)
+    }
+    Mover(opuesto(direcciónAPoner))
+}
+
+
+
+procedure Sacar_ÁrbolesAl_(cantidadDeÁrboles, direcciónASacar){
+    
+    /*
+    Proposito: Sacar **cantidadDeÁrboles** arboles de la celda lindante al **direcciónASacar**
+    de la celda actual. El cabezal finaliza en la celda inicial
+    Precondicion: Debe haber al menos un arbol en dicha celda
+    Debe haber al menos una celda hacia **direcciónASacar** desde la celda actual.
+    Parametro: cantidadDeÁrboles: numero : cantidad de arboles a sacar
+    direcciónASacar: direccion: en donde se sacan los arboles
+    */
+    
+    Mover(direcciónAPoner)
+    repeat(cantidadDeSemillas){
+        Poner(Verde)
+    }
+    Mover(opuesto(direcciónAPoner))
+}
+
+
+
+procedure Sacar_SemillasEnDiagonalAl_Y_(cantidadDeSemillas, primeraDirDiagonal, segundaDirDiagonal){
+    /*
+    Proposito: Sacar **cantidadDeSemillas** semillas en la celda lindante hacia al
+    **primeraDirDiagonal** y **segundaDirDiagonal** de la celda actual. 
+    El cabezal finaliza en la celda inicial
+    
+    Precondicion: 
+    * Debe haber al menos una celda hacia al **primeraDirDiagonal** y **segundaDirDiagonal**
+    desde la celda actual.
+    * Las direcciones no deben ser opuestas
+    * Debe haber al menos una semilla en dicha celda
+    
+    Parametro: cantidadDeSemillas: numero: cantidad de semillas a sacar
+    primeraDirDiagonal: direccion: primera celda de la diagonal
+    segundaDirDiagonal: direccion: segunda celda de la diagonal
+    */
+    
+    Mover(primeraDirDiagonal)
+    Mover(segundaDirDiagonal)
+    
+    repeat(cantidadDeSemillas){
+        Sacar(Rojo)
+    }
+    
+    Mover(opuesto(primeraDirDiagonal))
+    Mover(opuesto(segundaDirDiagonal))
+    
+}
+
+
+procedure Sacar_ÁrbolesEnDiagonalHorariaAl_(cantidadDeÁrboles, direcciónDiagonal) {
+    /*
+    Proposito: Sacar **cantidadDeÁrboles** arboles en la celda diagonal horaria al 
+    **direcciónDiagonal** desde la celda actual. 
+    El cabezal finaliza en la celda inicial
+    Precondicion: Debe haber al menos una celda al ** direcciónDiagonal ** desde 
+    la celda actual.
+    Debe haber al menos un arbol en la celda actual.
+    
+    Parametro: cantidadDeÁrboles: numero: cantidad de arboles a sacar
+    direcciónDiagonal: direccion: celda en donde se sacan los arboles
+    
+    Observacion: la diagonal horaria de Norte es Norte-Este, la de Sur es Sur-Oeste.
+
+    */
+    Mover(direcciónDiagonal)
+    Mover(siguiente(direcciónDiagonal))
+    
+    repeat(cantidadDeÁrboles){
+        Sacar(Verde)
+    }
+    Mover(opuesto (direcciónDiagonal))
+    Mover(opuesto(siguiente(direcciónDiagonal)))
+    
+}
+
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+procedure DibujarLaBandaGloriosaDeAncho_(ancho){
+    
+    /*
+    Proposito: Dibujar una banda de color rojo de 4 celdas de alto y **ancho** celdas de largo
+    El cabezal finaliza en la celda actual.
+    Precondicion: debe haber al menos 4 celda hacia el norte y al menos **ancho** celda el este
+    desde la celda actual.
+    Parametro: ancho: numero: la medida de largo de la banda 
+    */
+    repeat(4) {
+        DibujarLineaAscendenteDe_(ancho) //largo
+        IrAPrimeraCeldaDeSiguienteLineaDe_(ancho)// largo
+    }
+    IrAlBorde(Sur)
+}
+
+
+procedure DibujarLineaAscendenteDe_(largo){
+    /*
+    Proposito: Dibujar una linea ascendente de **largo** celdas que sube 1 celda hacia el norte desde la celda actual.
+    Precondicion: debe haber al menos **largo** celdas hacia el Norte desde la celda actual
+    Parametro: largo: numero : cantidad de celdas hacia el este desde la celda actual.
+    */
+    
+    repeat(largo - 1){
+        Poner(Rojo)
+        Mover(Norte)
+    }
+        Poner(Rojo)
+       
+}
+
+
+procedure IrAPrimeraCeldaDeSiguienteLineaDe_(largo){
+    /*
+    Proposito: El cabezal se posiciona a **largo** celdas hacia el Sur desde la celda actual
+    para continuar con la siguiente linea de la bandera
+    Precondicion: Debe haber al menos **largo** celda hacia el sur de la celda actual 
+    Parametro: largo numero : cantidad de celdas hacia el oeste desde la celda actual.
+    */
+    
+    repeat(largo - 1) {
+        Mover(Sur)
+       
+    }
+   
+    Mover(Este)
+    Mover(Norte)
+}
+
+
+
+----------------------------------------------
+
+
+procedure EnviarAliadosParaDuplicarEnemigos(){
+    /*
+    Proposito: Agrega soldados aliados en la celda actual en cantidad suficiente para 
+    que haya el doble de aliados que de soldados enemigos
+    Precondicion: Debe haber al menos un soldado aliado y un soldado enemigo
+    Observacion: Los soldados aliados se representan con negro y los soldados enemigos
+    con color rojo
+    */
+    
+    repeat(nroBolitas(Rojo) * 2 - nroBolitas(Negro) ){
+        Poner(Negro)
+        
+    }
+}
+
+
+procedure PelearLaBatalla(){
+    
+    /*
+    Proposito: Pelean los soladados aliados contra los soldados enemigos en la batalla
+    Precondicion: Debe haber el doble de soldados aliados en relacion a la cantidad
+    de soldados enemigos.
+    */
+    
+}
+
+
+--------------------biblioteca-----------------------------------------
+procedure SacarTodasLasDeColor_(colorASacar){
+    
+    /*
+    Proposito: Sacar todas las bolitas de color **colorASacar**
+    de la celda actual.
+    Precondicion: debe haber al menos una bolita de color
+    **colorASacar** en la celda actual.
+    Parametro: colorASacar: color: color de la bolita a sacar
+    */
+
+    repeat(nroBolitas(colorASacar)){
+        Sacar(colorASacar)
+    }
+}
+
+
+procedure VaciarCelda() {
+
+    /*
+    Parametro: Sacar todas las bolitas de todos los colores existentes
+    de la celda actual.
+    Precondicion: Debe haber al menos una bolita de algún color en la celda actual
+    */
+    
+    SacarTodasLasDeColor_(Azul)
+    SacarTodasLasDeColor_(Verde)
+    SacarTodasLasDeColor_(Negro)
+    SacarTodasLasDeColor_(Rojo)
+}
+--------------------biblioteca-----------------------------------------
+
+
+procedure DibujarBandaDeAlto_YAncho_DeColor_(alto,ancho, color){
+     /*
+    Proposito: Dibujar una banda diagonal con las medidas 
+    **alto** de alto, **ancho** ancho y de color **color**.
+    El cabezal finaliza en la celda inicial.
+    Precondicion: Debe haber al menos **alto** celdas hacia el Norte y 
+    al menos **ancho** hacia el Este desde la celda actual
+    Parametros:
+    alto: numero: medida del dibujo de la banda 
+    ancho: numero :  medida del dibujo de la banda 
+    color: color : color de la banda
+    */
+    
+    repeat(ancho - 1){
+        DibujarLineaDeLaBandaAscendente_DeAltoDeColor_(alto, color)
+        IrASiguienteLineaDeLaBandaDe_Alto(alto)
+    }
+    DibujarLineaDeLaBandaAscendente_DeAltoDeColor_(alto, color)
+    
+    IrAEsquinaAl_Y_(Sur, Oeste)
+}
+
+procedure DibujarLineaDeLaBandaAscendente_DeAltoDeColor_(alto, color){
+    /*
+    Proposito: Dibujar linea de la banda de **alto** de alto y de color 
+    **color**.
+    Precondicion: Debe haber al menos **alto** hacia el Norte de la celda actual.
+    alto: numero: medida del dibujo de la banda 
+    color: color : color de la banda
+    */
+    repeat(alto - 1){
+        Poner(color)
+        Mover(Norte)
+    }
+    Poner(color)
+}
+
+procedure IrASiguienteLineaDeLaBandaDe_Alto(alto){
+    
+    /*
+    Proposito: Ir a la siguiente linea de la banda, el
+    cabezal se ubica en **alto** celdas hacia el Sur. 
+    Precondicion: Debe haber al menos **alto** celdas hacia el sur.
+    alto: numero: medida del dibujo de la banda 
+    */
+    
+    repeat(alto - 1 ){
+        Mover(Sur)
+    }
+    Mover(Este)
+    Mover(Norte)
+}
+
+---------------------------------------------------------------
+
+
+program {
+     PasarPalabraAMayusculas()
+}
+procedure PasarPalabraAMayusculas(){
+    /*
+    Proposito: Pasar la palabra a mayusculas. 
+    Precondicion: Debe haber al menos la cantidad de celdas respecto a la cantidad bolitas de 
+    color rojo que hay en la celda inicial.
+    El tablero debe estar vacio
+    Observación: La bolita de color rojo representa la cantidad de letras 
+    que tiene la palabra
+    Las palabras se representan con bolitas de color negro
+    
+    */
+    repeat(nroBolitas(Rojo)){
+        Mover(Este)
+    RepresentarLetraEnMayusculaAlNorte_(nroBolitas(Negro))
+    }
+     RepresentarLetraEnMayusculaAlNorte_(nroBolitas(Negro))
+     IrAlBorde(Oeste)
+}
+
+procedure  RepresentarLetraEnMayusculaAlNorte_(letraARepresentar){
+    /*
+    Proposito: Dibuja la letra representada a Mayuscula en la celda Lindante al norte.
+    El cabezal finaliza en la celda inicial.
+    Precondicion: Debe haber al menos una celda hacia el Norte de la celda actual.
+    */
+    Mover(Norte)
+    RepresentarLetraConAscii_(letraARepresentar - 32)
+    Mover(Sur)
+}
+
+procedure RepresentarLetraConAscii_(numero){
+    
+    /*
+    Proposito: Representar la letra **numero** con el codigo ascii.
+    Precondicion: Ninguna
+    Parametro: numero: numero: numero de la letra en codigo ascii
+    */
+    repeat(numero){
+        Poner(Negro)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+procedure IrAEsquinaAl_Y_(primeraDirección, segundaDirección) {
+    
+    /*
+    Proposito: Mueve el cabezal a la esquina **primeraDirección** y al **segundaDirección**
+    desde la celda actual
+    Precondicion: Las direcciones **primeraDirección** y al **segundaDirección** no deben 
+    ser opuestas.
+    Parametro: - primeraDirección : direccion : la primera direccion donde se mueve
+    - segundaDirección : direccion : la segunda direccion donde se mueve
+    */
+    
+    IrAlBorde(primeraDirección)
+    IrAlBorde(segundaDirección)
+}
+
+
+
+
+
+
+

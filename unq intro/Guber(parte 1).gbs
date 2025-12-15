@@ -1,0 +1,178 @@
+procedure MoverVehículoVacíoAlNorte(){
+    /*
+    Proposito: Mover el vehiculo a la celda Lindante al Norte. El cabezal se encuentra
+    sobre el vehiculo 
+    Precondicion: Debe haber al menos una celda hacia el norte de la celda actua.
+    el vehiculo se encuentra vacio.
+    */
+    SacarVehiculoVacio() // Sacar_DeColor_(1, Negro)
+    Mover(Norte)
+    PonerVehiculoVacio() //Poner_DeColor_(1, Negro)
+}
+--------------------------------------------------------------------------
+procedure SacarVehiculoVacio() {
+    
+    /*
+    Proposito: Saca el vehiculo vacio de la celda actual.
+    Precondicion: El cabezal esta sobre el vehiculo
+    El vehiculo debe estar vacio
+    */
+    Sacar_DeColor_(1, Negro)
+}
+
+procedure PonerVehiculoVacio(){
+    /*
+    Proposito: Poner el vehiculo vacio de la celda actual.
+    Precondicion: No debe haber otro vehiculo en el mapa y debe estar vacio
+    */
+    Poner_DeColor_(1, Negro)
+}
+-----------------------------------------------------------------------------
+
+
+procedure RecogerSolicitanteConId5(){
+    /*
+    Proposito: Sube al Solicitante con ID 5 al vehiculo. 
+    Precondicion: El vehiculo debe estar vacío en la ubicacion se encuentra el solicitante con el id 5 
+    */
+    SacarSolicitanteConId5() // Sacar_DeColor_(5, Azul)
+    PonerVehiculoConPasajeroConID5() // Poner_DeColor_(2, Negro) Poner_DeColor_(5, Verde) //vehiculo con pasajero
+    
+}
+----------------------------------------------------------------------
+procedure SacarSolicitanteConId5(){
+    /*
+    Proposito: Sacar el solicitante con ID 5
+    Precondicion: Debe haber un solicitante en la celda actual.
+    */
+}
+
+procedure PonerVehiculoConPasajeroConID5(){
+    /*
+    Proposito: Sube el pasajero con ID 5 al vehiculo.
+    Precondicion: Debe haber un auto vacio y un pasajero con id 5 en la ubicacion actual.
+    */
+    
+    Poner_DeColor_(2, Negro)
+    Poner_DeColor_(5, Verde)
+    
+}
+----------------------------------------------------------------------
+procedure LlevarPasajeroConId5ActualADestinoA5AlNorte(){
+    /*
+    Proposito: LLeva al pasajero con ID 5 en el vehiculo a su destino.
+    Una vez finalizado el viaje, el pasajero con ID 5 se baja del vehiculo, dejando vacio el
+    vehiculo
+    Precondicion: El pasajero con ID 5 debe estar en el vehiculo y deben haber al menos
+    5 celdas hacia el Norte desde la ubicacion actual del vehiculo.
+    */
+   PonerVehiculoConPasajeroConID5()
+   repeat(5){
+        MoverVehículoConPasajeroConId_Al_(5, Norte) 
+   }
+   BajarAlPasajeroConId5DelVehiculo() //Sacar_DeColor_(5, Verde)
+   MarcarVehiculoComoVacio() //vehiculo sin pasajero
+}
+
+procedure BajarAlPasajeroConId5DelVehiculo(){
+    
+    /*
+    Proposito: Bajar al pasajero con id 5 del vehiculo.
+    Precondicion: Debe haber un pasajero dentro del vehiculo en la ubicacion actual.
+    */
+    Sacar_DeColor_(5, Verde)
+    
+}
+
+
+
+procedure  RecogerSolicitanteConId_(numeroID){
+    /*
+    Proposito: Subir al pasajero ID **numeroID** al vehiculo. El cabezal se encuentra sobre el 
+    vehiculo.
+    Precondicion: El pasajero con ID **numeroID** debe estar en la celda actual.
+    parametro: numeroID : numero : identificacion de pasajero
+    */
+    
+    Poner_DeColor_(numeroID, Verde)
+    Poner_DeColor_(2, Negro)//vehiculo con pasajero
+}
+
+
+procedure RecogerSolicitanteAcá() {
+    /*
+    Proposito: Recoje al pasajero solicitante al vehiculo. El vehiculo está en la celda actual.
+    Precondicion: Debe haber un vehiculo vacio y un solicitante en la celda actual.
+    */
+    
+    RecogerSolicitanteConId_(nroBolitas(Azul)) //le paso nroBolitas pq si le paso el parametro de arriba explota xd
+    Poner_DeColor_(nroBolitas(Azul), Verde)
+    Poner_DeColor_(2, Negro) //vehiculo con pasajero
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+procedure Poner_DeColor_(cantidadAPoner, colorAPoner){
+    
+    /*
+    Proposito: Poner **cantidadAPoner** bolitas de color **colorAPoner** en la celda actual.
+    Precondicion: Ninguna
+    Parametro: cantidadAPoner : numero : cantidad de bolitas de color rojo a poner
+    colorAPoner : color : color de la bolita a poner
+    */
+    
+    repeat (cantidadAPoner) {
+        Poner(colorAPoner)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+procedure Sacar_DeColor_(cantidadASacar, colorASacar){
+    
+    /*
+    Proposito: Sacar **cantidadASacar** bolitas de color **colorASacar** de la celda actual.
+    Precondicion: Debe haber al menos una bolita de color **colorASacar** en la celda actual.
+    Parametro: - cantidadASacar : numero: cantidad de bolitas delcolor dado a sacar
+    - colorASacar : color de las bolitas a sacar
+    */
+    
+    repeat(cantidadASacar) {
+        Sacar(colorASacar)
+    }
+    
+}
+

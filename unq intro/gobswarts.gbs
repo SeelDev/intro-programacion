@@ -1,0 +1,260 @@
+function puedenGanarBatallaMagosContraMortifagos(){
+    /*
+        Proposito: Indica si los magos pueden derrotar a los mortifagos en una batalla
+        Precondicion: Ninguna
+        Tipo: booleano
+        Observacion: El poder magico total de los magos debe ser mayor al poder magico
+        total de los mortifagos.
+    */
+    
+    return (cantPoderMagicoTotalDe_(categoríaMago()) > cantPoderMagicoTotalDe_(ategoríaMortifago()))
+}
+
+function cantPoderMagicoTotalDe_(categoriaPersonaje){
+    
+    /*
+    Proposito: Describe la cantidad total de poder magico de **categoriaPersonaje**
+    Precondicion: Ninguna
+    Parametro: 
+    * categoriaPersonaje: numero : representa la categoria de los personajes.
+    Tipo: numero
+    Observacion: Es un recorrido de acumulacion de lAS HABITACIONES De gobwarts del tablero, para sumar el total del poder magico de un personaje
+    */
+    
+    cantPoderPersonaje := 0 
+    
+    IrALaPrimerCeldaEnUnRecorridoAl_Y_(Este, Norte) 
+    while ( haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+                
+        cantPoderPersonaje :=  cantPoderPersonaje + cantidadDePoderDe_EnHabitacion(categoriaPersonaje)
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+        
+    }
+    cantPoderPersonaje :=  cantPoderPersonaje + poderMágicoDelPersonaje()
+    
+    return(cantPoderPersonaje)
+}
+
+
+function cantidadDePoderDe_EnHabitacion(categoriaPersonaje){
+    /*
+        Proposito: Describe la cantidad de Poder que tiene **categoriaPersonaje**
+        en el caso de que esté en la habitacion.
+        Precondicion: 
+        Tipo: numero
+        Parametro:
+        ** categoriaPersonaje: numero : representa la categoria de los personajes.
+    */
+    
+    return(
+        choose poderMágicoDelPersonaje() when (hayPersonajeDeCategoría_(categoriaPersonaje)))
+                            0            otherwise
+        )
+}
+
+
+function estaElSeñorGobscuroEnGobwarts(){
+    /*
+        Proposito: Indica si el señor gobscuro está en gobwarts
+        Precondicion: Hay un sólo señor Gobscuro
+        Tipo: booleano
+        Observacion: Es un recorrido de busqueda (sin saber si está) de habitaciones de Gobswarts, buscando el 
+        señor gobscuro
+    */
+    
+    IrALaPrimerHabitacion()--IrALaPrimerCeldaEnUnRecorridoAl_Y_(Este, Norte) 
+    while(haySiguienteHabitacion() && not esSeñorGobscuroEnGobwarts() ) -- haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+          
+         IrASiguienteHabitacion() -- IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte) 
+    }
+    return(esSeñorGobscuroEnGobwarts())
+    
+}
+
+
+function esSeñorGobscuroEnGobwarts(){
+    /*
+        Proposito: Indica si el Señor Gobscuro esta en la habitacion actual
+        Precondicion: Ninguna
+        Tipo: booleano
+        Observacion: El Señor Gobscuro es un mortifago, si está dentro de Gobswarts
+        está en una mazmorra y su poder es sólo 1
+    */
+    
+    return( 
+        
+            tipoDeHabitación() == habitaciónMazmorras()
+            &&
+            esMortifagoDePoder1()
+    )
+}
+
+function esMortifagoDePoder1(){
+    /*
+        Proposito: Indica si el poder de categoria mortifago es igual a 1
+        Precondicion: Ninguna
+        Tipo:  booleano
+    */
+    return ( hayPersonajeDeCategoría_(categoriaMortifago()) && poderMágicoDelPersonaje() == 1)
+}
+
+
+
+-- desaparecen todos los dementores y mortifagos
+-- elimina todos 
+
+procedure EliminarEnemigosPorDestrucciónDelDiario(){
+    /*
+        Proposito: Elimina todos los dementores y los mortifagos de Gobwarts.
+        Precondicion: Ninguna
+        Observacion: Es un recorrido de trasformacion sobre habitaciones de gobstones,
+        para eliminar los mortifagos y dementores de gobswars 
+    */
+    
+    IrAPrimeraHabitacion()
+    
+    while( haySiguienteHabitacion() ) {
+        
+        EliminarDementoresOMortifagos()
+        
+        IrASiguienteHabitacion()
+    }
+    
+}
+
+procedure EliminarDementoresOMortifagos(){
+    /*
+        Proposito: Eliminar todos los dementores o mortifagos de la habitacion actual.
+        Precondicion: 
+        Observacion: 
+    */
+    
+    
+    if(hayPersonajeDeCategoría_(categoríaMortifago())
+        || 
+       hayPersonajeDeCategoría_(categoríaDementor())) {
+            
+        EliminarPersonaje()
+    }
+
+
+
+
+function categoriaDePersonajeConMayorPoderMágico() {
+    /*
+        Proposito: Describe la categoria del personaje que posee mayor poder magico de todo gobarts
+        Precondicion: Hay un personaje con mayor poder que todos los demas.
+        Observacion: es un recorrido de maximos entre las habitaciones de Gobwarts,
+        para obtener la categoria del personaje con mayor poder.
+    */
+    
+   
+    laMejorCategoriaPorAhora := cantPoderMagicoTotalDe_(minCategoria)
+    
+    while( laMejorCategoriaPorAhora /= cantPoderMagicoTotalDe_(maxCategoria) ) {
+        
+        laMejorCategoriaPorAhora := maximoEntre_Y_(cantPoderMagicoTotalDe_(maxCategoria), cantPoderMagicoTotalDe_(minCategoria))
+        
+        laMejorCategoriaPorAhora := siguienteCategoria_(categoría) 
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+procedure IrALaPrimerHabitacion(){
+    /*
+        Proposito: Ir a la primera habitacion en un recorrido sobre habitaciones
+        de Gobwarts.
+        Precondicion: Ninguna
+        Observacion: Una habitacion es una celda del tablero
+    */
+    
+    IrALaPrimerCeldaEnUnRecorridoAl_Y_(Este, Norte) 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+categoríaMortifago()
+categoríaMago()
+hayPersonajeDeCategoría_(categoría)
+poderMágicoDelPersonaje()

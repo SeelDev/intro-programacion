@@ -1,0 +1,319 @@
+program {
+    
+   RellenarCon_EnAusenciaDe_EnElTablero(Rojo, Negro)
+    
+}
+procedure IrAlBorde_(direccion){
+    /*
+    Proposito: Mover el cabezal hasta el borde **direccion** desde la celda actual.
+    Precondicion: Ninguna
+    Parametro:
+    *direccion : direccion : direccion del borde a donde se mueve el cabezal
+    */
+    
+    while(puedeMover(direccion)){
+        Mover(direccion)
+    }
+}
+
+
+procedure SacarTodasLasDeColor_(color) {
+    /*
+    Proposito: Sacar todas las bolitas de color **color** de la celda actual.
+    Precondicion: Ninguna
+    Parametro:
+    * color : color : color de la bolita a sacar
+    */
+    
+    while(hayBolitas(color)){
+        Sacar(color)
+    }
+}
+
+
+
+
+
+
+procedure VaciarFilaDe_HaciaEl_(color, direccion){
+    /*
+    Proposito: Quitar todas las bolitas de color **color** de cada una de las celdas 
+    de la fila actual hacia el **direccion**.
+    Precondicion: ninguna
+    Parametro:
+    Color: color : color a sacar
+    direccion: direccion : direccion a recorrer
+    */
+    IrAlBorde_(opuesto(direccion))
+    
+    while(puedeMover(direccion)){
+        
+         SacarTodasLasDeColor_(color)
+         
+         Mover(direccion)
+    }
+    
+    SacarTodasLasDeColor_(color)
+}
+ 
+
+
+procedure VaciarTableroDe_(color) {
+    /*
+    Proposito: Quitar todas las bolitas de **color** de cada una de las celdas del tablero.
+    Precondicion: Ninguna
+    Parametro: 
+    * color: color : color de la bolita a sacar
+    */
+    IrAlBordeSuroeste()
+    
+    while(puedeMover(Norte)){
+        
+        VaciarFilaDe_HaciaEl_(color, Este)
+        IrAlBorde_(Oeste)
+        Mover(Norte)
+    }
+     
+     VaciarFilaDe_HaciaEl_(color, Este)
+     IrAlBordeSuroeste()
+}
+
+
+
+procedure IrAlBordeSuroeste(){
+    /*
+    Proposito: Mover el cabezal al borde suroeste desde la celda actual.
+    Precondicion: Ninguna
+    */
+    IrAlBorde_(Oeste)
+    IrAlBorde_(Sur)
+}
+
+
+
+
+
+procedure IrAPrimeraCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria){
+    /*
+    Proposito: Mover el cabezal al borde **dirPrincipal** **dirSecundaria** 
+    del tablero desde la celda actual.
+    Precondicion: las direcciones no pueden ser opuestas ni iguales
+    Parametro: 
+    *dirSecundaria : direccion : direccion secundaria a moverse
+    *dirPrincipal : direccion : direccion principal a moverse
+    */
+    
+    IrAlBorde_(opuesto(dirPrincipal))
+    IrAlBorde_(opuesto(dirSecundaria))
+    
+}
+
+
+
+
+function haySiguienteCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria) {
+    /*
+    Proposito : Indica si hay una celda hacia **dirPrincipal** o **dirSecundaria**
+    hacia la cual moverse
+    tipo: booleano
+    Parametro: 
+    *dirPrincipal : direccion : direccion principal a moverse
+    *dirSecundaria : direccion : direccion secundaria a moverse
+    */    
+    
+    return(puedeMover(dirPrincipal) || puedeMover(dirSecundaria))
+    
+}
+
+
+
+procedure IrASiguienteCeldaEnUnRecorridoAl_Y_(dirPrincipal, dirSecundaria) {
+  
+
+    /*
+    Proposito: Mover el cabezal hacia el **dirPrincipal** **dirSecundaria**
+    Precondicion: Las direcciones no deben ser opuestas ni iguales
+    Parametro: 
+    *dirPrincipal : direccion : direccion principal a moverse
+    *dirSecundaria : direccion : direccion secundaria a moverse  
+    */    
+    if (puedeMover(dirPrincipal)){
+        Mover(dirPrincipal)
+    }
+    else{
+        IrAlBorde_(opuesto(dirPrincipal))
+        Mover(dirSecundaria)
+    }
+    
+}
+
+
+
+procedure MamitaQuerida() {
+    
+    
+    /*...*/
+    
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)) {
+        
+        Poner(Rojo)
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+        
+    }
+    Poner(Rojo)
+    
+}
+
+
+
+
+
+procedure PintarTableroDe_(color){
+    /*
+    Proposito: Colocar una bolita de color **color** en cada celda del tablero.
+    Precondicion: Ninguna
+    Parametro:
+    *color : color: color a poner
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while (haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        Poner(color)
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    }
+    Poner(color)
+}
+
+
+
+procedure PonerUnaDeCadaEnTodoElTablero(){
+    /*
+    Proposito: Poner una bolita de cada color en cada una de las celdas del tablero
+    Precondicion: Ninguna
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while (haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        PonerUnaDeCada()
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    }
+    PonerUnaDeCada()
+}
+
+
+procedure RellenarCon_EnAusenciaDe_EnElTablero(colorAPoner, colorAMirar) {
+    /*
+    Proposito: Poner una bolita de color **colorAPoner** en cada celda del tablero donde que no haya al menos de una bolita de color 
+    **colorAMirar**
+    Precondicion: Ninguna
+    Parametro: 
+    *colorAPoner: color : color a poner en la celda actual en el caso de que no haya una bolita de color **colorAMirar**
+    *colorAMirar:  color : color a mirar en la celda actual
+    */
+     IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+     
+    while (haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        
+        PonerBolita_EnAusenciaDe_(colorAPoner, colorAMirar)
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+        
+    }
+    PonerBolita_EnAusenciaDe_(colorAPoner, colorAMirar)
+}
+
+
+
+procedure PonerBolita_EnAusenciaDe_(colorAPoner, colorAMirar){
+    /*
+    Proposito: Poner una bolita de color **colorAPoner** en el caso de que no haya una bolita de
+    color **colorAPoner** en la celda actual.
+    Precondicion: Ninguna
+    Parametro: 
+    *colorAPoner: color : color a poner en la celda actual en el caso de que no haya una bolita de color **colorAMirar**
+    *colorAMirar:  color : color a mirar en la celda actual
+    */
+    if(not hayBolitas(colorAMirar)){
+        Poner(colorAPoner)
+    }
+}
+
+
+procedure CompletarHasta_De_EnElTablero(cantidad, color) {
+    /*
+    Proposito: Poner **cantidad** bolitas de color **color** en cada celda del tablero. El cabezal finaliza en el borde Noroeste
+    Precondicion: Ninguna
+    Parametro: 
+    *cantidad : numero : cantidad de bolitas de color **color** a poner
+    color: color: color de la bolita a poner 
+    Observacion: Pueden ya existir bolitas de color **color** en alguna celda del tablero
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    while (haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)){
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+procedure PonerUnaDeCada() { //BIBLIOTECA
+    
+    /*
+    Proposito: Pone una bolita de cada color en la celda actual.
+    Precondicion: Ninguna
+    */
+    Poner(Rojo)
+    Poner(Negro)
+    Poner(Verde)
+    Poner(Azul)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

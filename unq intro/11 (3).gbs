@@ -1,0 +1,853 @@
+
+function singularCon_(elemento){ -- agrega los corchetes para la lista
+        /*
+            Proposito: Describe la lista **elemento** que contiene solo un elemento
+            Precondicion: ninguna
+            Tipo: Lista de **elemento**
+            Parametro: elemento : elemento
+        */
+    
+    return (
+         [elemento]
+        )
+}
+
+function segundoDe_(elemento){
+    /*
+        Proposito: Describe el segundo elemento **elemento** 
+        Precondicion: Debe haber al menos dos elementos dentro de la lista.
+        Tipo: **elemento**
+        Parametro: elemento : elemento
+    */
+    
+    return( 
+       primero(resto(elemento))
+        )
+}
+
+function esSingular_(lista){
+    /*
+        Proposito: Indica si la lista **lista** tiene un sólo elemento
+        Precondicion: Ninguna
+        Tipo: lista 
+        Parametro: lista: lista de elemento
+    */
+    return(
+        not esVacía(lista) && esVacía(resto(lista))
+        )
+}
+
+
+-------------------------------------------------------------------------------
+--primerCartaDeLaMano_, que dada una “mano” describa la primera carta a juga
+
+
+
+function primerCartaDeLaMano_(mano){
+    
+    /*
+        Proposito: Describe la primera carta a jugar de la mano ** mano** 
+        Precondicion: Ninguna
+        Tipo: carta
+        Paramatro: mano: lista de carta
+    */
+    
+    return(
+        primero(mano)
+        )
+}
+
+
+function segundaCartaDeLaMano_(mano){
+    /*
+        Proposito: Describe la segunda carta de la mano **mano**
+        Precondicion: Ninguna
+        Tipo: carta
+        Parametro: mano: lista de carta
+    */
+    
+    return(
+        segundoDe_(mano)
+        )
+}
+
+
+function tercerCartaDeLaMano_(mano){
+    /*
+        Proposito: Describe la tercera carta de la mano **mano**
+        Precondicion: ninguna
+        Tipo: carta
+        Parametro: mano: lista de carta
+    */
+    return (
+        
+       primero(resto(resto(mano)))
+
+        )
+}
+
+// resultante luego de robar la primera carta del mazo y agregarla a la mano del jugador.
+
+
+function laMano_LuegoDeRobarUnaCartaDe_(mano, mazo){
+    
+        /*
+            Proposito: Describe la mano **mano** despues de robar la primera carta del mazo **mazo**
+            Precondicion: Ninguna
+            Tipo: lista de carta
+            parametro: mano: lista de carta
+                       mazo: lista de carta
+        */
+        
+    return (
+        
+        mano ++ primero([mazo])
+        
+        )
+}
+
+
+
+function laMano_LuegoDeJugarUnaCarta(mano){
+    /*
+        Proposito: Describe la mano **mano** despues de tirar la carta más proxima
+        Precondicion: Ninguna
+        Tipo: Lista de carta
+        Parametro: mano : lista de carta
+    */
+    return(
+        
+        resto(mano)
+        
+        )
+}
+
+
+function laMano_LuegoDeJugarLaSegundaCarta(mano){
+    /*
+        Proposito: Describe la mano **mano** luego de haber jugado la segunda carta
+        Precondicion: Debe haber al menos 2 cartas en la mano
+        Tipo: lista de carta
+        Parametro: mano : lista de carta
+    */
+    
+    return (
+        
+     [primero(mano)] ++ resto(resto(mano))
+       
+        )
+}
+
+------------------------------------------------------------------------------------------------
+
+
+/*
+
+BIBLIOTECA Escribir la función listaCon_Repetido_Veces que dado un elemento de cualquier tipo
+y un número, describe una lista con que tiene tantos elementos como el número dado, en donde cada
+elemento es el dado.
+
+Ejemplo: listaCon_Repetido_Veces(Rojo, 5) describe la lista [Rojo, Rojo, Rojo, Rojo].
+*/
+
+
+
+
+
+
+--lista desde hasta
+
+
+
+
+
+--totalizacion de resultado
+function longitudDe_(lista){
+    /*
+        Proposito: Describe la cantidad de elementos que hay dentro de la lista **lista**
+        Precondicion: ninguna
+        Tipo: numero
+        parametro: lista : lista de elementos
+    */
+    
+    listaActual := lista
+    cantidadDeElementosVistos := 0
+    
+    while(not esVacía(listaActual)){
+        
+        cantidadDeElementosVistos := cantidadDeElementosVistos + 1
+        listaActual := sinElPrimero(listaActual) 
+    }
+    return(cantidadDeElementosVistos)
+}
+
+
+
+function sumatoriaDe_(listaNumero){
+    /*
+        Proposito: Describe la suma de todos los elementos de
+        la lista **listaNumero**
+        Precondicion: Ninguna
+        Tipo: numero
+        Parametro: listaNumero : elemento : lista de numero
+    */
+    
+    cantidadTotalDeSuma := 0
+    
+    foreach numero in listaNumero{
+        
+        cantidadTotalDeSuma := cantidadTotalDeSuma + numero
+        
+    }
+    return (cantidadTotalDeSuma )
+}
+
+
+
+function productoriaDe_(listaNumero){
+    /*
+        Proposito. Describe el producto de todos los elementos de 
+        **listaNumero**
+        Precondicion: Ninguna
+        Tipo: numero
+        Parametro: listaNumero : numero : lista de numero
+    */
+    cantidadTotalDeProducto := primero(listaNumero)
+    
+    foreach numero in listaNumero{
+        
+        cantidadTotalDeProducto := cantidadTotalDeProducto * numero
+        
+    }
+    return (cantidadTotalDeProducto )
+    
+}
+
+
+
+
+
+
+/*
+BIBLIOTECA Escribir la función listaDesde_Hasta_ que dados dos enumerativos (por ejemplo,
+números), en donde el primero es más chico que el segundo, describe la lista que va del primero de los
+elementos, al segundo de los elementos, pasando por cada elemento intermedio.
+Ejemplo: listaDesde_Hasta_(3, 7) describe la lista [3,4,5,6,7], y listaDesde_Hasta_(Azul,
+Rojo) describe la lista [Azul, Negro, Rojo
+*/
+
+
+
+
+
+function elementosDe_aumentadosEn_(listaDeNumeros, cantidadAumentar) {
+    /*
+        Proposito: describe la lista **listaDeNumero** con sus elementos aumentados en **cantidadAumentar**
+        Precondicion: Ninguna
+        Tipo: lista de numeros
+        Parametro: listaDeNumeros : lista con elementos "numero"
+        cantidadAumentar : numero
+    */
+    
+    elementosAumentadosYaVistos := []
+    
+    foreach numero in listaDeNumeros {
+        
+      elementosAumentadosYaVistos := elementosAumentadosYaVistos ++ [numero + cantidadAumentar]
+    }
+    
+    return(elementosAumentadosYaVistos)
+}
+
+function paresDe_(listaDeNumeros){
+    /*
+        Proposito: Describe una lista con numeros pares contenidos en la lista **listaDeNumeros**
+        Precondicion: Ninguna
+        Tipo: Lista de numeros
+        Parametro: listaDeNumeros : lista con elementos "numero"
+    */
+    
+    listaDeNumerosParesAhora := []
+    
+    foreach numero in listaDeNumeros {
+        
+        listaDeNumerosParesAhora := listaDeNumerosParesAhora ++ singular_Si_(numero, (numero mod 2) == 0)
+    }
+    return ( listaDeNumerosParesAhora )
+}
+------------------------------------------------------------
+
+--biblioteca
+function singular_Si_(elemento, condicion){
+    /*
+        Proposito: Describe la lista singular con el elemento dado si la condicion dada es verdadera, o la lista vacia
+        en caso contrario.
+        Precondicion: ninguna
+        Parametro: elemento : "elemento"
+        condicion: booleano
+        Tipo: lista de "elemento"
+    */
+    
+     return (  choose [elemento] when (condicion)
+           [] otherwise
+     )
+
+} 
+
+--busqueda sin saber si esta
+--21 <3)
+function contiene_A_(listaDeElemento, elemento){
+    /*
+        Proposito: Indica si la lista **listaDeElemento** contiene a **elemento**
+    */
+    
+    elementosPorRecorrer := listaDeElemento
+    
+    while( not esVacía(elementosPorRecorrer) && primero(elementosPorRecorrer) /= elemento) {
+        elementosPorRecorrer := sinElPrimero(elementosPorRecorrer)
+    }
+    
+    return ( not esVacía(elementosPorRecorrer) ) --implica que encontew wl elemento buscado
+}
+
+
+
+--sabiendo que esta
+
+function hayAlgunEn_QueCumpleCondicion(lista){
+    
+     elementosPorRecorrer := lista
+    
+    while (not ( primero(elementosPorRecorrer) == elemento)) {
+        elementosPorRecorrer := sinElPrimero(elementosPorRecorrer)
+    }
+    
+    return ( primero(elementosPorRecorrer)) 
+    
+}
+
+--minimo y maximos
+
+
+
+function transformadasTodasEnOro_(carta){
+    /*
+        Proposito: Describe **carta** donde cada palo de la carta cambia a Oro
+        Precondicion: Ninguna
+        Tipo: lista de carta
+        Parametro: carta: carta
+    */
+    
+    listaDeCartaAhora := []
+    
+    foreach palo in carta {
+        listaDeCartaAhora := listaDeCartaAhora ++ [paloDeCarta_AOro(palo)]
+    }
+    return ( listaDeCartaAhora )
+    
+}
+function paloDeCarta_AOro(cartaActual){
+    /*
+        Proposito: Describe la carta **cartaActual** con el valor del Palo a "Oro"
+        Precondicion: Ninguna
+        Tipo: carta
+        Parametro: carta: carta 
+    */
+    return(
+      Carta (cartaActual | palo <- Oro)
+        )
+}
+
+
+function opuestasDe_(listaDedireccion){
+    /*
+        Proposito: Describe la lista donde la **direccion** cambia a su opuesta
+        Precondicion: Ninguna
+        Tipo: lista de direccion
+        Parametro: listaDedireccion : lista de direccion
+        Observación: Es un recorrido de transformacion sobre lista de direccion,
+        donde por cada elemento se le cambia a su opuesto
+    */
+    
+    listaDireccionOpuesta := []
+    
+    foreach direccion in listaDedireccion {
+        listaDireccionOpuesta := listaDireccionOpuesta ++ [opuesto(direccion)]
+    }
+    
+    return (listaDireccionOpuesta)
+}
+
+
+
+function siguienteDe_(listaElementos){
+    /*
+        Proposito: Describe una lista de **listaDeElementos** donde cada elemento es el
+        siguiente del actual
+        Precondicion: Ninguna
+        Tipo: lista de "elementos"
+        Parametro: listaElementos : lista de "elementos"
+    */
+    
+    listaDeElementosActual := []
+    
+    foreach elemento in listaElementos {
+        
+        listaDeElementosActual := listaDeElementosActual ++ [siguiente(elemento)]
+        
+    }
+    
+    return( listaDeElementosActual )
+    
+}
+
+
+
+
+
+
+function hayAlgunoDe_Entre_Y_(listaDeNumeros, primerNumero, segundoNumero){
+    /*
+        Proposito: Indica si hay algun numero entre 
+        **primerNumero** y **segundoNumero** en la lista 
+        **listaDeNumeros** 
+        Precondicion: Ninguna
+        Tipo: booleano
+        Parametro: listaDeNumeros  lista de Numero
+        primerNumero : numero 
+        segundoNumero : numero 
+    */
+    
+    listaAVer:= listaDeNumeros
+    
+    while( not esVacía(listaAVer) && 
+           not está_Entre_Y_(primero(listaAVer), primerNumero, segundoNumero)){
+            
+        listaAVer := resto(listaAVer)
+               
+    }
+    return(not esVacía(listaAVer))
+    
+}
+
+function está_Entre_Y_(numero, primeraCota, segundaCota){
+    
+    return(numero > primeraCota && numero < segundaCota)
+        
+    
+}
+
+
+
+function hayAlgunAsEn_(listaCarta){
+    /*
+        Proposito: Indica si en **listaCarta** hay algun AS
+        Precondicion: Ninguna
+        Tipo: booleano
+        Parametro: listaCarta: lista de cartas
+        Observacion: es un recorrido de busqueda sobre una lista de cartas,
+        donde para cada carta de la lista se busca la que es un AS
+    */
+    
+    listaAVer := listaCarta
+    
+    while( not esVacía(listaAVer) && not (primero(listaAVer) == 1)){
+        
+        listaAVer := resto(listaAVer)
+    }
+    return( not esVacía(listaAVer) )
+}
+
+
+
+function maximoElementoEn_(listaNumero){
+    /*
+        Proposito: Describe el numero más grande de la lista **listaNumero**
+        Precondicion: Ninguna
+        Parametro: listaNumero: lista de numero
+        Tipo: numero
+        Observacion es un recorrido de minimo sobre la lista **listaNumero**
+        donde para cada elemento se busca el maximo
+    */
+    
+    masGrandePorAhora := primero(listaNumero)
+    
+    foreach numero in sinElPrimero(listaNumero) {
+        
+         --masGrandePorAhora := maximoEntre_Y_(masGrandePorAhora, numero)
+    }
+    
+    return ( masGrandePorAhora )
+}
+
+
+function minimoEn_(listaDeNumeros){
+    
+    masChicoPorAhora := primero(listaDeNumeros)
+    
+    foreach numero in sinElPrimero(listaDeNumeros) {
+       -- masChicoPorAhora := minimoEntre_Y_(masChicoPorAhora, numero)
+    }
+    
+    return(masChicoPorAhora)
+}
+
+
+function elementosEn_Hasta_(listaElementos, indice){
+    
+    listaHasta := []
+    listaActual := listaElementos
+    contador  := 1
+    
+    while( not esVacía(listaElementos) && not  contador ==  indice ){
+        
+        listaHasta := listaHasta ++ [primero(listaActual)]
+        listaActual := resto(listaActual)
+        contador := contador  + 1
+    }
+    return(listaHasta)
+}
+
+
+
+function elementosEn_Desde_(listaElementos, indice){
+    /*
+        Proposito: describe lalista de todos los elementos de la lista
+        **listaElementos** desde el **indice**
+        Precondicion: Ninguna
+        Tipo: lista de "elemento"
+        Parametro: listaElementos : lista de "elementos"
+        Indice: "elemento"
+        Observacion: Es un recorrido de transformacion de la lista actual
+        desde el indice **indice**, donde para cada elemento se construye una
+        nueva lista con los elementos siguientes al indice, incluyendolo
+    */
+    
+  
+    listaActual := listaElementos
+    contador  := 0
+    
+    while( not esVacía(listaElementos) && not indice == contador){
+        contador := contador + 1
+        listaActual := sinElPrimero(listaActual)
+    }
+    return(listaActual)
+}
+
+
+function elementosEn_DespuesDe_(listaElementos, indice){
+    /*
+        Proposito: describe la lista de todos los elementos de la lista
+        **listaElementos** despues del **indice**
+        Precondicion: Ninguna
+        Tipo: lista de "elemento"
+        Parametro: listaElementos : lista de "elementos"
+        Indice: "elemento"
+        Observacion: Es un recorrido de transformacion de la lista actual
+        desde el indice **indice**, donde para cada elemento se construye una
+        nueva lista con los elementos siguientes al indice
+    */
+    
+  
+    listaActual := listaElementos
+    contador := 0
+    
+    
+    while( not esVacía(listaElementos) && not indice == contador){
+        listaActual := sinElPrimero(listaActual)
+        contador := contador + 1
+        
+    }
+    return(listaActual)
+}
+
+
+function elementosEn_SinPrimeraAparicion_(listaElemento, elemento){
+    /*
+        Proposito: Describe la lista **listaElemento** sin la primera
+        aparicion del elemento **elemento**
+        Precondicion: Ninguna
+        Tipo: lista de "elemento"
+        Parametro: listaElemento: lista de "elementos"
+        elemento : "elemento"
+    */
+   
+           
+    return(
+         elementosEn_Hasta_(listaElemento, indiceEn_De_(listaElemento, elemento)) 
+            ++
+          elementosEn_DespuesDe_(listaElemento, indiceEn_De_(listaElemento, elemento))
+    )
+}
+
+function sinDuplicado_(listaElemento){
+    /*
+        Proposito: Describe la lista **listaElemento** sin elementos duplicados
+        Precondicion: Ninguna
+        Tipo: lista de "elementos"
+        Parametro: listaElemento : lista de "elementos"
+    */
+    listaSinDuplicado := []
+    
+    foreach elemento in listaElemento {
+        
+        listaSinDuplicado := listaSinDuplicado ++ singular_Si_(elemento, not contiene_A_(listaSinDuplicado, elemento)) 
+    }
+    return ( listaSinDuplicado )
+}
+
+
+
+
+
+
+
+
+
+function indiceEn_De_(listaDeElemento, elemento){
+    /*
+        Proposito: Describe la primera ubicacion de la lista donde se encuentra el elemento **elemento**
+        Precondicion: Ninguna
+        Tipo: lista de elemento
+        Parametro: Parametro : lista de "elemento"
+        elemento : "elemento"
+        Observacion: es un recorrido de busqueda sabiendo que esta sobre una lista de elementos,
+        donde por cada ubicacion se busca la ubicacion del elemento **elemento**
+    */
+    
+    contador := 1
+    
+    elementoAhora := listaDeElemento
+    
+    
+    while ( not elemento == primero(elementoAhora)){
+        
+        elementoAhora := resto(elementoAhora)
+        contador := contador + 1 
+    }
+    return ( contador )
+}
+
+
+
+function losElementosDe_Clonados_Veces(listaElementos, numero){
+    /*
+        Proposito: Describe la lista clonada con sus elementos clonados ** numero ** veces 
+        Precondicion: ninguna
+        Tipo: lista de "elementos"
+        Parametro: listaElementos : lista de "elementos"
+        numero: numero
+    */
+    listaClonada := []
+    
+    foreach elemento in listaElementos {
+        listaClonada :=  listaClonada ++ listaCon_Repetido_veces(elemento, numero)
+    }
+    return(listaClonada )
+}
+
+
+function laLista_Clonada_Veces( listaElemento, numero){
+    /*
+        Proposito: Describe la lista clonada con sus elementos en orden
+        **numero** veces
+        Precondicion: ninguna
+        Tipo: lista de "elementos"
+        Parametro: listaElementos : lista de "elementos"
+        numero: numero
+    */
+    
+    listaClonadaEnOrden := []
+   
+
+    foreach elemento in listaElemento {
+        listaClonadaEnOrden := listaClonadaEnOrden ++  elemento_Repetido_veces(listaElemento, numero) 
+        
+        
+    }
+    return (listaClonadaEnOrden )
+    
+}
+
+function elemento_Repetido_veces(elemento, numero){
+    /*
+        Proposito: Descibre una lista que tiene el elemento dado repetido tantas veces el numero dado.
+        Precondicion: ninguna
+        Tipo: lista de "elemento"
+        Parametro: elemento: " elemento "
+        numero: numero
+    */
+    
+    elementoActual := []
+    
+    repeat(numero){
+        elementoActual :=  elemento
+    }
+    
+   return( elementoActual )
+    
+}
+program{
+    return( estaOrdenada_([1, 7, 9, 15]) )
+}
+ 
+function estaOrdenada_(listaElemento){
+    /*
+        Proposito: Indica si la lista **lstaElemento**
+        está ordenada de menor a mayor.
+        Precondicion: ninguna
+        Parametro: listaElementos : lista de "elementos"
+    */
+    
+   listaAVerificar:=  listaElemento
+    
+    while( not esVacía(listaElemento) 
+            && not esMenor_Que_( primero(listaAVerificar), siguienteElementoDe_(listaElemento)) ) {
+        
+        listaAVerificar := sinElPrimero(listaAVerificar)            
+    }
+    return( esMenor_Que_( primero(listaAVerificar), siguienteElementoDe_(listaElemento) ) )
+}
+
+function siguienteElementoDe_(listaElemento){
+    
+    elementoDeListaActual := primero(listaElemento)
+    
+    return(siguiente(elementoDeListaActual))
+    
+}
+
+function esMenor_Que_( primerElemento, segundoElemento ){
+    return (primerElemento <  segundoElemento )
+}
+
+
+
+
+
+
+function listaCon_Repetido_veces(elemento, numero){
+    /*
+        Proposito: Descibre una lista que tiene el elemento dado repetido tantas veces el numero dado.
+        Precondicion: ninguna
+        Tipo: lista de "elemento"
+        Parametro: elemento: " elemento "
+        numero: numero
+    */
+    
+    elementoActual := []
+    
+    repeat(numero){
+        elementoActual := elementoActual ++ [elemento]
+    }
+    
+   return( elementoActual )
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+type Palo is variant {
+    /*
+        Proposito: Modelar el palo de las cartas
+    */    
+    
+    case Espadas {}
+    case Basto {}
+    case Oro {}
+    case Copa {}
+}
+
+type Carta is record {
+    /*
+        Proposito: Modelar cartas
+        ivn. rep: el numero de las cartas es del 1 al 12
+    */
+    
+    field palo //palo
+    field numero //numero
+}
+
+function laCarta_de_(paloDeCarta, numeroDeCarta){
+    /*
+        Proposito: Describe la carta **numeroDeCarta** de **paloDeCarta**  
+        Precondicion: el numero de las cartas es del 1 al 12
+        Parametro:
+        *paloDeCarta: palo 
+        *numeroDeCarta: numero
+    */
+    return(
+            Carta( palo <- paloDeCarta, numero <- numeroDeCarta)
+        )
+}
+function anchoDeEspadas() {
+    /*
+        Proposito: Describe la carta 1 de bastos
+        Precondicion: ninguna
+        Tipo: carta
+    */
+   return( 
+        Carta( palo <- Espadas, numero <- 1 )
+    )           
+}
+
+
+function anchoDeBastos() {
+    /*
+        Proposito: Describe la carta 1 de bastos
+        Precondicion: ninguna
+        Tipo: carta
+    */
+   return( 
+        Carta( palo <- Basto, numero <- 1 )
+    )           
+}
+

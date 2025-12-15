@@ -1,0 +1,444 @@
+program {
+    
+    IrAPistaConColisionInminente()
+    
+}
+
+
+
+function cantidadDePistasLibres(){
+    /*
+    Proposito: Describe la cantidad de pistas de aterrizaje sin 
+    aviones.
+    Precondicion: Ninguna
+    ´Tipo: numero
+    Observacion: Es un recorrido de acumulacion 
+    sobre pistas de aterrizaje, donde para cada pista se cuentan
+    la cantidad de pistas que no tienen avion.
+    */
+    pistasLibresYaVistas := 0
+    pistasLibresYaVistas :=pistasLibresYaVistas + unoSi_ceroSiNo(esPistaLibreActual())
+    
+    IrAPrimeraPista()
+    
+    while( haySiguientePista() ){
+        
+        IrASiguientePista()
+        pistasLibresYaVistas := pistasLibresYaVistas + unoSi_ceroSiNo(esPistaLibreActual())
+    }
+    return(pistasLibresYaVistas)
+}
+
+function esPistaLibreActual(){
+    /*
+        Proposito: Describe si esta la pista actual está libre.
+        Precondicion: Ninguna
+        Tipo: booleano
+    */
+    while(puedeMover(Norte) &&  esPistaLibre()){
+        Mover(Norte)
+    }
+    return(esPistaLibre())
+}
+
+
+function esPistaLibre(){
+    
+    return ( not hayUnAvionAcá())
+}
+
+function hayUnAvionAcá(){
+    /*
+        Proposito: Indica si hay un avion en la pista actual.
+        Precondicion: Ninguna
+        Tipo: booleano
+    */
+   return (hayBolitas(Azul) )
+}
+
+procedure IrAPrimeraPista(){
+    /*
+        Proposito: Ir a primera pista de aterrizaje.
+        Precondicion: Ninguna
+    */
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+}
+
+function haySiguientePista(){
+    /*
+        Proposito: indica si es el hay siguiente pista de aterrizaje al Este
+        Precondicion: ninguna
+        Tipo: booleano
+    */
+    
+    return ( puedeMover(Este))
+}
+
+procedure IrASiguientePista() {
+    /*
+        Proposito: Ir a la siguiente pista de aterrizaje.
+        Precondicion: debe haber al menos una celda hacia el Este
+    */
+    Mover(Este)
+}
+
+
+------------------------------------------------------------
+
+
+function cantidadDeAvionesDespegando(){
+    /*
+        Proposito: Describe la cantidad de aviones que estan despegando
+        de todo el aeropuerto.
+        Precondicion: Ninguna
+        Tipo: numero.
+        Observacion: Es un recorrido de acumulacion sobre aviones del aeropuerto,
+        donde para cada avion se cuenta cuales están despegando.
+        En cada celda puede haber solo un avion, pero en cada pista puede haber 
+        más de un avion
+    */
+    
+    avionesDespegandoYaVistos := 0
+    avionesDespegandoYaVistos := unoSi_ceroSiNo(hayAvionDespegandoAcá())
+    
+    
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Sur, Oeste)
+    
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Sur, Oeste) ){
+        
+        avionesDespegandoYaVistos := avionesDespegandoYaVistos + unoSi_ceroSiNo(hayAvionDespegandoAcá())
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Sur, Oeste)
+    }
+    
+    return(avionesDespegandoYaVistos )
+}
+
+function hayAvionDespegandoAcá(){
+    /*
+        Proposito: Indica si hay un avion despegando en la celda actual.
+        Precondicion: Ninguna
+        Tipo: booleano
+    */
+    return(hayUnAvionAcá() && hayBolitas(Verde))
+}
+
+
+-------------------------------------------------------------------------------
+
+
+
+procedure IrAPistaLibreParaDespegar(){
+    /*
+        Proposito: Ir a pista libre para despegar
+        Precondicion: Ninguna
+        
+    */
+     IrAPistaLibreDespegar()
+     IrALaPosicionParaDespegar_(Sur)
+   
+    
+}
+
+
+procedure IrAPistaLibreDespegar() {
+    /*
+        Proposito: Ir a pista libre más cercana de la celda inicial.
+        Precondicion: La pista no debe tener otros aviones 
+    
+    */
+     
+    
+    while( haySiguientePista() &&  not estáTodaLaPistaLibreParaDespegar() ){
+        
+        IrASiguientePista()
+       
+    }
+}
+
+function estáTodaLaPistaLibreParaDespegar() {
+    /*
+        Proposito: Indica por si en el largo de toda la pista no hay un avion.
+        Precondicion: Ninguna
+        Tipo: booleano
+    */
+    IrAlBorde_(Sur)
+    
+    return (esPistaLibreActual())
+    
+}
+
+
+procedure IrALaPosicionParaDespegar_(direccion){
+    /*
+        Proposito: ir a la posicion **direccion** de la pista actual.
+        Precondicion: Ninguna
+        Parametro: direccion: direccion : ubicacion de la pista
+    */
+    
+    IrAlBorde_(direccion)
+}
+--------------------------------------------------------------------
+
+
+
+function cantidadDeAvionesTotales(){
+    /*
+        Proposito: Describe la cantidad de aviones que estan despegando o aterrizando
+        en todo el aeropuerto
+        Precondicion: NInguna
+        Tipo: numero
+    */
+    
+    return ( cantidadDeAvionesAterrizando() + cantidadDeAvionesDespegando() )
+}
+
+
+
+
+
+
+function cantidadDeAvionesAterrizando(){
+    /*
+        Proposito: Describe la cantidad de aviones que estan despegando
+        de todo el aeropuerto.
+        Precondicion: Ninguna
+        Tipo: numero.
+        Observacion: Es un recorrido de acumulacion sobre aviones del aeropuerto,
+        donde para cada avion se cuenta cuales están despegando.
+        En cada celda puede haber solo un avion, pero en cada pista puede haber 
+        más de un avion
+    */
+    
+    avionesAterrizandoYaVistos := 0
+    avionesAterrizandoYaVistos := unoSi_ceroSiNo(hayAvionDespegandoAcá())
+    
+    
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Sur, Oeste)
+    
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Sur, Oeste) ){
+        
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Sur, Oeste)
+        avionesAterrizandoYaVistos := avionesAterrizandoYaVistos + unoSi_ceroSiNo(hayAvionDespegandoAcá())
+    }
+    
+    return(avionesAterrizandoYaVistos )
+}
+
+function hayAvionAterrizandoAcá(){
+    /*
+        Proposito: Indica si hay un avion despegando en la celda actual.
+        Precondicion: Ninguna
+        Tipo: booleano
+    */
+    return(hayUnAvionAcá() && hayBolitas(Rojo))
+}
+
+
+
+
+
+
+
+
+function distanciaAlBorde_(direccionBorde){
+    /*
+        Proposito: Descibre la cantidad de celdas que hay entre la celda
+        actual y el borde **direccionBorde**
+        Precondicion: Ninguna
+        Tipo: numero
+        Parametro: 
+        *direccionBorde: direccion : la direccion del borde desde la celda actual
+        Observacion:
+        * es un recorrido de acumulacion sobre celdas de una fila
+        del tablero, para contar la distancia de celdas desde la celda actual y 
+        el borde **direccionBorde**.
+        
+    */
+    cantidadDeCeldasYaContadas := 0
+    while(puedeMover(direccionBorde)){
+        cantidadDeCeldasYaContadas := cantidadDeCeldasYaContadas + 1 
+        Mover(direccionBorde)
+    }
+    
+    
+    return(cantidadDeCeldasYaContadas)
+}
+
+---------------------------------------------------------------
+
+procedure IrAPistaLibreParaAterrizar() {
+    /*
+        Proposito: Ir a la pista libre más cercana de la celda inicial.
+        Precondicion: Ninguna
+    */
+     IrAPistaLibre()
+     IrALaPosicionDeInicio_(Norte)
+}
+
+procedure IrAPistaLibre() {
+    /*
+        Proposito: Ir a pista libre más cercana de la celda inicial.
+        Precondicion: La pista no debe tener otros aviones 
+    
+    */
+    
+    while( haySiguientePistaAl_(Oeste) &&  not estáTodaLaPistaLibre() ){
+        
+        IrASiguientePistaAl_(Oeste)
+       
+    }
+}
+
+function estáTodaLaPistaLibre() {
+    /*
+        Proposito: Indica por si en el largo de toda la pista no hay un avion.
+        Precondicion: Ninguna
+        Tipo: booleano
+    */
+    IrAlBorde_(Sur)
+    
+    return (esPistaLibreActual())
+    
+}
+
+
+procedure IrALaPosicionDeInicio_(direccion){
+    /*
+        Proposito: ir a la posicion **direccion** de la pista actual.
+        Precondicion: Ninguna
+        Parametro: direccion: direccion : ubicacion de la pista
+    */
+    
+    IrAlBorde_(direccion)
+}
+
+
+
+
+--------------------------------------------------------------
+function cantidadDePistasConColisionInminente(){
+    /*
+        Proposito: describe la cantidad de pistas con colisiones en todo el
+        aeropuerto.
+        Precondicion: Ninguna
+        Tipo: Numero
+        Observacion: es un recorrido de acumulacion sobre piestas del aerpouerto 
+        donde por cada pista se acumula las posibles colisiones.
+    */
+    
+    colisionesYaVistas := 0
+    
+    colisionesYaVistas := unoSi_ceroSiNo(hayPosibleColision() )
+    IrAPrimeraPista() 
+    
+    while( haySiguientePista() ) {
+        
+        IrASiguientePista()
+        colisionesYaVistas := colisionesYaVistas + unoSi_ceroSiNo(hayPosibleColision() )
+    }
+    return (colisionesYaVistas)
+}
+
+
+function hayPosibleColision(){
+    
+    return(estáPorDespegarUnAvion() && estáPorAterrizarUnAvion()  )
+}
+
+function estáPorDespegarUnAvion(){
+    /*
+        Proposito: Indica si en la pista actual (columna) puede ocurrir una
+        colision:
+        Tipo: booleano
+        Observacion:  Se considera que hay una colisión posible si en la misma
+        pista hay un avión que está despegando debajo (más al Sur) de un avión 
+        que está aterrizando. 
+    */
+    
+    while( puedeMover(Norte) && not hayAvionDespegandoAcá()){
+        Mover(Norte)
+    }
+    return (hayAvionDespegandoAcá() ) 
+}
+
+
+function estáPorAterrizarUnAvion() {
+    
+    while( puedeMover(Norte) && not hayAvionAterrizandoAcá()){
+        Mover(Norte)
+    }
+     return (hayAvionAterrizandoAcá() ) 
+}
+
+
+
+procedure IrAPistaConColisionInminente() {
+    /*
+        Proposito: Ir a la pista mas cercana con colision inminente.
+        Precondicon: Ninguna
+    */
+    
+    IrALaPistaConColision()
+    IrAPosicionDeColisionAl_(Sur)
+}
+
+
+
+
+procedure IrALaPistaConColision() {
+    /*
+        Proposito: Ir a pista con colision más cercana de la celda inicial.
+        Precondicion: -
+    
+    */
+    
+    while( haySiguientePistaAl_(Oeste) &&  not esLaPistaConColision() ){
+        
+        IrASiguientePistaAl_(Oeste)
+       
+    }
+}
+
+function esLaPistaConColision() {
+    /*
+        Proposito: Indica por si en el largo de toda hay una colision.
+        Precondicion: Ninguna
+        Tipo: booleano
+    */
+    IrAlBorde_(Sur)
+    
+    return (hayPosibleColision())
+    
+}
+
+
+procedure IrAPosicionDeColisionAl_(direccion){
+    /*
+        Proposito: ir a la posicion de colision **direccion** de la pista actual.
+        Precondicion: Ninguna
+        Parametro: direccion: direccion : ubicacion de la pista
+    */
+    
+    IrAlBorde_(direccion)
+}
+
+
+
+function haySiguientePistaAl_(direccion){
+    /*
+        Proposito: indica si es el hay siguiente pista de aterrizaje al Este
+        Precondicion: ninguna
+        Tipo: booleano
+    */
+    
+    return ( puedeMover(direccion))
+}
+
+procedure IrASiguientePistaAl_(direccion) {
+    /*
+        Proposito: Ir a la siguiente pista de aterrizaje.
+        Precondicion: debe haber al menos una celda hacia el Este
+    */
+    Mover(direccion)
+}
+    

@@ -1,0 +1,559 @@
+--1
+program {
+    
+    AlimentarArboles()
+    
+}
+function cantidadTotalDeBolitasAcá(){
+    /*
+    Proposito: Describe la cantidad de bolitas total que hay en la celda actual.
+    Tipo: Numero
+    */
+    return (
+        nroBolitas(Rojo) +
+        nroBolitas(Verde) +
+        nroBolitas(Negro) +
+        nroBolitas(Azul)
+        
+        
+        )
+}
+
+function hayMásDe5BolitasAcá(){
+    
+    /*
+    Proposito: Indica si hay más de 5 bolitas en la celda actual.
+    Tipo: booleano
+    */
+    
+    return(
+        cantidadTotalDeBolitasAcá() > 5
+        )
+    
+}
+
+function hay5BolitasAcá(){
+    /*
+    Proposito: Indica si hay exactamente 5 bolitas en la celda actual.
+    Tipo: Numero
+    */
+    return (
+        cantidadTotalDeBolitasAcá() == 5
+        )
+}
+
+
+function hayAlMenos5BolitasAcá(){
+    
+    /*
+    Proposito: Indica si hay al menos 5 bolitas en la celda actual.
+    Tipo : Numero
+    */
+    return(
+        cantidadTotalDeBolitasAcá() <= 5 
+        )
+    
+}
+
+
+function hayBolitasDeTodosLosColores(){
+    /*
+    Proposito: Indica si hay al menos una bolita de color Azul, Verde, Negro y Rojo 
+    en la celda actual.
+    Tipo: Booleano
+    */
+    return(
+        
+        hayBolitas(Rojo) || hayBolitas(Verde) || hayBolitas(Rojo) || hayBolitas(Negro) 
+    )
+    
+}
+
+
+
+function esCeldaConBolitasFaltantesYNoEsVacia(){
+    /*
+    Proposito: Indica si en la celda falta al menos una bolita de cualquier color 
+    (Azul,Verde,Rojo,Negro) y la celda no está vacía 
+    Tipo: Booleano 
+    */
+    return(
+        hayBolitasDeTodosLosColores() && not esCeldaVacía()
+        )
+}
+
+
+------------------biblioteca-----------------
+
+function esCeldaVacía(){
+    /*
+    Proposito: Indica si la celda está vacía.
+    Tipo: Booleano 
+    */
+    return(
+       not hayBolitas(Rojo) &&
+       not hayBolitas(Verde) &&
+       not hayBolitas(Rojo) &&
+       not hayBolitas(Negro) 
+        )
+}
+
+
+function hayAlMenosUnaDeCada(){
+    /*
+    Proposito: Indica si hay al menos una bolita de cada color 
+    (Azul,Verde,Rojo o Negro) en la celda actual
+    Tipo: Booleano
+    */
+    return(
+     hayBolitas(Rojo) && hayBolitas(Verde) && hayBolitas(Rojo) && hayBolitas(Negro) 
+    )
+}
+
+
+function esCeldaConBolitas(){
+    /*
+    Proposito: Indica si hay al menos una bolita de cualquier color (Azul,Verde,Rojo o Negro)  en la celda actual 
+    Tipo: Booleano
+    */
+    return(
+    hayBolitas(Rojo) || hayBolitas(Verde) || hayBolitas(Rojo) || hayBolitas(Negro) 
+    )
+}
+
+---------------------------------------------------
+
+
+
+function cantidadDeSoldadosDe_(colorDelEjercito){
+    /*
+    Proposito: Describir la cantidad de soldados de **colorDelEjercito** de la celda actual
+    Tipo: Numero
+    Precondicion:
+    Parametro: colorDelEjercito: color : el color que representa al ejercito en la celda actual.
+    */
+    return(
+        nroBolitas(colorDelEjercito)
+        )
+}
+
+function esCeldaIndefensa(){
+    /*
+    Proposito: Indica si no hay aliados en la celda actual.
+    Tipo: Booleano
+    */
+    return(
+        not hayBolitas(Negro)
+        )
+}
+
+function estadoDeEmergencia(){
+    /*
+    Proposito: Indica si hay más de 100 soldados enemigos y la celda astá indefensa.
+    Tipo: Booleano
+    */
+    return(
+        nroBolitas(Rojo) >= 100 && esCeldaIndefensa()
+        )
+}
+
+
+
+procedure Enviar_AliadosParaDuplicar_Enemigos(colorAliado, colorEnemigo){
+    /*
+    Proposito: Agrega **colorAliado** en la celda actual en cantidad suficiente para 
+    que haya el doble de **colorAliado** que de **colorEnemigo**
+    Precondicion:
+    Observacion: Los soldados aliados se representan con negro y los soldados enemigos
+    con color rojo
+    Parametro: colorAliado: COLOR: representa el color del aliado
+    colorEnemigo: color : representa el color del enemigo
+    */
+    
+    repeat(cantidadDeSoldadosDe_(colorEnemigo) * 2 - cantidadDeSoldadosDe_(colorAliado)){
+        Poner(colorAliado)
+    }
+}
+
+
+
+function hayAlMenos_AliadosPorCada_Atacantes(cantidadDefensa, cantidadAtaque){
+    /*
+    Proposito: Indica si hay **cantidadDefensa** soldados por cada **cantidadAtaque** enemigos 
+    en la celda actual.
+    Precondicion: Ninguna
+    Tipo: Booleano
+    Parametro: cantidadAtaque: numero: representa a la cantidad de soldados enemigos 
+    cantidadDefensa: numero: representa a la cantidad de soldados aliados.
+    */
+    
+    return(
+       cantidadDeSoldadosDe_(Rojo) * cantidadAtaque 
+       >= cantidadDeSoldadosDe_(Negro) * cantidadDefensa
+        )
+} 
+
+
+
+
+-------------elbosque------------------
+
+function arbol(){
+    /*
+    Proposito: Describe el color de la representacion de árbol.
+    Tipo: color
+    */
+    return (Verde)
+}
+
+
+
+function semilla(){
+    /*
+    Proposito: Describe el color de la representacion de semilla.
+    Tipo: color
+    */
+    return (Rojo)
+}
+
+
+
+
+function bomba(){
+    /*
+    Proposito: Describe el color de la representacion de bomba.
+    Tipo: color
+    */
+    return (Negro)
+}
+
+
+function nutriente(){
+    /*
+    Proposito: Describe el color de la representacion de nutriente.
+    Tipo: color
+    */
+    return (Azul)
+}
+
+
+--------------------------------------------------------------------------------
+
+procedure GerminarSemilla(){
+    /*
+    Propoasito: Transforma una semilla en arbol en la celda actual. 
+    Precondicion: Debe haber al menos 3 nutrientes para la germimacion.
+    Observacion: La germinacion de la semilla consume tres unidades de nutrientes
+    */
+    if(haySemillaYNutrienteSuficiente()){
+        ConsumirNutriente()
+        TransformarArbol()
+    }
+    
+}
+
+function haySemillaYNutrienteSuficiente(){
+    /*
+    Proposito:Indica si existe en la celda actual al menos una semilla y al menos 3 nutrientes para 
+    germinar y transformarlo en nutriente.
+    Tipo: Booleano
+    */
+    return (
+        hayBolitas(semilla()) && nroBolitas(nutriente()) >= 3
+        )
+}
+
+ 
+procedure ConsumirNutriente(){
+    /*
+    Proposito: Consume 3 nutrientes para lograr la germinacion en la celda actual.
+    Precondicion: Debe haber al menos 3 nutrientes para la germimacion.
+    */
+    repeat (3){
+      Sacar(nutriente())
+    }
+}
+
+procedure TransformarArbol(){
+    /*
+    Proposito: Transforma la semilla en árbol de la celda actual.
+    Precondicion: Debe haber al menos una semilla y al menos 3 nutrietes
+    */
+    
+    Sacar(semilla())
+    Poner(arbol())
+}
+
+----------------------------------------------------------------------------------
+
+
+procedure AlimentarArboles(){
+    
+    /*
+    Proposito: Alimentar arboles con sus nutrientes de la celda actual.
+    Precondicion: Debe haber al menos un nutriente en la celda actual.
+    Observacion: Un Arbol se alimenta con un nutriente
+    */
+   if(hayNutrienteSuficiente()){
+        AlimentarArbolesConNutriente()
+        
+   }else { //si no hay la cantidad necesaria
+       ConsumirTodosLosNutrientes()
+   }
+}
+
+
+function hayNutrienteSuficiente() {
+    /*
+    Proposito: Indica si hay al menos un nutriente en la celda actual.
+    Tipo: booleano
+    */
+    return(
+        nroBolitas(nutriente()) >= nroBolitas(arbol())
+        )
+}
+
+
+
+procedure AlimentarArbolesConNutriente(){
+    /*
+    Proposito: Alimentar la cantidad de arboles que haya con su nutriente
+    en la celda actual.
+    Precondicion: Ninguna
+    */
+     repeat(nroBolitas(arbol())){
+       Sacar(nutriente())
+    }
+}
+
+procedure ConsumirTodosLosNutrientes(){
+    /*
+    Proposito: Consume todos los nutrientes de la celda actual.
+    Precondicion: Debe haber al menos un nutriente en la celda actual.
+    */
+    
+    SacarTodasLasDeColor_(nutriente())
+}
+
+
+-----------------------------------------------------------------
+
+procedure ExplotarBomba(){
+    /*
+    Proposito: Explotar una bomba en la celda actual, eliminando arboles.
+    Precondicion: 
+    Observacion: La bomba derriba a 5 arboles en la celda actual y 3 arboles
+    ubicados en la celda lindante al Norte. Si la celda actual está en elborde norte, explota 
+    los 3 arboles de la celda actual. 
+    */
+    if (hayArbolesSuficientesParaDerribar()){
+        DerribarArboles()
+    }elseif{ //está en la celda Lindante al Norte
+        Explotar3Arboles()
+    }
+}
+
+
+
+function hayArbolesSuficientesParaDerribar() {
+    /*
+    Proposito: Indica si hay suficientes arboles paa derribar con una sola bomba
+    Precondicion:
+    Tipo: Booleano
+    */
+    
+    return (
+        nroBolitas(arbol()) >= 5 
+        )
+}
+
+procedure DerribarArboles(){
+    /*
+    Proposito: Derribar los arboles con una bomba.
+    Precondicion: Debe haber la cantidad de arboles necesarios en la celda actual y en la celda lindante al norte.
+    */
+    
+    repeat(nroBolitas(arbol()){
+        Sacar(arbol())
+    }
+    Sacar(bomba)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+procedure SacarTodasLasDeColor_(colorASacar){
+    
+    /*
+    Proposito: Sacar todas las bolitas de color **colorASacar**
+    de la celda actual.
+    Precondicion: debe haber al menos una bolita de color
+    **colorASacar** en la celda actual.
+    Parametro: colorASacar: color: color de la bolita a sacar
+    */
+
+    repeat(nroBolitas(colorASacar)){
+        Sacar(colorASacar)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,194 @@
+function hayBolitas_EnCeldaAl_(color, dirección) {
+    
+    /*
+        PROPOSITO: Indica si hay bolitas *color* en la celda lindante
+        al *dirección*.
+        PRECONDICION: Existe al menos una celda al *dirección* desde
+        la celda actual.
+        PARAMETROS:
+        *color: COLOR - El color de la bolita que se pregunta.
+        *dirección: DIRECCIÓN - La direccion en la que se busca la 
+        bolita.
+        TIPO: BOOLEANO.
+    */
+    
+    Mover(dirección)
+    return(hayBolitas(color))
+}
+
+function  hayBolitas_EnElBorde_(color, dirección) {
+    
+    /*
+        PROPOSITO: Indica si hay bolitas *color* en el borde *borde*.
+        PRECONDICION: Ninguna.
+        PARAMETROS:
+        *color: COLOR - El color de las bolitas que se preguntan.
+        *dirección: DIRECCIÓN - La direccion del borde donde ver las 
+        bolitas.
+        TIPO: BOOLEANO.
+    */
+    
+    IrAlBorde(dirección) 
+    return(hayBolitas(color))
+    
+}
+
+function hayBolitas_Hacia_(color, dirección) {
+    
+    /*
+        PROPOSITO: Indica si hay bolitas *color* en alguna de las celdas
+        al *dirección*, sin contar la celda actual.
+        PRECONDICION: ---
+        PARAMETROS: 
+        *color: COLOR - El color de las bolitas buscado.
+        *dirección: DIRECCIÓN - La dirección en la que se busca
+        las bolitas.
+        TIPO: BOOLEANO.
+        OBSERVACIONES: Es un recorrido de busqueda sobre las celdas hacia
+        el *dirección*, que busca la bolita del color indicado.
+    */
+    
+    while(puedeMover(dirección)) {
+        
+        Mover(dirección)
+    }
+    
+    return(hayBolitas(color))
+}
+
+function hayCeldaVacíaHacia_(dirección) {
+    
+    /*
+        PROPOSITO: Indica si hay una celda vacia en alguna de las celdas
+        al *dirección*, sin contar la celda actual.
+        PRECONDICION:  Existe al menos una celda al *dirección* desde la celda 
+        actual.
+        PARAMETROS: 
+        *dirección: DIRECCIÓN - La dirección en la que se busca
+        la celda vacia.
+        TIPO: BOOLEANO.
+        OBSERVACIONES: Es un recorrido de busqueda sobre las celdas hacia
+        el *dirección*, que busca si hay una celda vacía sin saber si está.
+    */    
+    
+    Mover(dirección)
+    while(not(esCeldaVacía()) && puedeMover(dirección)) {
+        
+        Mover(dirección)
+    }
+    
+    return(esCeldaVacía())
+}
+
+function hayAlgunaBolita_(color) {
+    
+    /*
+        PROPOSITO: Indica si hay alguna bolita *color* en el tablero.
+        PRECONDICION: ---
+        PARAMETROS: 
+        *color: El color de la bolita que se busca.
+        TIPO: BOOLEANO
+        OBSERVACIONES: Es un recorrido de busqueda sobre las celdas del tablero
+        que busca la bolita *color* sin saber si esta existe.
+    */
+    
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte) && not hayBolitas(Rojo)) {
+        
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    }
+    
+    return(hayBolitas(color))
+}
+
+function  hayAlgunaCeldaVacía() {
+    
+    /*
+        PROPOSITO: Indica si hay alguna celda vacía en el tablero.
+        PRECONDICION: ---
+        TIPO: BOOLEANO.
+        OBSERVACIONES: Es un recorrido de busqueda sobre las celdas del tablero,
+        que busca alguna vacia si es que la hay.
+    */
+    
+    IrAPrimeraCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    
+    while(haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte) && not esCeldaVacía()) {
+        
+        IrASiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)
+    }
+    
+    return(esCeldaVacía())
+} 
+ 
+ 
+procedure CopiarCeldaAl_(dirección) {
+    
+    /*
+        PROPOSITO: Copiar la celda actual a la celda lindante hacia el
+        *dirección*.
+        PRECONDICION: Debe haber al menos una celda hacia el *dirección*
+        PARAMETROS:
+        *dirección: DIRECCIÓN - La dirección de la celda lindante donde
+        se copia la celda actual.
+        OBSERVACIONES: Es un recorrido de ennumerativos sobre los colores,
+        copiando las bolitas de la celda actual en la lindante al *dirección*,
+        sin importar cuantas bolitas tuviera esta previamente.
+    */
+    
+    colorACopiar:= minColor()
+    cantidadDeBolitasACopiar:= nroBolitas(colorACopiar)
+    
+    Mover(dirección)
+    VaciarCelda()
+    Mover(opuesto(dirección))
+    
+    
+    while(colorACopiar /= maxColor()) {
+        
+        Mover(dirección)
+        Poner_DeColor_(cantidadDeBolitasACopiar - nroBolitas(colorACopiar), colorACopiar)
+        Mover(opuesto(dirección))
+        cantidadDeBolitasACopiar:= nroBolitas(siguiente(colorACopiar))
+        colorACopiar:= siguiente(colorACopiar)
+        
+    }
+    Mover(dirección)
+    Poner_DeColor_(cantidadDeBolitasACopiar - nroBolitas(colorACopiar), colorACopiar)
+    Mover(opuesto(dirección)) 
+}   
+  
+procedure CopiarOrigenEnEsquinas() {
+    
+    /*
+        PROPOSITO: Copiar la celda actual en las esquinas del tablero
+        PRECONDICION: ----
+        PARAMETROS:
+        OBSERVACIONES: Es un recorrido de ennumerativos sobre los colores,
+        copiando las bolitas de la celda actual en las esquinas,
+        sin importar cuantas bolitas tuviera esta previamente.
+    */
+    
+    colorACopiar:= minColor()
+    cantidadDeBolitasACopiar:= nroBolitas(colorACopiar) 
+    
+    
+    while(colorACopiar /= maxColor() && direccióndelBorde /= maxDir()) {
+        
+        IrAlBorde(direccióndelBorde)
+        Poner_DeColor_(cantidadDeBolitasACopiar - nroBolitas(colorACopiar), colorACopiar)
+        Mover(opuesto(direccióndelBorde))
+        cantidadDeBolitasACopiar:= nroBolitas(siguiente(colorACopiar))
+        colorACopiar:= siguiente(colorACopiar)
+        
+    }
+    Mover(dirección)
+    Poner_DeColor_(cantidadDeBolitasACopiar - nroBolitas(colorACopiar), colorACopiar)
+    Mover(opuesto(dirección)) 
+    
+    
+}  
+
+
+       

@@ -1,0 +1,225 @@
+
+function singularCon_(elemento){ -- agrega los corchetes para la lista
+        /*
+            Proposito: Describe la lista **elemento** que contiene solo un elemento
+            Precondicion: ninguna
+            Tipo: Lista de **elemento**
+            Parametro: elemento : elemento
+        */
+    
+    return (
+         [elemento]
+        )
+}
+
+function segundoDe_(elemento){
+    /*
+        Proposito: Describe el segundo elemento **elemento** 
+        Precondicion: Debe haber al menos dos elementos dentro de la lista.
+        Tipo: **elemento**
+        Parametro: elemento : elemento
+    */
+    
+    return( 
+       primero(resto(elemento))
+        )
+}
+
+function esSingular_(lista){
+    /*
+        Proposito: Indica si la lista **lista** tiene un sólo elemento
+        Precondicion: Ninguna
+        Tipo: lista 
+        Parametro: lista: lista de elemento
+    */
+    return(
+        not esVacía(lista) && esVacía(resto(lista))
+        )
+}
+
+
+-------------------------------------------------------------------------------
+--primerCartaDeLaMano_, que dada una “mano” describa la primera carta a juga
+
+
+
+function primerCartaDeLaMano_(mano){
+    
+    /*
+        Proposito: Describe la primera carta a jugar de la mano ** mano** 
+        Precondicion: Ninguna
+        Tipo: carta
+        Paramatro: mano: lista de carta
+    */
+    
+    return(
+        primero(mano)
+        )
+}
+
+
+function segundaCartaDeLaMano_(mano){
+    /*
+        Proposito: Describe la segunda carta de la mano **mano**
+        Precondicion: Ninguna
+        Tipo: carta
+        Parametro: mano: lista de carta
+    */
+    
+    return(
+        segundoDe_(mano)
+        )
+}
+
+
+function tercerCartaDeLaMano_(mano){
+    /*
+        Proposito: Describe la tercera carta de la mano **mano**
+        Precondicion: ninguna
+        Tipo: carta
+        Parametro: mano: lista de carta
+    */
+    return (
+        
+       primero(resto(resto(mano)))
+
+        )
+}
+
+// resultante luego de robar la primera carta del mazo y agregarla a la mano del jugador.
+
+
+function laMano_LuegoDeRobarUnaCartaDe_(mano, mazo){
+    
+        /*
+            Proposito: Describe la mano **mano** despues de robar la primera carta del mazo **mazo**
+            Precondicion: Ninguna
+            Tipo: lista de carta
+            parametro: mano: lista de carta
+                       mazo: lista de carta
+        */
+        
+    return (
+        
+        mano ++ primero([mazo])
+        
+        )
+}
+
+
+
+function laMano_LuegoDeJugarUnaCarta(mano){
+    /*
+        Proposito: Describe la mano **mano** despues de tirar la carta más proxima
+        Precondicion: Ninguna
+        Tipo: Lista de carta
+        Parametro: mano : lista de carta
+    */
+    return(
+        
+        resto(mano)
+        
+        )
+}
+
+program {
+    return( laMano_LuegoDeJugarLaSegundaCarta([anchoDeEspadas(),anchoDeBastos(), laCarta_de_(Espadas, 12),  laCarta_de_(Oro, 2)]))
+}
+
+function laMano_LuegoDeJugarLaSegundaCarta(mano){
+    /*
+        Proposito: Describe la mano **mano** luego de haber jugado la segunda carta
+        Precondicion: Debe haber al menos 2 cartas en la mano
+        Tipo: lista de carta
+        Parametro: mano : lista de carta
+    */
+    
+    return (
+        
+     [primero(mano)] ++ resto(resto(mano))
+       
+        )
+}
+
+------------------------------------------------------------------------------------------------
+
+
+
+function primerasTresCartasDeLaTira_(tira){
+    
+    /*
+        Proposito : 
+    */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+type Palo is variant {
+    /*
+        Proposito: Modelar el palo de las cartas
+    */    
+    
+    case Espadas {}
+    case Basto {}
+    case Oro {}
+    case Copa {}
+}
+
+type Carta is record {
+    /*
+        Proposito: Modelar cartas
+        ivn. rep: el numero de las cartas es del 1 al 12
+    */
+    
+    field palo //palo
+    field numero //numero
+}
+
+function laCarta_de_(paloDeCarta, numeroDeCarta){
+    /*
+        Proposito: Describe la carta **numeroDeCarta** de **paloDeCarta**  
+        Precondicion: el numero de las cartas es del 1 al 12
+        Parametro:
+        *paloDeCarta: palo 
+        *numeroDeCarta: numero
+    */
+    return(
+            Carta( palo <- paloDeCarta, numero <- numeroDeCarta)
+        )
+}
+function anchoDeEspadas() {
+    /*
+        Proposito: Describe la carta 1 de bastos
+        Precondicion: ninguna
+        Tipo: carta
+    */
+   return( 
+        Carta( palo <- Espadas, numero <- 1 )
+    )           
+}
+
+
+function anchoDeBastos() {
+    /*
+        Proposito: Describe la carta 1 de bastos
+        Precondicion: ninguna
+        Tipo: carta
+    */
+   return( 
+        Carta( palo <- Basto, numero <- 1 )
+    )           
+}
+

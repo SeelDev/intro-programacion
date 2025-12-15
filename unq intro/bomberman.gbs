@@ -1,0 +1,100 @@
+function puntosQueOtorgaríaUnaBombaDePotencia_Acá(potenciaDeBomba){
+    /*
+        Proposito: Describe los puntos obtenidos que otorga **potenciaDeBomba** en la celda actual, 
+        o cero si no es posible colocar una bomba
+        Precondicion: Ninguna
+        Tipo: numero
+        Parametro: potenciaDeBomba : numero : describe la potencia de la bomba
+    */
+
+    return (
+        choose puntosOtorgadosPorPotenciaDeBomba_(potenciaDeBomba) when (not hayObstaculo())
+                0  otherwise
+        )
+}
+
+function  puntosOtorgadosPorPotenciaDeBomba_(potenciaDeBomba) {
+    /*
+        Propsito: Describe los puntos que da la **potenciaDeBomba** en la celda actual.
+        Precondicion: No debe haber un obstaculo en la celda actual    
+        Tipo: numero
+        Parametro: potenciaDeBomba : numero : describe la potencia de la bomba
+*/
+
+    return( puntosPorCadaEnemigoQueLaBombaMataConPotencia_(potenciaDeBomba)
+                +
+            puntosPorCadaParedDeLadrilloDestruidoConPotencias_(potenciaDeBomba)
+                -
+            puntosPorMuerteDeBombermanPorExplosionConPotencia_(potenciaDeBomba)
+}
+
+function  puntosPorCadaParedDeLadrilloDestruidoConPotencias_(potenciaDeBomba){
+    
+    /*
+        Proposito: Describe la cantidad de puntos otorgados por los ladrillos destruidos por la potencia **potenciaDeBomba** de la bomba
+        Precondicion: Ninguna
+        Tipo: Numero
+        Parametro: potenciaDeBomba : numero : describe la potencia de la bomba 
+        Observacion: Es un recorrido de acumulacion sobre direcciones del mapa, para donde cada celda del mapa se cuenta los puntos
+        obtenidos por **potenciaDeBomba**
+    */
+    
+    direccionAMover := minDir()
+    puntosObtenidosAhora := 0
+    puntosObtenidosAhora  := puntosObtenidosAhora +
+                    puntosObtenidosPorDestruccionAl_ConPotencia_(direccionAMover, potenciaDeBomba)
+                    
+                    
+    while(direccionAMover /= maxDir()){
+        
+        direccionAMover := siguiente(direccionAMover)
+        
+        puntosObtenidosAhora := puntosObtenidosAhora +
+                    puntosObtenidosPorDestruccionAl_ConPotencia_(direccionAMover, potenciaDeBomba)
+    
+    }
+    return( puntosObtenidosAhora )    
+}
+
+
+function puntosObtenidosPorDestruccionAl_ConPotencia_(direccion, potenciaDeBomba){
+    /*
+        Proposito: Describe los puntos obtenidos por la destruccion de ladrillos al **direccion** por **potenciaDeBomba**
+        Precondicion: Ninguna
+        Tipo: numero
+        Parametro: direccion: direccion: direccion de la explosion
+        potenciaDeBomba: numero : describe la potencia de la bomba
+        Observacion: es un recorrido de acumulacion sobre una una direccion del mapa, por donde cada ladrillo destruido se cuentan 5 puntos
+    */    
+    
+    potenciaDeBombaAhora := 0
+    puntajePorBomba := 0
+    puntajePorBomba := puntajePorBomba + puntajeEnCeldaPorBomba()
+    
+    while ( not hayObstaculo() && potenciaDeBombaAhora /= potenciaDeBomba) {
+        
+        Mover(direccion)
+        potenciaDeBombaAhora := potenciaDeBombaAhora + 1
+        puntajePorBomba := puntajePorBomba + puntajeEnCeldaPorBomba()
+        
+    }
+    
+    return(puntajePorBomba)
+}
+
+
+function puntajeEnCeldaPorBomba(){
+    /*
+        Proposito: Describe el puntaje obtenido por la destruccion de enemigo o ladrillo en la celda actual. Cero si no hay obstaculo 
+        Precondicion: Ninguna
+        Tipo: Numero
+    */
+    
+    return( 
+            choose 5 * cantidadDeEnemigos() when (hayEnemigo())
+                   2 when (tipoDeObstáculo() == ladrillo())
+                   0 otherwise
+        )
+}
+
+

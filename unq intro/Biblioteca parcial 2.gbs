@@ -1,0 +1,287 @@
+function esSingular_(lista){
+    /*
+        Proposito: Indica si la lista **lista** tiene un sólo elemento
+        Precondicion: Ninguna
+        Tipo: lista 
+        Parametro: lista: lista de elemento
+    */
+    return(
+        not esVacía(lista) && esVacía(resto(lista))
+        )
+}
+
+function listaCon_Repetido_veces(elemento, numero){
+    /*
+        Proposito: Descibre una lista que tiene el elemento dado repetido tantas veces el numero dado.
+        Precondicion: ninguna
+        Tipo: lista de "elemento"
+        Parametro: elemento: " elemento "
+        numero: numero
+    */
+    
+    elementoActual := []
+    
+    repeat(numero){
+        elementoActual := elementoActual ++ [elemento]
+    }
+    
+   return( elementoActual )
+    
+}
+
+
+function listaDesde_Hasta_(primerElemento, segundoElemento){
+    /*
+        Proposito: Describe la lista que va del **primerElemento**
+        al **segundoElemento**, pasando por todos los elementos
+        intermedios.
+        Precondicion: Ninguna
+        Tipo: lista de "elementos"
+        Parametro: 
+        primerElemento: elemento: primer "elemento" 
+        segundoElemento: elemento: segundo "elemento" 
+    */
+    
+    elementoActual := primerElemento
+    listaActual:= []
+    
+    while(elementoActual /= segundoElemento){
+        
+        listaActual := listaActual ++ [elementoActual]
+        elementoActual := siguiente(elementoActual)
+    }
+    
+    listaActual := listaActual ++ [elementoActual] --casoborde
+    
+    return(listaActual)
+}
+
+function singular_Si_(elemento, condicion){
+    /*
+        Proposito: Describe la lista singular con el elemento dado si la condicion dada es verdadera, o la lista vacia
+        en caso contrario.
+        Precondicion: ninguna
+        Parametro: elemento : "elemento"
+        condicion: booleano
+        Tipo: lista de "elemento"
+    */
+    
+     return (  choose [elemento] when (condicion)
+           [] otherwise
+     )
+
+} 
+
+function longitudDe_(lista){
+    /*
+        Proposito: Describe la cantidad de elementos que hay dentro de la lista **lista**
+        Precondicion: ninguna
+        Tipo: numero
+        parametro: lista : lista de elementos
+    */
+    
+    listaActual := lista
+    cantidadDeElementosVistos := 0
+    
+    while(not esVacía(listaActual)){
+        
+        cantidadDeElementosVistos := cantidadDeElementosVistos + 1
+        listaActual := sinElPrimero(listaActual) 
+    }
+    return(cantidadDeElementosVistos)
+}
+
+function sumatoriaDe_(listaNumero){
+    /*
+        Proposito: Describe la suma de todos los elementos de
+        la lista **listaNumero**
+        Precondicion: Ninguna
+        Tipo: numero
+        Parametro: listaNumero : elemento : lista de numero
+    */
+    
+    cantidadTotalDeSuma := 0
+    
+    foreach numero in listaNumero{
+        
+        cantidadTotalDeSuma := cantidadTotalDeSuma + numero
+        
+    }
+    return (cantidadTotalDeSuma )
+}
+
+
+function productoriaDe_(listaNumero){
+    /*
+        Proposito. Describe el producto de todos los elementos de 
+        **listaNumero**
+        Precondicion: Ninguna
+        Tipo: numero
+        Parametro: listaNumero : numero : lista de numero
+    */
+    cantidadTotalDeProducto := primero(listaNumero)
+    
+    foreach numero in listaNumero{
+        
+        cantidadTotalDeProducto := cantidadTotalDeProducto * numero
+        
+    }
+    return (cantidadTotalDeProducto )
+    
+}
+
+function opuestasDe_(listaDedireccion){
+    /*
+        Proposito: Describe la lista donde la **direccion** cambia a su opuesta
+        Precondicion: Ninguna
+        Tipo: lista de direccion
+        Parametro: listaDedireccion : lista de direccion
+        Observación: Es un recorrido de transformacion sobre lista de direccion,
+        donde por cada elemento se le cambia a su opuesto
+    */
+    
+    listaDireccionOpuesta := []
+    
+    foreach direccion in listaDedireccion {
+        listaDireccionOpuesta := listaDireccionOpuesta ++ [opuesto(direccion)]
+    }
+    
+    return (listaDireccionOpuesta)
+}
+
+
+function siguienteDe_(listaElementos){
+    /*
+        Proposito: Describe una lista de **listaDeElementos** donde cada elemento es el
+        siguiente del actual
+        Precondicion: Ninguna
+        Tipo: lista de "elementos"
+        Parametro: listaElementos : lista de "elementos"
+    */
+    
+    listaDeElementosActual := []
+    
+    foreach elemento in listaElementos {
+        
+        listaDeElementosActual := listaDeElementosActual ++ [siguiente(elemento)]
+        
+    }
+    
+    return( listaDeElementosActual )
+    
+}
+
+
+
+function reversoDe_(lista){
+    /*
+        Proposito: Describe el reverso de la lista **lista**
+        Precondicion: Debe haber al menos un elemento
+        Tipo: lista de "elemento"
+        Parametro : lista de "elemento"
+        Observacion: es un recorrido de transformacion sobre una lista de elementos, 
+        donde para cada elemento se cambia al reverso
+    */
+    
+    listaReversaActual := []
+    
+    foreach elemento in lista {
+        
+        listaReversaActual := [elemento] ++ listaReversaActual
+        
+    }
+        
+    return( listaReversaActual )
+}
+
+
+function elementosDe_SinAparicionesDe_(listaDeElemento, elemento){
+    /*
+        Proposito: Describe **listaDeElemento** sin el elemento **elemento**
+        Precondicion: Ninguna
+        Tipo: lista de "elemento"
+        Parametro: Parametro : lista de "elemento"
+        elemento : "elemento"
+        Observacion: es un recorrido de filtro sobre lista de elemento,
+        donde para la **listaDeElemento** se elimina todas las aparicioes de **elemento**
+    */
+    
+    elementosSinAparicionesAhora := []
+    
+    foreach elementoDeLista in listaDeElemento {
+        
+        elementosSinAparicionesAhora := elementosSinAparicionesAhora ++ singular_Si_(elementoDeLista, elementoDeLista /= elemento)
+    }
+    
+    return ( elementosSinAparicionesAhora )
+}
+
+function indiceEn_De_(listaDeElemento, elemento){
+    /*
+        Proposito: Describe la primera ubicacion de la lista donde se encuentra el elemento **elemento**
+        Precondicion: Ninguna
+        Tipo: lista de elemento
+        Parametro: Parametro : lista de "elemento"
+        elemento : "elemento"
+        Observacion: es un recorrido de busqueda sabiendo que esta sobre una lista de elementos,
+        donde por cada ubicacion se busca la ubicacion del elemento **elemento**
+    */
+    
+    contador := 0 
+    
+    elementoAhora := primero(elemento) 
+    
+    
+    while (elemento /= elementoAhora){
+        contador := contador + 1 
+        elementoAhora := siguiente(elemento)
+    }
+    return ( contador )
+}
+
+
+function contiene_A_(listaDeElemento, elemento){
+    /*
+        Proposito: Indica si la lista **listaDeElemento** contiene a **elemento**
+    */
+    
+    elementosPorRecorrer := lista
+    
+    while( not esVacía(elementosPorRecorrer) && primero(elementosPorRecorrer) /= elemento) {
+        elementosPorRecorrer := sinElPrimero(elementosPorRecorrer)
+    }
+    
+    return ( not esVacía(elementosPorRecorrer) ) --implica que encontew wl elemento buscado
+}
+
+function maximoElementoEn_(listaNumero){
+    /*
+        Proposito: Describe el numero más grande de la lista **listaNumero**
+        Precondicion: Ninguna
+        Parametro: listaNumero: lista de numero
+        Tipo: numero
+        Observacion es un recorrido de minimo sobre la lista **listaNumero**
+        donde para cada elemento se busca el maximo
+    */
+    
+    masGrandePorAhora := primero(listaNumero)
+    
+    foreach numero in sinElPrimero(listaNumero) {
+        
+         masGrandePorAhora := maximoEntre_Y_(masGrandePorAhora, numero)
+    }
+    
+    return ( masGrandePorAhora )
+}
+
+
+function minimoEn_(listaDeNumeros){
+    
+    masChicoPorAhora := primero(listaDeNumeros)
+    
+    foreach numero in sinElPrimero(listaDeNumeros) {
+       -- masChicoPorAhora := minimoEntre_Y_(masChicoPorAhora, numero)
+    }
+    
+    return(masChicoPorAhora)
+}

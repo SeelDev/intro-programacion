@@ -1,0 +1,607 @@
+
+
+procedure Mover3VecesAl_(direcciónAMover){
+    
+    /*
+    Proposito: Mover 3 veces al **direccionAMover** desde la celda actual.
+    Precondicion: deben haber al menos 3 celdas al **direccionAMover** desde la celda actual.
+    Parametro: direccionAMover: direccion
+    */
+    
+    repeat(3){
+       Mover(direcciónAMover)
+    }
+}
+
+
+procedure Poner6DeColor_(colorAPoner){
+    
+    /*
+    Proposito: Poner 6 veces el color **colorAPoner** en la  celda actual.
+    Precondicion: Ninguna
+    Parametro: colorAPoner : color
+    */
+    
+    repeat(6){
+        Poner(colorAPoner)
+    }
+}
+
+
+
+procedure Poner_Al_(colorAPoner, direcciónDondePoner){
+    /*
+    Proposito: Poner una bolita de color **colorAPoner** en la celda 
+    lindante al **direcciónDondePoner** desde la celda actual.
+    Precondicion: Debe haber al menos una celda **direcciónDondePoner** de la celda actual
+    Parametro: colorAPoner : color
+        direcciónDondePoner : direccion
+    */
+    
+    Mover(direcciónDondePoner)
+    Poner(colorAPoner)
+}
+
+
+
+procedure ReemplazarUnaDe_Por_(colorAReemplazar, colorPorElCualReemplazar){
+    
+    /*
+    Proposito: Reemplazar la bolita de color **colorAReemplazar** 
+    por una bolita de color **colorPorElCualReemplazar** en la celda actual
+    Precondicion: la celda debe estar vacía
+    Parametro: - colorAReemplazar : color : color que se reemplaza
+    - colorPorElCualReemplazar : color : color por el cual se reemplaza
+    */
+    
+    Poner(colorAReemplazar)
+    Sacar(colorAReemplazar)
+    Poner(colorPorElCualReemplazar)
+}
+
+
+procedure Poner_ADistancia3Al_(color, dirección) {
+    
+    /*
+    Proposito: Poner una bolita de color **color** a 3 celdas de distancia hacia 
+    **direccion** de la celda actual.
+    Precondicion: debe haber al menos 3 celdas hacia el **dirección** desde la celda actual.
+    Parametro: - color : color: color a poner
+    - direccion: direccion : direccion a la que se va a mover
+    */
+    
+    Mover3VecesAl_(dirección)
+    Poner(color) 
+    
+    
+}
+
+
+procedure Pintar3Puntos_(colorPunto){
+    
+    /*
+    Proposito: Pinta 3 puntos de color Azul hacia el este, con una distancia de 3 
+    celdas desde la celda actual. El cabezal termina en la celda inicial
+    Precondicion: Debe haber al menos 6 celdas hacia el este de la celda actual
+    */
+    
+    Poner(colorPunto)
+    repeat (2){
+    Poner_ADistancia3Al_(colorPunto, Este)
+    }
+    Mover3VecesAl_(Oeste)
+    Mover3VecesAl_(Oeste)
+}
+
+
+
+procedure PintarArcoIris(){
+    
+    /*
+    Proposito: Pintar un arcoiris hacia el este de la celda actual. El cabezal finaliza
+    en la celda inicial.
+    Precondicion: Debe haber al menos 9 celdas hacia el este desde la celda actual.
+    */
+    
+    Pintar3Puntos_(Negro)
+    Mover(Este)
+    Pintar3Puntos_(Azul)
+    Mover(Este)
+    Pintar3Puntos_(Rojo)
+    Mover(Norte)
+    Mover(Oeste)
+    Pintar3Puntos_(Verde)
+    Mover(Sur)
+    Mover(Oeste)
+}
+
+procedure Poner_DeColorRojo(cantidadAPoner){
+ 
+    /*
+    Proposito: Poner **cantidadAPoner** bolitas de color Rojo en la celda actual.
+    Precondicion: Ninguna
+    Parametro: cantidadAPoner : numero : cantidad de bolitas de color rojo a poner
+    */
+    
+    repeat(cantidadAPoner){
+        Poner(Rojo)
+    }
+       
+}
+-----------------------------------------------
+ // biblioteca
+ 
+ 
+procedure Poner_DeColor_(cantidadAPoner, colorAPoner){
+    
+    /*
+    Proposito: Poner **cantidadAPoner** bolitas de color **colorAPoner** en la celda actual.
+    Precondicion: Ninguna
+    Parametro: cantidadAPoner : numero : cantidad de bolitas de color rojo a poner
+    colorAPoner : color : color de la bolita a poner
+    */
+    
+    repeat (cantidadAPoner) {
+        Poner(colorAPoner)
+    }
+}
+
+
+procedure Mover_VecesAl_(cantidadAMover, direcciónAMover){
+
+    /*
+    Proposito: Mover el cabezal **cantidadAMover** veces
+    al **direcciónAMover** desde la celda actual
+    Precondicion: debe haber al menos **cantidadAMover** celdas hacia el **direcciónAMover**
+    de la celda inicial.
+    Parametro: cantidadAMover: numero : cantidad de celdas a mover
+    direcciónAMover : direccion: direccion a la cual mover
+    */
+    
+    repeat(cantidadAMover) {
+        Mover(direcciónAMover)
+    }
+   
+    
+}
+
+
+procedure Sacar_DeColor_(cantidadASacar, colorASacar){
+    
+    /*
+    Proposito: Sacar **cantidadASacar** bolitas de color **colorASacar** de la celda actual.
+    Precondicion: Debe haber al menos una bolita de color **colorASacar** en la celda actual.
+    Parametro: - cantidadASacar : numero: cantidad de bolitas delcolor dado a sacar
+    - colorASacar : color de las bolitas a sacar
+    */
+    
+    repeat(cantidadASacar){
+        Sacar(colorASacar)
+    }
+    
+}
+
+
+procedure IrAEsquinaAl_Y_(primeraDirección, segundaDirección) {
+    
+    /*
+    Proposito: Mueve el cabezal a la esquina **primeraDirección** y al **segundaDirección**
+    desde la celda actual
+    Precondicion: Las direcciones **primeraDirección** y al **segundaDirección** no deben 
+    ser opuestas.
+    Parametro: - primeraDirección : direccion : la primera direccion donde se mueve
+    - segundaDirección : direccion : la segunda direccion donde se mueve
+    */
+    
+    IrAlBorde(primeraDirección)
+    IrAlBorde(segundaDirección)
+}
+
+----------------------------------------------------
+
+procedure EscribirFechaConDía_Mes_Año_(día, mes, año) {
+    
+    /*
+    Proposito: Escribir la fecha el **día** del **mes** del **año** desde la celda actual.
+    Precondicion: Debe haber al menos 3 celdas hacia el este desde la celda inicial.
+    Parametro:
+    -dia: numero : dia de la fecha
+    - mes : numero : mes de la fecha
+    - año : numero: año de la fecha
+    Observación: Azul para el día, Rojo para el mes y Verde para el año
+    */
+    
+    EscribirDia(día)
+    EscribirMes(mes)
+    EscribirAño(año)
+}
+
+procedure EscribirDia(diaDelMes){
+    
+    /*
+    Proposito: Escribir el **día** del mes en la celda actual. El cabezal termina en la celda lindante al este de la celda actual
+    Precondicion: Debe haber al menos una celda hacia el este de la celda actual.
+    Parametro: diaDelMes: numero : dia del mes a escribir
+    Observación: El dia esta representado por bolitas de color Azul
+    */
+    
+    repeat(diaDelMes){
+        Poner(Azul)
+    }
+    Mover(Este)
+    
+}
+
+
+procedure EscribirMes(mesDelaFecha){
+    
+    /*
+    Proposito: Escribir el **mes** de la fecha en la celda actual.  El cabezal termina en la celda lindante al este de la celda actual
+    Precondicion: Debe haber al menos una celda hacia el este de la celda actual.
+    Parametro: mesDelaFecha: numero : mes de la fecha a escribir
+    Observación: El mes esta representado por bolitas de color Rojo
+    */
+    
+    repeat(mesDelaFecha){
+        Poner(Rojo)
+    }
+    Mover(Este)
+}
+
+
+procedure EscribirAño(añoDelaFecha){
+    
+    /*
+    Proposito: Escribir el **año** de la fecha en la celda actual.  El cabezal termina en la celda actual
+    Precondicion: Ninguna
+    Parametro: añoDelaFecha: numero : año de la fecha a escribir
+    Observación: El año esta representado por bolitas de color Verde
+    */
+    
+    repeat(añoDelaFecha){
+        Poner(Verde)
+    }
+}
+
+--------------------------------------------------------------------------------
+procedure EscribirDia_Mes_Año_DeReformaUniversitaria(dia, mes, año){
+    
+     /*
+    Proposito: Escribir la fecha de la reforma universitaria con su **día** del **mes** del **año** desde la celda actual.
+    Precondicion: Debe haber al menos 3 celdas hacia el este desde la celda inicial.
+    Parametro:
+    -dia: numero : dia de la fecha
+    - mes : numero : mes de la fecha
+    - año : numero: año de la fecha
+    Observación: Azul para el día, Rojo para el mes y Verde para el año
+    */
+     EscribirFechaConDía_Mes_Año_(dia, mes, año)
+}
+
+procedure EscribirDia_Mes_Año_DeVotoFemArg(dia, mes, año){
+    
+     /*
+    Proposito: Escribir la fecha de la Reglamentación del voto femenino en Argentina con su **día** del **mes** del **año** desde la celda actual.
+    Precondicion: Debe haber al menos 3 celdas hacia el este desde la celda inicial.
+    Parametro:
+    -dia: numero : dia de la fecha
+    - mes : numero : mes de la fecha
+    - año : numero: año de la fecha
+    Observación: Azul para el día, Rojo para el mes y Verde para el año
+    */
+     EscribirFechaConDía_Mes_Año_(dia, mes, año)
+}
+
+procedure EscribirDia_Mes_Año_DeDiaDelTrabajador(dia, mes, año){
+    
+     /*
+    Proposito: Escribir la fecha del dia del trabajador con su **día** del **mes** del **año** desde la celda actual.
+    Precondicion: Debe haber al menos 3 celdas hacia el este desde la celda inicial.
+    Parametro:
+    -dia: numero : dia de la fecha
+    - mes : numero : mes de la fecha
+    - año : numero: año de la fecha
+    Observación: Azul para el día, Rojo para el mes y Verde para el año
+    */
+     EscribirFechaConDía_Mes_Año_(dia, mes, año)
+}
+
+
+procedure EscribirDia_Mes_Año_DeCreacionMinisterioCYT(dia, mes, año){
+    
+     /*
+    Proposito: Escribir la fecha de la creación del ministerio de ciencia y tecnologia con su **día** del **mes** del **año** desde la celda actual.
+    Precondicion: Debe haber al menos 3 celdas hacia el este desde la celda inicial.
+    Parametro:
+    -dia: numero : dia de la fecha
+    - mes : numero : mes de la fecha
+    - año : numero: año de la fecha
+    Observación: Azul para el día, Rojo para el mes y Verde para el año
+    */
+     EscribirFechaConDía_Mes_Año_(dia, mes, año)
+}
+
+procedure EscribirDia_Mes_Año_DelPrimerDiaDeLaMujer(dia, mes, año){
+    
+     /*
+    Proposito: Escribir la fecha del primer celebración del dia de la mujer con su **día** del **mes** del **año** desde la celda actual.
+    Precondicion: Debe haber al menos 3 celdas hacia el este desde la celda inicial.
+    Parametro:
+    -dia: numero : dia de la fecha
+    - mes : numero : mes de la fecha
+    - año : numero: año de la fecha
+    Observación: Azul para el día, Rojo para el mes y Verde para el año
+    */
+     EscribirFechaConDía_Mes_Año_(dia, mes, año)
+}
+-------------------------------------------------------------------
+
+
+procedure  DibujarRelojAnalógicoSimplificadoDeRadio_(radio) {
+    
+    /*
+    Proposito: Dibujar un reloj analogico con los numeros 12, 3, 9 y 6 alrededor
+    de la celda actual. El cabezal empieza y finaliza en el medio del tablero
+    Precondicion: Debe haber al menos **radio** celdas al rededor de la celda actual.
+    */
+    
+    PonerHorarioDeLas12AlRadio_(radio)
+    PonerHorarioDeLas3AlRadio_(radio)
+    PonerHorarioDeLas6AlRadio_(radio)
+    PonerHorarioDeLas9AlRadio_(radio)
+    
+}
+
+
+procedure PonerHorarioDeLas12AlRadio_(radio){
+    /*
+    Proposito: Poner 12 bolitas de color rojo a **radio** celdas hacia el Norte de la celda actual. El cabezal finaliza en la celda inicial
+    Precondicion: Debe haber al menos **radio** celdas hacia el norte de la celda actual
+    Parametro: radio :  numero :o indica la distancia al centro del reloj
+    */
+    
+    Mover_VecesAl_(radio, Norte)
+    Poner_DeColor_(12, Rojo)
+    Mover_VecesAl_(radio, Sur)
+}
+
+
+procedure PonerHorarioDeLas3AlRadio_(radio){
+    
+      /*
+    Proposito: Poner 3 bolitas de color rojo a **radio** celdas hacia el Este de la celda
+    actual. El cabezal finaliza en la celda inicial
+    Precondicion: Debe haber al menos **radio** celdas hacia el este de la celda actual
+    */
+    
+    Mover_VecesAl_(radio, Este)
+    Poner_DeColor_(3, Rojo)
+    Mover_VecesAl_(radio, Oeste)
+    
+}
+
+
+procedure PonerHorarioDeLas6AlRadio_(radio){
+    
+    /*
+    Proposito: Poner 6 bolitas de color rojo a **radio** celdas hacia el Sur de
+    la celda actual. El cabezal finaliza en la celda inicial
+    Precondicion: Debe haber al menos **radio** celdas hacia el sur  de la celda actual
+    */
+    
+    Mover_VecesAl_(radio, Sur)
+    Poner_DeColor_(6, Rojo)
+    Mover_VecesAl_(radio, Norte)
+}
+
+
+procedure PonerHorarioDeLas9AlRadio_(radio) {
+    /*
+    Proposito: Poner 9 bolitas de color rojo a **radio** celdas hacia el Oeste
+    de la celda actual. El cabezal finaliza en la celda inicial
+    Precondicion: Debe haber al menos **radio** celdas hacia el Oeste de la celda actual
+    */
+    
+    Mover_VecesAl_(radio, Oeste)
+    Poner_DeColor_(9, Rojo)
+    Mover_VecesAl_(radio, Este)
+    
+}
+
+program {
+    
+    DibujarLetraS()
+    DibujarLetraU()
+    IrAEsquinaAl_Y_(Sur, Oeste)
+}
+
+procedure DibujarLetraS(){
+    /*
+    Proposito: Dibujar la letra S de 5 celdas de alto(hacia el norte)
+    y 3 celdas de largo (hacia el este) de la celda actual.
+    Precondicion: Debe haber al menos 5 celdas hacia el norte y 
+    3 celdas hacia el este de la celda actual.
+    */
+    
+    DibujarLíneaHaciaEl_DeLargo_(Este, 3)
+    DibujarLíneaHaciaEl_DeLargo_(Norte, 2)
+    DibujarLíneaHaciaEl_DeLargo_(Oeste, 2)
+    DibujarLíneaHaciaEl_DeLargo_(Norte, 2)
+    DibujarLíneaHaciaEl_DeLargo_(Este, 2)
+    
+}
+
+
+procedure DibujarLetraU(){
+    /*
+    Proposito: Dibujar la letra U de 5 celdas de alto(hacia el norte)
+    y 3 celdas de largo (hacia el este) de la celda actual.
+    Precondicion: Debe haber al menos 5 celdas hacia el norte y 
+    3 celdas hacia el este de la celda actual.
+    */
+    Mover_VecesAl_(2, Este)
+    DibujarLíneaHaciaEl_DeLargo_(Sur, 4)
+    DibujarLíneaHaciaEl_DeLargo_(Este, 2)
+    DibujarLíneaHaciaEl_DeLargo_(Norte, 4)
+}
+
+--------------------------------------------------------------
+
+procedure DibujarCuadradito_De2(colorDelCuadrado) {
+    /*
+    PROPÓSITO: Dibuja un cuadrado sólido de 2x2 de color **colorDelCuadrado**.
+    PARÁMETROS:
+    * colorDelCuadrado: Un color del cual se dibujará el cuadrado.
+    PRECONDICIONES:
+    * Existen al menos 1 celda al Norte y 1 al Este de la actual.
+    */
+    
+    
+    DibujarLineaDeLongitud2DeColor_(colorDelCuadrado)
+    Mover(Norte)
+    DibujarLineaDeLongitud2DeColor_(colorDelCuadrado)
+    Mover(Sur)
+    }
+    
+    
+procedure DibujarLineaDeLongitud2DeColor_(colorCuadrado) {
+    /*
+    PROPÓSITO: Dibujar una línea de longitud 2 de color **colorCuadrado**
+    PRECONDICIONES: existe al menos 1 celda al Este de la actual
+    */
+    Poner(colorCuadrado)
+    Mover(Este)
+    Poner(colorCuadrado)
+    Mover(Oeste)
+    }
+
+
+//bosque parte2
+
+procedure Poner_Semillas(cantidadDeSemillasAPoner) {
+    
+    /*
+    Proposito: Poner **cantidadDeSemillasAPoner** semillas en la parcela actual
+    Precondicion: Ninguna
+    Parametro : cantidadDeSemillasAPoner : numero: la cantidad de semillas a poner
+    Observación:  Cada bolita roja  representa una semilla
+    */
+    repeat(cantidadDeSemillasAPoner) {
+        Poner(Rojo)
+    }
+    
+}
+
+procedure Sacar_Semillas(cantidadDeSemillasASacar) {
+    /*
+    Proposito: Sacar **cantidadDeSemillasASacar** semillas en la parcela actual
+    Precondicion: Debe haber al menos una semilla en la parcela actual
+    Parametro : cantidadDeSemillasASacar : numero: la cantidad de semillas a sacar
+    Observación:  Cada bolita roja  representa una semilla
+    */
+    repeat(cantidadDeSemillasASacar){
+        Sacar(Rojo)
+    }
+    
+}
+
+
+procedure Poner_Árboles(cantidadDeÁrbolesAPoner) {
+    /*
+    Proposito: Poner **cantidadDeÁrbolesAPoner** arboles en la parcela actual.
+    Precondicion: Ninguna
+    Observación:  Cada bolita verde representa un arbol
+    Parametro: cantidadDeÁrbolesAPoner : numero: cantidad arboles a poner
+    */
+    
+    repeat (cantidadDeÁrbolesAPoner){
+        Poner(Verde)
+    }
+}
+
+
+procedure Sacar_Árboles(cantidadDeÁrbolesASacar){
+     /*
+    Proposito: Sacar **cantidadDeÁrbolesASacar** arboles en la parcela actual.
+    Precondicion: Debe haber al menos un arbol en la parcela actual
+    Observación:  Cada bolita verde representa un arbol
+    Parametro: cantidadDeÁrbolesASacar : numero: cantidad arboles a sacar
+    */
+    
+    repeat(cantidadDeÁrbolesASacar){
+        Sacar(Verde)
+    }
+}
+
+procedure Poner_Nutrientes(cantidadDeNutrientesAPoner){
+    
+     /*
+    Proposito: Poner **cantidadDeNutrientesAPoner** nutrientes en la parcela actual.
+    Precondicion: Ninguna
+    Observación: Una bolita azul representa una unidad de nutrientes.
+    Parametro: cantidadDeNutrientesAPoner: numero: la cantidad de nutrientes a poner
+    */
+    
+    repeat(cantidadDeNutrientesAPoner){
+        Poner(Azul)
+    }
+}
+
+procedure Sacar_Nutrientes(cantidadDeNutrientesASacar){
+     /*
+    Proposito: Sacar **cantidadDeNutrientesASacar** nutrientes en la parcela actual.
+    Precondicion: Debe haber al menos un nutriente en la parcela actual
+    Observación: Una bolita azul representa una unidad de nutrientes.
+    Parametro: cantidadDeNutrientesASacar: numero: la cantidad de nutrientes a sacar
+    */
+    
+    repeat (cantidadDeNutrientesASacar){
+        Sacar(Azul)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

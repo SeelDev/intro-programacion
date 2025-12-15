@@ -1,0 +1,457 @@
+program {
+     DibujarRelojAnalógicoSimplificado()
+}
+
+procedure DibujarRectánguloRojoYNegroDe5x3(){
+    
+    /*
+PROPÓSITO: Poner un rectángulo sólido de 5 celdas de ancho y 3
+celdas de alto. Desde la celda actual hacia el Este y hacia el Norte.
+PRECONDICIONES:
+* Hay al menos 4 celdas al Este y 2 celdas al Norte de la celda
+actual.
+* Las celdas contenidas en el rectángulo de 5x3 desde la celda
+actual hacia el Este y hacia el Norte están vacías.
+*/
+    DibujarLíneaRojaYNegraDeTamaño5HaciaElEste() 
+    Mover(Norte)
+    DibujarLíneaRojaYNegraDeTamaño5HaciaElEste() 
+    Mover(Norte)
+    DibujarLíneaRojaYNegraDeTamaño5HaciaElEste() 
+    Mover(Sur)
+    Mover(Sur)
+}
+
+
+procedure DibujarLíneaRojaYNegraDeTamaño5HaciaElEste() {
+    
+    /*
+    Proposito: Dibuja una linea de 5 celdas con Bolitas Rojo y Negro.
+    Desde la celda actual hacia el este
+    Precondicion: Debe haber al menos 5 celdas hacia el este desde la celda actual y vacías
+    */
+    
+    
+    PonerUnaNegraYUnaRoja()
+    Mover(Este)
+    PonerUnaNegraYUnaRoja()
+    Mover(Este)
+    PonerUnaNegraYUnaRoja()
+    Mover(Este)
+    PonerUnaNegraYUnaRoja()
+    Mover(Este)
+    PonerUnaNegraYUnaRoja()
+    Mover4VecesAlOeste()
+   
+}    
+procedure PonerUnaNegraYUnaRoja(){
+    /*
+    Proposito: Poner una bolita de color rojo y una bolita de color de negro en la celda actual.
+    Precondicion: Ninguna
+    */
+    Poner(Negro)
+    Poner(Rojo)
+    
+}
+
+procedure  Mover4VecesAlOeste(){
+    /*
+    Proposito: El cabezal se posiciona a 4 celdas al oeste de la celda actual.
+    Precondicion: Debe haber al menos 4 celdas hacia el oeste de la celda actual.
+    */
+    Mover(Oeste)
+    Mover(Oeste)
+    Mover(Oeste)
+    Mover(Oeste)
+}
+
+//________________________
+
+
+
+//3.
+
+
+procedure PonerUnaDeCada() { //BIBLIOTECA
+    
+    /*
+    Proposito: Pone una bolita de cada color en la celda actual.
+    Precondicion: Ninguna
+    */
+    Poner(Rojo)
+    Poner(Negro)
+    Poner(Verde)
+    Poner(Azul)
+}
+
+procedure Mover3VecesAlOeste() {
+    
+    /*
+    Proposito: El cabezal se posiciona en la tercera celda hacia el oeste desde la celda actual
+    Precondicion: debe haber al menos 3 celdas hacia le oeste de la celda actual
+    */
+    
+    Mover(Oeste)
+    Mover(Oeste)
+    Mover(Oeste)
+}
+
+
+procedure DibujarLíneaMulticolorDeLargo4() {
+    
+    /*
+    Proposito: Dibujar una linea multicolor de 4 celdas de largo hacia el este. El cabezal finaliza en la celda inicial
+    Precondicion: Debe haber al menos cuatro celdas hacia el este de la celda actual
+    */
+    PonerUnaDeCada() 
+    Mover(Este)
+    PonerUnaDeCada() 
+    Mover(Este)
+    PonerUnaDeCada() 
+    Mover(Este)
+    PonerUnaDeCada() 
+    Mover3VecesAlOeste() // El cabezal debe quedar en la celda inicial.
+
+}
+
+procedure DibujarCuadradoMulticolorDeLado4() {
+    
+    /*
+    Proposito: Pone un cuadrado multicolor de 4 celdas de largo y de alto. El cabezal termina en la celda inicial
+    Precondicion: Debe haber al menos 4 celdas hacia el este y 4 celdas hacia el Norte
+    */
+    
+   DibujarLíneaMulticolorDeLargo4()
+   
+   Mover(Norte)
+   DibujarLíneaMulticolorDeLargo4()
+   
+   Mover(Norte)
+   DibujarLíneaMulticolorDeLargo4()
+   
+   Mover(Norte)
+   DibujarLíneaMulticolorDeLargo4()
+   
+   Mover(Sur)
+   Mover(Sur)
+   Mover(Sur)
+}
+
+
+
+
+
+
+//4.
+
+procedure PonerGuardaDe5Azulejos() {
+    
+    /*
+    Proposito: Dibuja una guarda horizontal de color negro, rojo y verde hacia el este de la celda actual.
+    Precondicion: Debe haber al menos 4 celdas al este desde la celda actual
+    Observación: Cada azulejo está conformado por 1 bolita verde, 5
+negras y 9 rojas
+    */
+    DibujarUnAzulejo()
+    Mover(Este)
+    DibujarUnAzulejo()
+    Mover(Este)
+    DibujarUnAzulejo()
+    Mover(Este)
+    DibujarUnAzulejo()
+    Mover(Este)
+    DibujarUnAzulejo()
+    
+}
+
+procedure DibujarUnAzulejo() {
+    
+    /*
+    Proposito: Pone 1 bolita verde, 5 negras y 9 rojas para formar una azulejo en la celda actual.
+    Precondicion: La celda debe estar vacia.
+    */
+    
+    Poner(Verde)
+    
+    Poner(Negro)
+    Poner(Negro)
+    Poner(Negro)
+    Poner(Negro)
+    Poner(Negro)
+    
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+}
+
+//6.
+
+procedure PonerGuardaEnL(){
+    
+    /*
+    Proposito: Dibujar una guarda en L. El cabezal termina en la celda inicial
+    Precondicion: Debe haber al menos 3 celdas hacia el este y hacia el norte de la celda inicial
+    */
+    
+    DibujarLargoDeLaGuarda()
+    IrAlBorde(Oeste)
+    DibujarAltoDeLaGuarda()
+    IrAlBorde(Sur)
+    
+    
+}
+
+
+procedure DibujarLargoDeLaGuarda(){
+    
+    /*
+    Proposito: Pone una fila de azulejos hacia el este desde la celda actual
+    Precondicion: Debe haber al menos 3 celdas hacia el este desde la celda actual
+    */
+    
+    DibujarUnAzulejo()
+    Mover(Este)
+    DibujarUnAzulejo()
+    Mover(Este)
+    DibujarUnAzulejo()
+    
+}
+
+
+
+procedure DibujarAltoDeLaGuarda(){
+    /*
+    Proposito: Pone una columna de azulejos hacia el Norte desde la celda actual
+    Precondicion: Debe haber al menos 3 celdas hacia el Norte desde la celda actual
+    */
+    
+    
+    Mover(Norte)
+    DibujarUnAzulejo()
+    Mover(Norte)
+    DibujarUnAzulejo()
+    
+}
+
+//8.
+
+procedure PonerUnaSemilla(){
+    
+    /*
+    Proposito: Poner una semilla en la parcela actual.
+    Precondicion: Ninguna
+    Observación:  Cada bolita roja representa una semilla
+    */
+    Poner(Rojo)
+}
+
+procedure PonerUnArbol(){
+    
+    /*
+    Proposito: Poner un arbol en la parcela actual.
+    Precondicion: Ninguna
+    Observación:  Cada bolita verde representa un arbol
+    */
+    Poner(Verde)
+}
+
+procedure PonerUnaBomba(){
+    /*
+    Proposito: Poner una bomba en la parcela actual.
+    Precondicion: Ninguna
+    Observación: Una bolita negra representa una bomba
+    */
+    
+    Poner(Negro)
+}
+
+
+procedure PonerUnNutriente(){
+    /*
+    Proposito: Poner un nutriente en la parcela actual.
+    Precondicion: Ninguna
+    Observación: Una bolita azul representa una unidad de nutrientes.
+    */
+    Poner(Azul)
+}
+
+procedure SacarUnaSemilla() {
+    /*
+    Proposito: Sacar una semilla en la parcela actual.
+    Precondicion: Debe haber al menos una semilla en la parcela actual
+    Observación:  Cada bolita roja representa una semilla
+    */
+    Sacar(Rojo)
+}
+
+
+
+
+procedure SacarUnÁrbol() {
+    
+    /*
+    Proposito: Sacar un arbol en la parcela actual.
+    Precondicion: Debe haber al menos un arbol en la parcela actual
+    Observación:  Cada bolita verde representa un arbol
+    */
+    Sacar(Verde)
+}
+
+
+procedure SacarUnaBomba() {
+    /*
+    Proposito: Sacar una bomba en la parcela actual.
+    Precondicion: Debe haber al menos una bomba en la parcela actual
+    Observación: Una bolita negra representa una bomba
+    */
+    
+    Sacar(Negro)
+}
+
+procedure SacarUnNutriente() {
+    
+    /*
+    Proposito: Sacar un nutriente en la parcela actual.
+    Precondicion: Debe haber al menos un nutriente en la parcela actual
+    Observación: Una bolita azul representa una unidad de nutrientes.
+    */
+    Sacar(Azul)
+    
+}
+
+
+//9.
+
+procedure  DibujarRelojAnalógicoSimplificado() {
+    
+    /*
+    Proposito: Dibujar un reloj analogico con los numeros 12, 3, 9 y 6 alrededor de la celda actual. El cabezal empieza y finaliza en el medio del tablero
+    Precondicion: Debe haber al menos 2 celdas de "radio" al rededor de la celda actual.
+    */
+    
+    PonerHorarioDeLas12()
+    PonerHorarioDeLas3()
+    PonerHorarioDeLas6()
+    PonerHorarioDeLas9()
+    
+}
+
+
+procedure PonerHorarioDeLas12(){
+    /*
+    Proposito: Poner 12 bolitas de color rojo a dos celdas hacia el Norte de la celda actual. El cabezal finaliza en la celda inicial
+    Precondicion: Debe haber al menos dos celdas hacia el norte de la celda actual
+    */
+    
+    Mover(Norte)
+    Mover(Norte)
+    
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    
+    Mover(Sur)
+    Mover(Sur)
+}
+
+
+procedure PonerHorarioDeLas3(){
+    
+      /*
+    Proposito: Poner 3 bolitas de color rojo hacia el Este de la celda actual . El cabezal finaliza en la celda inicial
+    Precondicion: Debe haber al menos dos celdas hacia el este de la celda actual
+    */
+    Mover(Este)
+    Mover(Este)
+    
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    
+    Mover(Oeste)
+    Mover(Oeste)
+    
+}
+
+
+procedure PonerHorarioDeLas6(){
+    
+    /*
+    Proposito: Poner 6 bolitas de color rojo hacia el Sur de la celda actual. El cabezal finaliza en la celda inicial
+    Precondicion: Debe haber al menos dos celdas hacia el sur  de la celda actual
+    */
+    Mover(Sur)
+    Mover(Sur)
+    
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    
+    Mover(Norte)
+    Mover(Norte)
+}
+
+
+procedure PonerHorarioDeLas9() {
+    /*
+    Proposito: Poner 9 bolitas de color rojo hacia el Oeste de la celda actual. El cabezal finaliza en la celda inicial
+    Precondicion: Debe haber al menos dos celdas hacia el Oeste  de la celda actual
+    */
+    
+    Mover(Oeste)
+    Mover(Oeste)
+    
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    Poner(Rojo)
+    
+    Mover(Este)
+    Mover(Este)
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

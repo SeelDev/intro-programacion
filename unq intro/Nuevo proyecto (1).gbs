@@ -1,0 +1,259 @@
+procedure SacarUnaFicha_SiSePuede(colorDeLaFicha){
+    
+    /*
+    Proposito: Sacar una sola ficha de color **colorDeLaFicha** de la celda actual.
+    Precondicion: Debe haber al menos una ficha de color **colorDeLaFicha**
+    en la celda actual.
+    Parametro: colorDeLaFicha : color : color de la ficha a sacar
+    */
+    if(hayBolitas(colorDeLaFicha)){
+        Sacar(colorDeLaFicha)
+    }
+}
+
+procedure DesempatarParaElLocal_Contra_(colorDelLocal,colorDelVisitante){
+    
+    /*
+    Proposito: Desempatar juego del local **colorDelLocal** contra
+    el visitante **colorDelVisitante** otorgandole un punto al jugador Local
+    Precondicion: Para desempatar, los dos jugadores deben tener la misma puntuacion
+    Parametro:
+    colorDelLocal: color : color deL Jugador Local
+    colorDelVisitante: color : color del Jugardor Visitante
+    */
+    
+    if(nroBolitas(colorDelLocal) == nroBolitas(colorDelVisitante)){
+        Poner(colorDelLocal)
+    }
+}
+
+procedure ExpandirBacteriaDeLaColonia(){
+    
+    /*
+    Proposito: Expandir una bacteria y consumir dos nutrientes en la celda actual
+    Precondicion: Para expandir una bacteria tiene que haber un cultivo de 
+    bacterias ya existentes y suficientes nutrientes en la celda actual.
+    */
+    if(hayBolitas(Verde) && hayBolitas(Rojo)){
+        Poner(Verde)
+        Sacar_DeColor_(2, Rojo)
+    }
+}
+
+
+procedure PonerFlecha_AlNorteSiCorresponde(colorDeLaFlecha){
+    
+    /*
+    Proposito: Poner una flecha de color **colorDeLaFlecha** hacia el Norte
+    si puede desde la celda actual.
+    Precondicion: Debe haber al menos una celda al Norte de la celda actual.
+    Parametro: colorDeLaFlecha: color: color de la flecha
+    */
+    
+    if(puedeMover(Norte)){
+        Mover(Norte)
+        Poner(colorDeLaFlecha)
+    }
+    
+}
+
+--------------------------biblioteca---------------------------------
+
+
+procedure Poner_Si_(color, condicion){
+    /*
+    Proposito: Poner en la celda actual una bolita de color **color** 
+    según si la condicion **condicion** se cumple
+    Precondicion: La condicion **condicion** debe cumplirse.
+    Parametro: color: color: color de la bolita a poner
+    condicion: booleano: condicion para poner una bolita de color **color** en la celda actual.
+    */
+    if(condicion){
+        Poner(color)
+    }    
+}
+
+
+
+procedure Sacar_Si_(color, condicion) {
+     /*
+    Proposito: Sacar de la celda actual una bolita de color **color** 
+    según si la condicion **condicion** se cumple
+    Precondicion: La condicion **condicion** debe cumplirse.
+    Parametro: color: color: color de la bolita a sacar
+    condicion: booleano: condicion para sacar una bolita de color **color** en la celda actual.
+    */
+    if(condicion){
+        Sacar(color)
+    }
+    
+}
+
+
+procedure Mover_Si_(direccion, condicion){
+    
+    /*
+    Proposito: Mover en la direccion **direccion** desde la celda actual según si la condicion **condicion** se cumple
+    Precondicion: La condicion **condicion** debe cumplirse y debe haber al menos una celda hacia
+    **direccion** desde la celda actual
+    direccion: direccion: direccion en la cual se mueve
+    condicion: booleano: condicion para sacar una bolita de color **color** en la celda actual.
+    */
+     if(condicion){
+        Mover(direccion)
+    }
+}
+
+-------------------------biblioteca---------------------
+
+program {
+    ConvertirHasta_PesosA_(14 , Rojo)
+}
+procedure Depositar_EnMoneda_ComoPesos(cantidadADepositar, moneda){
+    /*
+    Proposito: Depositar en la cuenta **cantidadADepositar** de **moneda** como pesos
+    Precondicion:Ninguna
+    Parametro: cantidadADepositar : numero : cantidad de dinero a depositar
+    moneda: color : moneda del dinero a depositar como en pesos
+    */
+    if(moneda == Rojo && cantidadADepositar < nroBolitas(Negro)){
+         repeat (cantidadADepositar * 12){
+             Poner(Negro)
+         }
+    } elseif (moneda == Verde && cantidadADepositar < nroBolitas(Negro)){
+         repeat (cantidadADepositar * 80){
+             Poner(Negro)
+         } 
+    } elseif(moneda == Azul  && cantidadADepositar < nroBolitas(Negro)){
+         repeat (cantidadADepositar * 90){
+             Poner(Negro)
+         }
+    }
+}
+
+
+
+procedure ExtraerHasta_EnMoneda_(cantidadAExtraer, moneda){
+    
+    /*
+    Proposito: Extraer **cantidadAExtraer**  en **monedas** 
+    de la cuenta bancaria. Si hubiese menos dinero de lo que se quiere extraer,
+    se retira todo lo que haya.
+    Precondicion: Ninguna
+    Parametro cantidadAExtraer : numero : cantidad de dinero a extraer de la cuenta
+    moneda: color : representa el tipo de moneda a extraer.
+    */
+
+    if(cantidadAExtraer <= nroBolitas(moneda)){
+        repeat(cantidadAExtraer){
+            Sacar(moneda)
+        }
+    }else {
+        SacarTodasLasDeColor_(moneda)
+    }
+}
+
+
+procedure ConvertirHasta_PesosA_(pesosAConvertir, moneda){
+    
+    /*
+    Proposito: Convertir **pesosAConvertir** de pesos a **moneda**.
+    Si la cantidad de pesos no es suficiente a lo solicitado a convertir, 
+    convierte todo lo que haya
+    Precondicion: Ninguna
+    Parametro
+    pesosAConvertir : numero : cantidad de pesos a convertir
+    moneda: color: representa la moneda a la que se quiere convertir los pesos.
+    */
+    
+    
+}
+
+
+
+
+
+
+
+procedure Sacar_DeColor_(cantidadASacar, colorASacar){
+    
+    /*
+    Proposito: Sacar **cantidadASacar** bolitas de color **colorASacar** de la celda actual.
+    Precondicion: Debe haber al menos una bolita de color **colorASacar** en la celda actual.
+    Parametro: - cantidadASacar : numero: cantidad de bolitas delcolor dado a sacar
+    - colorASacar : color de las bolitas a sacar
+    */
+    
+    repeat(cantidadASacar) {
+        Sacar(colorASacar)
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if(moneda == Rojo && (pesosAConvertir <= nroBolitas(Negro))){
+        repeat(pesosAConvertir div 17){
+            Poner(moneda)
+        }
+            Sacar_DeColor_(pesosAConvertir, Negro)
+    }
+    elseif(moneda == Verde && (pesosAConvertir <= nroBolitas(Negro))){
+        repeat(pesosAConvertir div 100){
+            Poner(moneda)
+        }
+         Sacar_DeColor_(pesosAConvertir, Negro)
+    }
+    elseif(moneda == Azul && (pesosAConvertir <= nroBolitas(Negro))){
+        repeat(pesosAConvertir div 115){
+            Poner(moneda)
+        }
+        Sacar_DeColor_(pesosAConvertir, Negro)
+    }
+    
+
+
+
+
+
+
+
+procedure SacarTodasLasDeColor_(colorASacar){
+    
+    /*
+    Proposito: Sacar todas las bolitas de color **colorASacar**
+    de la celda actual.
+    Precondicion: debe haber al menos una bolita de color
+    **colorASacar** en la celda actual.
+    Parametro: colorASacar: color: color de la bolita a sacar
+    */
+
+    repeat(nroBolitas(colorASacar)){
+        Sacar(colorASacar)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+

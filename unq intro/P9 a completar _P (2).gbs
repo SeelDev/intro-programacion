@@ -1,0 +1,276 @@
+
+-----ENUMERTIVOS----------------------------------------------------------------------------
+
+
+procedure PonerUnaDeCadaColor(){
+    /*
+    Proposito: Poner una bolita de cada color 
+    Precondicion: Ninguna
+    Observacion: Es un recorrido de procesamiento sobre colores, donde pone una bolita de cada 
+    color en la celda actual.
+    */
+    
+    coloresYaPuestos := minColor()
+    
+    while (coloresYaPuestos /= maxColor()){
+        
+        Poner(coloresYaPuestos)
+        coloresYaPuestos := siguiente(coloresYaPuestos) 
+    }
+    Poner(coloresYaPuestos) // una vez que el entre al maxColor, el while se corta, queda 
+                            //como caso borde, por lo que despues del while hay que poner
+                            //el maxColor()
+
+}
+
+
+procedure LimpiarCruzDeColor_(colorCruz){
+    /*
+    Proposito: Sacar las bolitas de color **color** que forman una cruz
+    Precondicion: Ninguna
+    Parametro: 
+    *colorCruz : color : color con la que se forma una cruz
+    Observacion: Es un recorrido de enumerativos 
+    sobre celdas del tablero, donde limpia el dibujo de una cruz de color **color**
+    */
+    
+    direccionDeCruzYaLimpia := minDir()
+    
+    while( direccionDeCruzYaLimpia /= maxDir() ){
+        
+        Mover_YSacarDeColor_(direccionDeCruzYaLimpia, colorCruz)
+        IrALaBolita_AlCentro_(colorCruz, direccionDeCruzYaLimpia )
+        direccionDeCruzYaLimpia := siguiente(direccionDeCruzYaLimpia) 
+        
+    }
+    Mover_YSacarDeColor_(direccionDeCruzYaLimpia, colorCruz)
+    IrALaBolita_AlCentro_(colorCruz, direccionDeCruzYaLimpia )
+    direccionDeCruzYaLimpia := siguiente(direccionDeCruzYaLimpia) 
+    Sacar(colorCruz)
+     
+}
+procedure Mover_YSacarDeColor_(direccionDeCruz, colorDeLaCruz){
+   /*
+   Proposito: Saca la cruz de color **color** al **direccionDeCruz**
+   Precondicion: Ninguna
+   Parametro:
+   * direccionDeCruz: direccion: es la direccion en la que se mueve el cabezal para ir sacando las bolitas de color **color**
+   * colorCruz: color: es el color de la bolita que forma una cruz
+   Observacion: "direccionDeCruz" viene de la variable "direccionDeCruzYaLimpia"
+   */
+     while(puedeMover(direccionDeCruz)){
+        Mover(direccionDeCruz)
+        Sacar(colorDeLaCruz)
+     }
+   IrALaBolita_AlCentro_(colorDeLaCruz, direccionDeCruz)
+ }
+ 
+procedure IrALaBolita_AlCentro_(colorCruz, direccionDeCruz){
+    /*
+    Proposito: Mueve el cabezal hasta el centro de la cruz.
+    Precondicion: Ninguna
+    Parametro:
+    *direccionDeCruz: direccion: direccion a donde se mueve el cabezal.
+    *colorCruz: color : color de referencia del centro de la cruz
+    */
+    while(not hayBolitas(colorCruz)){
+        Mover(opuesto(direccionDeCruz))
+    }
+}
+----------------------------------------------------- 
+function direccionHaciaLaCualHayBolitasDe_(colorBolita){
+    /*
+    Proposito: Describe la direccion que contiene al menos una bolita de color **color**
+    Precondicion: Ninguna
+    Parametro: 
+    *colorBolita : color : color de la bolita que está en alguna direccion
+    Tipo: direccion
+    Observacion: es un recorrido de busqueda sobre direcciones, para encontrar la celda
+    que tiene al menos una bolita de color **color**
+    
+    */
+                                     //norte
+    direccionDeCeldaVecinaYaVista := minDir()
+    
+                                             //oeste
+    while(  direccionDeCeldaVecinaYaVista /= maxDir() && not hayBolitas(colorBolita)){
+
+      
+       direccionVecinas := siguiente(direccionDeCeldaVecinaYaVista)
+       Mover(direccionDeCeldaVecinaYaVista)
+       Mover(siguiente(direccionDeCeldaVecinaYaVista))
+    }  
+   
+    return(direccionDeCeldaVecinaYaVista)
+    
+}
+-------------------------------------------------------
+
+
+
+
+
+function cantidadDeVecinasConBolitas(){
+    /*
+    Proposito: Describe la cantidad de celda vecinas que tienen al menos una bolita de algun color.
+    Precondicion: Ninguna
+    Tipo: numero
+    Observacion: Es un recorrido de acumulacion sobre celdas vecinas del tablero, para obtener
+    la cantidad de celdas con alguna bolita de cualquier color
+    */
+    --Inicializo el recorrido enumerativo : direccion
+    direccionCeldaVecina := minDir()
+    -- Inicializo acumulador de las celdas vecinas con bolitas tanto como las ortogonales como las diagonales
+    celdasVecinasYaContadas := 0
+    
+    celdasVecinasYaContadas :=  celdasVecinasYaContadas + unoSi_ceroSiNo(hayCeldaVecinaConBolitasAl_(direccionCeldaVecina))
+                                                       + unoSi_ceroSiNo(hayCeldaDiagonalVecinaConBolitasAl_(direccionCeldaVecina))
+    
+    -- while : mientras la direccion minima no sea igual a la maxima
+    while( direccionCeldaVecina /= maxDir()){
+        direccionCeldaVecina := siguiente(direccionCeldaVecina) -- actualizo variable de direccion
+        --actualizo variable de acumulador de las celdas vecinas con bolitas (ortogonales y diagonales) 
+        celdasVecinasYaContadas := celdasVecinasYaContadas + unoSi_ceroSiNo(hayCeldaVecinaConBolitasAl_(direccionCeldaVecina))
+                                                            + unoSi_ceroSiNo(hayCeldaDiagonalVecinaConBolitasAl_(direccionCeldaVecina))
+    }
+    celdasVecinasYaContadas := celdasVecinasYaContadas + unoSi_ceroSiNo(hayCeldaVecinaConBolitasAl_(direccionCeldaVecina))
+                                                            + unoSi_ceroSiNo(hayCeldaDiagonalVecinaConBolitasAl_(direccionCeldaVecina))
+  return ( celdasVecinasYaContadas ) -- retorno la variable que acumulo todas las celdas con bolitas
+}
+   
+   
+function hayCeldaVecinaConBolitasAl_(direccionVecina){
+    /*
+    Proposito: Indica si hay una celda vecina al *direccionVecina* desde la celda actual.
+    Precondicion: Ninguna
+    Tipo: booleano
+    Parametro: 
+    *direccionVecina: direccion: direccion de la direccion vecina ortogonal
+    */
+    --retorno un circuito corto, primero pregunto si me puedo mover a dicha direccion dada por la variable
+    --y despues me muevo y pregunto si es una celda con bolitas
+    return (puedeMover(direccionVecina) && esCeldaVecinaConBolitasAl_(direccionVecina))
+}
+
+function hayCeldaDiagonalVecinaConBolitasAl_(direccionVecina){
+    /*
+    Proposito: Indica si hay una celda diagonal vecina al *direccionVecina* desde la celda actual.
+    Precondicion: Ninguna
+    Tipo: booleano
+    Parametro: 
+    *direccionVecina: direccion: direccion de la direccion vecina diagonal
+    */
+    --retorno un circuito corto, primero pregunto si me puedo mover a dicha direccion dada en diagonal por la variable
+    --y despues me muevo y pregunto si es una celda con bolitas (o sea tambie pregunto por la siguiente direccion)
+    return (
+            puedeMover(direccionVecina) && 
+            puedeMover(siguiente(direccionVecina)) && 
+            esCeldaVecinaDiagonalConBolitasAl_(direccionVecina)
+    )
+}
+--Pregunto de manera ortogonal si en la celda dada por variable tiene al menos una bolita de algun color
+function esCeldaVecinaConBolitasAl_(direccionVecinaOrtogonal){
+    /*
+    Proposito: Indica si en la celda al *direccionVecinaOrtogonal* hay una celda que tenga almenos una 
+    bolita de algun color.
+    Precondicion: Ninguna
+    Tipo: booleano
+    Parametro:
+    *direccionVecinaOrtogonal: direccion: direccion de la direccion vecina ortogonal
+    */
+    Mover(direccionVecinaOrtogonal)
+    --retorno de forma booleana si es una celda con alguna bolita
+    return(esCeldaConBolitas())
+}
+
+--Pregunto de manera diagonal si la celda dada por variable tiene al menos una bolita de algun color
+function esCeldaVecinaDiagonalConBolitasAl_(direccionVecinaDiagonal){
+    /*
+    Proposito: Indica si en la celda al *direccionVecinaDiagonal* hay una celda que tenga almenos una 
+    bolita de algun color.
+    Precondicion: Ninguna
+    Tipo: booleano
+    Parametro:
+    *direccionVecinaDiagonal: direccion: direccion de la direccion vecina diagonal
+    Observacion: la celda vecina "diagonal" se construye con dicha direccion y su -siguiente- direccion
+    */
+    Mover(direccionVecinaDiagonal)
+    Mover(siguiente(direccionVecinaDiagonal))
+    --retorno de forma booleana si es una celda con alguna bolita
+    return(esCeldaConBolitas())
+}
+
+--------------------------------------------------------------
+
+
+procedure Poner_EnLineaHacia_De_IncrementandoDeA_ComenzandoEn_(cantCeldas, direccion, colorAPoner, numIncremento, numComienzo){
+    /*
+    Proposito: Poner una linea de **cantCeldas**, **numComienzo** bolitas de color **colorAPoner**.
+    Precondicion: Deben haber al menos **cantCeldas** celdas al **direccion** desde la celda inicial.
+    Parametro:
+    *cantCeldas: numero: cantidad de celdas que tiene la linea hacia el **direccion**
+    * direccion: direccion: direccion de la linea 
+    * colorAPoner: color : color de las bolitas a poner en la linea
+    * numIncremento : numer : numero del incremento de bolitas a poner
+    * numComienzo: numero: primera cantidad de bolitas que luego se incrementa en las siguientes celdas
+    Observacion: Es un recorrido de procesamiento en una fila del tablero con **cantCeldas**, incrementando el valor 
+    de las bolitas de color **color** en cada celda hacia el **Direccion** comenzando por **numComienzo** bolitas
+    * "numIncrementacion" funciona como factor de incremento de las bolitas que se ponen en cada celda de la fila.
+    */
+    bolitasDeColorYaPuestas := 0
+    bolitasDeColorYaPuestas := numComienzo
+    celdasYaConBolitas := 1
+    
+    Poner_DeColor_(bolitasDeColorYaPuestas, colorAPoner)
+
+    while(puedeMover(direccion) && not (cantCeldas == celdasYaConBolitas) ){
+        
+        Mover(direccion)
+        bolitasDeColorYaPuestas := bolitasDeColorYaPuestas + numIncremento 
+        celdasYaConBolitas := celdasYaConBolitas + 1 
+        Poner_DeColor_(bolitasDeColorYaPuestas, colorAPoner)
+        
+    }
+}
+
+function fibonacciNro_(posicion){
+    /*
+    Proposito: Describe la posicion **posicion** del elemento de la secuencia fibonacci.
+    Precondicion: La posicion debe ser mayor o igual a cero.
+    Parametro: 
+    * posicion: numero: posicion del elemento fibonacci.
+    Observacion: es un recorrido de enumerativos sobre los numeros de la posicion fobinacci.
+    */
+    posicionFibonacciAhora := 0
+-------------------------------------------
+    posicionDeElementoActual := 1 -- posicion
+    posicionElementoAnterior := 0 -- elemento 
+    calculo := 0 -- calculo con elementos
+   
+    while (posicionFibonacciAhora < posicion ){
+      calculo := posicionDeElementoActual + posicionElementoAnterior
+-----actualizar posiciones---------------------------------------------------------
+     posicionElementoAnterior := posicionDeElementoActual
+     posicionDeElementoActual := calculo
+     
+------------------------------------------------------------------------------------
+      posicionFibonacciAhora := posicionFibonacciAhora + 1
+    }
+    return(calculo)
+}
+
+
+
+
+
+
+function totalBolitasEnCelda(){
+    return(
+        nroBolitas(Verde) +
+        nroBolitas(Negro) +
+        nroBolitas(Azul) +
+        nroBolitas(Rojo) 
+        )
+}
+
+

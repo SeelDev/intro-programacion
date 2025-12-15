@@ -1,0 +1,187 @@
+
+function minimoEntre_Y_(minimo, maximo){
+    /*
+        Proposito: Describir el valor minimo entre **minimo** y **maximo**
+        Precondicion: Las expresiones deben ser del mismo tipo
+        Tipo: numero
+        Parametro:
+        minimo:: la expresion minima 
+        maximo:: la expresion maxima
+    */
+    return( 
+        choose minimo when (minimo < maximo)
+               maximo otherwise
+    )     
+    
+       
+}
+
+
+function maximoEntre_Y_(minimo, maximo){
+    /*
+        Proposito: Describir el valor maximo entre **minimo** y **maximo**
+        Precondicion: las expresiones deben ser del mismo tipo
+        Tipo: numero
+        Parametro:
+        minimo: : la expresion minima 
+        maximo: : la expresion maxima
+    */
+    return( 
+        choose maximo when (minimo < maximo)
+               minimo otherwise
+    )     
+    
+       
+}
+
+program{
+   return (celdasCon2BolitasAzules())
+}
+
+function nroBolitas_EnLaFilaActual(colorAContar){
+    
+    /*
+        Proposito: Describe la cantidad de bolitas color **color** que hay en la celda actual.
+        Precondicion: 
+        Tipo: numero
+        Parametro:
+        color: color : color de las bolitas 
+        Observacion: es un recorrido de acumulacion sobre las celdas de una 
+        fila del tablero, acumulando la cantidad de bolitas de color **color** vistas
+    */
+    IrAlBorde(Oeste)
+    
+    cantidadDeBolitasYaVistas := nroBolitas(colorAContar)
+    
+    while(puedeMover(Este)){
+        
+        Mover(Este)
+        cantidadDeBolitasYaVistas := cantidadDeBolitasYaVistas + nroBolitas(colorAContar)
+        
+    }
+
+    return( cantidadDeBolitasYaVistas)
+}
+    /* observacion 
+    ¿Que esquema voy a usar?
+    ¿Que elementos voy a recorrer?
+    ¿Que hago con cada elemento?
+    */
+    
+    
+    
+    
+    
+--------------------------------------------------------------------------------------------------
+function celdasCon2BolitasAzules(){ 
+    
+    --recorrido de acumulacion sobre celdas de la fila, contando cada celda que tiene exactamente 2 bolitas de color Azul
+    
+    IrAlBorde(Oeste)
+    
+    cantidadDeCeldasConDosBolitasAzules := unoSi_ceroSiNo(nroBolitas(Azul) == 2)
+    
+    while(puedeMover(Este)){
+        
+        Mover(Este)
+        cantidadDeCeldasConDosBolitasAzules := cantidadDeCeldasConDosBolitasAzules + unoSi_ceroSiNo(nroBolitas(Azul) == 2)
+        
+    }
+
+    return( cantidadDeCeldasConDosBolitasAzules )
+}
+
+---
+/*
+function  celdaConDosBolitasAzul(){
+         
+    return (
+        choose 1 when (nroBolitas(Azul) == 2)
+               0 otherwise
+           )
+}
+*/
+
+-------------------------------------------------------------------------------------------------------------
+
+--enumerativo EN ESTE CASO: colores 
+
+procedure PonerUnaDeCadaColor(){
+    /*
+        Proposito: Poner una bolita de cada color.
+        Precondicion:
+        Observacion: es un recorrido de transformacion sobre colores, que pone una bolita de cada color en la celda actual.
+    */
+    
+    colorDeBolitaActual := minColor()
+    
+    while(colorDeBolitaAPoner /= maxColor()){
+        
+        Poner(colorDeBolitaAPoner)
+        colorDeBolitaAPoner := siguiente(colorDeBolitaAPoner)
+    }
+   
+    Poner(colorDeBolitaAPoner)
+    
+}
+    
+    
+    
+minDir, maxDir
+procedure  LimpiarCruzDeColor_(colorASacar){
+    /*
+        Proposito: Sacar la cruz dibujada con bolitas de color **color**.
+        Precondicion
+    */
+}
+    
+ 
+    
+function  unoSi_ceroSiNo(condicion){ --biblioteca
+    /*
+    Proposito: Describe 1 si **condicion** es verdadera, 0 si la misma es falsa
+    Precondicion: Ninguna
+    Tipo: Booleano
+    Parametro
+    * condicion : booleano
+    */
+    return (
+        choose 1 when (condicion)
+               0 otherwise
+           )
+}
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       

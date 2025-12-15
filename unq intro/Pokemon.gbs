@@ -1,0 +1,248 @@
+type TipoDePókemon is variant{
+    /* PROPÓSITO: Modelar los tipos de Pókemon posibles */
+    case Tierra {}
+    case Agua {}
+    case Fuego {}
+}
+
+type Pókemon is record {
+    /* PROPÓSITO: Modelar un Pókemon
+    INV.REP.: * La fuerza y el nivel son mayores o iguales a 0
+    * Si está debilitado (estáSaludable es falso), su
+    fuerza es cero */
+    field tipo // TipoDePókemon
+    field fuerza // Número
+    field estáSaludable // Booleano.
+    field nivel // Número
+}
+
+function poke1(){
+    return( Pókemon ( tipo <- Tierra, fuerza <- 200, estáSaludable <- True, nivel <- 0) )
+}
+
+function poke2(){
+    return( Pókemon ( tipo <- Agua, fuerza <- 50, estáSaludable <- True, nivel <- 6) )
+}
+
+function poke3(){
+    return( Pókemon ( tipo <- Tierra, fuerza <- 200, estáSaludable <- True, nivel <- 2) )
+}
+
+function poke4(){
+    return( Pókemon ( tipo <- Fuego, fuerza <- 50, estáSaludable <- True, nivel <- 4) )
+}
+
+
+program{
+        return(pokemonDe_DelTipo_Duplicados([poke1(), poke2(),poke3(), poke4()], Tierra))
+    
+}
+
+
+
+
+function es_MasFuerteQue_(pokemon1, pokemon2){
+    /*
+        Proposito: Indica si **pokemon1** es mas fuerte que **pokemon2**
+        Precondicion: Ninguna
+        Tipo: Booleano
+        Parametro: pokemon1 : Pokemon
+        pokemon2 : Pokemon
+    */
+    
+    return( fuerza(pokemon1) > fuerza(pokemon2) )
+}
+
+
+
+
+
+function esDeMayorNivel_Que_(pokemon1, pokemon2){
+    /*
+        Proposito: Indica si **pokemon1** es de mayor nivel que **pokemon2**
+        Precondicion: Ninguna
+        Tipo: Booleano
+        Parametro: pokemon1 : Pokemon
+        pokemon2 : Pokemon
+    */
+    
+    return( nivel(pokemon1) > nivel(pokemon2) )
+}
+
+
+function pokemon_PotenciadoEn_(pokemon, numero){
+      /*
+        Proposito: Describe la fuerza del pokemon **pokemon** potenciada en **numero** y el nivel dado por dicho **numero**
+        Precondicion: Ninguna
+        Tipo: pokemon
+        Parametro: pokemon1 : Pokemon
+      numero: numero
+    */ 
+    
+    return( Pókemon ( pokemon | nivel <- nivel(pokemon) * numero, fuerza <- fuerza(pokemon) * numero) ) 
+    
+}
+
+
+
+function pókemon_ConValoresDuplicados(pokemon){
+    /*
+        Proposito: Describe el pokemon **pokemon** con su nivel y fuerza duplicado
+        Precondicion: Ninguna
+        Tipo: pokemon
+        Parametro: pokemon1 : Pokemon
+        numero: numero
+    */
+    
+    return( Pókemon ( pokemon | nivel <- nivel(pokemon) * 2, fuerza <- fuerza(pokemon) * 2) )
+}
+
+function pokemon_PotenciadoEn_SiEsDeTipo_(pokemon, factor, tipo){
+    /*
+        Proposito: Describe el pokemon **pokemon** potenciado en **factor** si es de tipo **tipo**.
+        Precondicion: Ninguna
+        Tipo: pokemon
+        parametro: pokemon_ pókemon
+        factor : numero
+        tipo: TipoDePókemon
+    */
+    
+    return( 
+        choose pokemon_PotenciadoEn_(pokemon, factor) when (tipo(pokemon) == tipo)
+                pokemon otherwise
+        )
+    
+}
+
+
+
+function pokemon_Derrotado(pokemon){
+    /*
+        Proposito: describe al pokemon **pokemon** debilitado
+        Precondicion: Ninguna
+        Tipo: pokemon
+        Parametro: pokemon: pokemon
+    */
+     return( Pókemon ( pokemon | nivel <- 0 , estáSaludable <- estáSaludable(pokemon) == False) )
+}
+
+
+//_________________________________________________________________________
+
+
+function pokemonDe_Entrenados_(listaPokemon, numero){
+    /*
+        Proposito: Describe la lista con pokemones potenciados en **numero**
+        Precondicion: Ninguna
+        Tipo: [Pokemon]
+        Parametro: listaPokemon: [pokemon]
+        numero: numero
+        Observacion: es un recorrido de transformacion sobre la lista **listaPokemon**, para potenciar a 
+        todos los pokemones de la lista
+    */
+    
+    listaPokemonesPotenciados := []
+    
+    foreach poke in listaPokemon {
+        
+        listaPokemonesPotenciados := listaPokemonesPotenciados ++ [pokemon_PotenciadoEn_(poke, numero)]
+        
+    }
+    
+    return (listaPokemonesPotenciados)
+}
+
+function pokemonDe_DelTipo_(listaPokemon, tipo){
+    /*
+        Proposito: Describe la lista de pokemones que son del tipo **tipo**
+        precondicion: ninguna
+        Parametro: listaPokemon: Pokemon
+        tipo: TipoDePókemon
+        Observacion: es un recorrido de filtro sobre la lista **listaPokemon**, para obtener
+        solo los pokemones del tipo **tipo**
+    */
+    
+    listaDePokemonesDeTipo := []
+    
+    foreach poke in listaPokemon {
+        listaDePokemonesDeTipo := listaDePokemonesDeTipo ++ singular_Si_(poke, tipo(poke) == tipo)
+    }
+    return(listaDePokemonesDeTipo)
+}
+
+
+
+function elMasFuerteDe_(listaPokemon){
+    /*
+        Proposito: Describe el pokemon mas fuerte de la lista **listaPokemon**
+        Precondicion: Puede existir más de un pokemon fuerte, sólodevuelve el primero
+        Tipo: Pokemon
+        Parametro: listaPokemon
+        Observacion: es un recorrido de maximo-minimo sobre la lista **listaPokemon**, para obtener el
+        pokemon más fuerte
+    */
+    
+    pokemonMasFuertePorAhora := primero(listaPokemon)
+    
+    foreach poke in sinElPrimero(listaPokemon){
+        pokemonMasFuertePorAhora := pokeMasFuerteEntre_Y_(poke , pokemonMasFuertePorAhora )
+    }
+    
+    return(pokemonMasFuertePorAhora)
+}
+
+function pokeMasFuerteEntre_Y_(poke1, poke2){
+    return(
+            choose poke1 when ( nivel(poke1) >= nivel(poke2) )
+                   poke2 otherwise
+        )
+}
+
+
+function pokemonDe_DelTipo_Duplicados(listaPokemon, tipo){
+    /*
+        Proposito: Describe la lista de pokemones con tipo **tipo** de forma duplicada duplicada 
+        y a los pokemones originales de manera exactamente igual a la lista original
+        Precondicion: Ninguna
+        Parametro: listaPokemon : Pokemon
+        tipo: TipoDePókemon
+        Observacion: es un recorrido de transformacion sobre la lista **listaPokemon**, donde 
+        se duplican los pokemones de tipo **tipo**, dejando a los demás de manera original
+    */
+    
+    listaPokesDuplicadosYOriginales := []
+    
+    foreach poke in listaPokemon {
+        listaPokesDuplicadosYOriginales := listaPokesDuplicadosYOriginales ++ [duplicada_SiEsDeTipo_OriginalSiNo( poke, tipo)]
+    }
+    return(listaPokesDuplicadosYOriginales)
+}
+
+function duplicada_SiEsDeTipo_OriginalSiNo(pokemon, tipo){
+    /**/
+    
+    return( 
+        choose pókemon_ConValoresDuplicados(pokemon) when (tipo(pokemon) == tipo)
+                pokemon otherwise
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function singular_Si_(elemento, condicion){
+    return(
+            choose [elemento] when (condicion)
+                    [] otherwise
+        )
+}
